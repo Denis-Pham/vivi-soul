@@ -1,0 +1,249 @@
+/* =========================================
+   VIVI SOUL — Extra styles (loaded after inline <style>)
+   This file holds tweaks that build on the base
+   styling in index.html. Rules here win because
+   the browser reads <link> after the <style> tag.
+   ========================================= */
+
+/* ----- Clickable YouTube thumbnail (replaces in-page iframe) ----- */
+.track-thumbnail {
+  position: relative;              /* anchor for the play badge inside */
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;            /* keeps a tidy widescreen frame */
+  overflow: hidden;
+  border-radius: 14px;
+  margin-bottom: 22px;
+  background: #000;                /* dark fill while the image loads */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.track-thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;               /* crops YouTube's letterboxing for a clean fill */
+  transition: transform 0.5s ease, filter 0.4s ease;
+}
+
+/* Soft hover lift + zoom on the picture */
+.track-thumbnail:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
+}
+.track-thumbnail:hover img {
+  transform: scale(1.04);
+  filter: brightness(0.85);        /* slightly darken so the play badge pops */
+}
+
+/* ----- YouTube-style red play badge ----- */
+.play-badge {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 68px; height: 48px;
+  background: rgba(220, 30, 30, 0.92);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  transition: background 0.3s ease, transform 0.3s ease;
+  pointer-events: none;            /* clicks pass through to the anchor */
+}
+
+/* The white play triangle, drawn purely with CSS borders */
+.play-badge::after {
+  content: '';
+  width: 0; height: 0;
+  border-left: 16px solid #ffffff;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  margin-left: 4px;                /* nudges the triangle to look optically centered */
+}
+
+.track-thumbnail:hover .play-badge {
+  background: rgb(220, 30, 30);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* ----- Mobile tweak: smaller badge on phones ----- */
+@media (max-width: 600px) {
+  .play-badge { width: 56px; height: 40px; }
+  .play-badge::after {
+    border-left-width: 13px;
+    border-top-width: 8px;
+    border-bottom-width: 8px;
+  }
+}
+
+/* =========================================
+   LATEST RELEASE — hero card above Featured Tracks
+   ========================================= */
+
+/* Section wrapper: matches the .wrap max-width used elsewhere */
+.latest-release-section {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 90px 32px;
+  position: relative;
+}
+
+/* Subtle gold gradient divider on top, like the other sections */
+.latest-release-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+}
+
+/* Header block (kicker + h2 + lede) — centered */
+.latest-release-section .section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #d4af37;
+  margin: 0 0 14px;
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+.latest-release-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(34px, 4.5vw, 48px);   /* a touch larger than .tracks h2 */
+  margin: 0 0 14px;
+  background: linear-gradient(180deg, #ffffff 30%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.latest-release-section .section-header p {
+  color: #a89bc0;
+  font-size: 17px;
+  margin: 0;
+  font-weight: 300;
+}
+
+/* The card itself — two-column on desktop, stacked on mobile */
+.latest-release-card {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 40px;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow:
+    0 0 60px rgba(212, 175, 55, 0.1),     /* gold glow */
+    0 24px 80px rgba(0, 0, 0, 0.5);        /* depth */
+}
+
+/* Thumbnail (reuses the .play-badge from .track-thumbnail) */
+.latest-release-thumbnail {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #000;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.latest-release-thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.4s ease;
+}
+
+.latest-release-thumbnail:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+}
+.latest-release-thumbnail:hover img {
+  transform: scale(1.04);
+  filter: brightness(0.85);
+}
+.latest-release-thumbnail:hover .play-badge {
+  background: rgb(220, 30, 30);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Right-column content */
+.latest-release-content .mood {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  color: #d4af37;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.05);
+  margin-bottom: 16px;
+}
+
+.latest-release-content h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(26px, 2.8vw, 36px);
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0 0 18px;
+  letter-spacing: -0.005em;
+}
+
+.latest-release-content p {
+  color: #b5a8c6;
+  font-size: 16px;
+  line-height: 1.75;
+  margin: 0 0 28px;
+  font-weight: 300;
+}
+
+.latest-release-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* ----- Tablet (≤900px): stack columns ----- */
+@media (max-width: 900px) {
+  .latest-release-section { padding: 70px 24px; }
+  .latest-release-card {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 22px;
+  }
+}
+
+/* ----- Mobile (≤600px): tighter spacing, full-width button ----- */
+@media (max-width: 600px) {
+  .latest-release-section { padding: 56px 18px; }
+  .latest-release-section .section-header { margin-bottom: 32px; }
+  .section-kicker { letter-spacing: 3px; }
+  .latest-release-card { padding: 18px; gap: 22px; border-radius: 18px; }
+  .latest-release-content h3 { font-size: 24px; }
+  .latest-release-content p { font-size: 15px; }
+  .latest-release-actions .btn { width: 100%; text-align: center; }
+}
