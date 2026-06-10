@@ -55,7 +55,7 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 - [x] ~~Đổi `og:url` + `canonical` sang URL Pages thật~~ — xong 2026-06-10
 - [ ] Thêm track mới vào `featuredTracks` khi kênh đăng video mới (4 video thật chưa dùng đến: `3HdXLkwtBgQ`, `5sqcEcJcU9A`, `_udLB3fXaAA`, `yovAJN75jsU`, `whgbcx-VqrY`)
 - [ ] Khi kênh có comment thật từ khán giả: thêm section testimonial (2–3 comment) thay thế hoặc bổ sung cho khối "For fans of"
-- [ ] Sửa git config email trong repo (đang là `you@example.com` placeholder)
+- [x] ~~Sửa git config email~~ — xong 2026-06-10: set `manhduc1703@gmail.com` cho cả repo lẫn global (trước đó cả hai đều là placeholder `you@example.com`)
 - [ ] (Tuỳ chọn) Custom domain trỏ về GitHub Pages
 
 ---
