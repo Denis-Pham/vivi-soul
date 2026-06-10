@@ -12,7 +12,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;            /* keeps a tidy widescreen frame */
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 0;
   margin-bottom: 22px;
   background: #000;                /* dark fill while the image loads */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
@@ -46,7 +46,7 @@
   transform: translate(-50%, -50%);
   width: 68px; height: 48px;
   background: rgba(220, 30, 30, 0.92);
-  border-radius: 14px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,19 +137,17 @@
   font-weight: 300;
 }
 
-/* The card itself — two-column on desktop, stacked on mobile */
+/* The card itself — two-column on desktop, stacked on mobile.
+   Elevation = lighter surface + hairline border, not glow/shadow. */
 .latest-release-card {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
   gap: 40px;
   align-items: center;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-  border: 1px solid rgba(212, 175, 55, 0.28);
-  border-radius: 22px;
-  padding: 28px;
-  box-shadow:
-    0 0 60px rgba(212, 175, 55, 0.1),     /* gold glow */
-    0 24px 80px rgba(0, 0, 0, 0.5);        /* depth */
+  background: var(--surface-2, #140e20);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 0;
+  padding: 32px;
 }
 
 /* Thumbnail (reuses the .play-badge from .track-thumbnail) */
@@ -159,7 +157,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 0;
   background: #000;
   cursor: pointer;
   text-decoration: none;
@@ -198,7 +196,7 @@
   text-transform: uppercase;
   padding: 5px 12px;
   border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 999px;
+  border-radius: 2px;
   background: rgba(212, 175, 55, 0.05);
   margin-bottom: 16px;
 }
@@ -242,7 +240,7 @@
   .latest-release-section { padding: 56px 18px; }
   .latest-release-section .section-header { margin-bottom: 32px; }
   .section-kicker { letter-spacing: 3px; }
-  .latest-release-card { padding: 18px; gap: 22px; border-radius: 18px; }
+  .latest-release-card { padding: 18px; gap: 22px; }
   .latest-release-content h3 { font-size: 24px; }
   .latest-release-content p { font-size: 15px; }
   .latest-release-actions .btn { width: 100%; text-align: center; }
@@ -309,7 +307,7 @@
   width: 520px; height: 520px;
   top: -120px; right: -80px;
   background: radial-gradient(circle at 30% 30%, #b04ae8, #9333d4 60%, transparent 72%);
-  opacity: 0.55;
+  opacity: 0.34;
   animation: blobFloat1 14s ease-in-out infinite;
 }
 /* gold — left, warm accent */
@@ -317,7 +315,7 @@
   width: 440px; height: 440px;
   top: 20%; left: -120px;
   background: radial-gradient(circle at 40% 40%, #f4e4a6, #d4af37 55%, transparent 70%);
-  opacity: 0.28;
+  opacity: 0.18;
   animation: blobFloat2 18s ease-in-out infinite;
 }
 /* magenta — lower center, depth */
@@ -325,7 +323,7 @@
   width: 480px; height: 480px;
   bottom: -160px; left: 35%;
   background: radial-gradient(circle at 50% 50%, #c43a8e, #7a1d6b 60%, transparent 72%);
-  opacity: 0.4;
+  opacity: 0.24;
   animation: blobFloat3 16s ease-in-out infinite;
 }
 /* deep violet — mid, slow drift */
@@ -333,7 +331,7 @@
   width: 360px; height: 360px;
   top: 55%; right: 8%;
   background: radial-gradient(circle at 50% 50%, #7c5cff, #4a1d8e 60%, transparent 72%);
-  opacity: 0.32;
+  opacity: 0.2;
   animation: blobFloat1 20s ease-in-out infinite reverse;
 }
 @keyframes blobFloat1 {
@@ -448,7 +446,7 @@
   color: var(--fg);
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 0;
   padding: 12px 22px;
   outline: none;
   transition: border-color 0.3s ease;

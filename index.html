@@ -7,7 +7,7 @@
 
   <!-- ===== SEO ===== -->
   <meta name="description" content="Vivi Soul — cinematic, soulful AI music for deep focus, late-night reflection, healing, and the bittersweet beauty of memories. Free to stream on YouTube." />
-  <meta name="theme-color" content="#06030d" />
+  <meta name="theme-color" content="#030107" />
   <meta name="author" content="Vivi Soul" />
   <link rel="canonical" href="https://denis-pham.github.io/vivi-soul/" />
 
@@ -48,17 +48,21 @@
   }
   </script>
   <style>
-    /* ===== Theme tokens (Vivi Soul palette) ===== */
+    /* ===== Theme tokens (Vivi Soul palette) =====
+       Dark-luxury pass (Lamborghini DESIGN.md): near-absolute black canvas,
+       elevation by surface lightening (#0b → #14) instead of shadows,
+       gold reserved for primary CTAs and small accents, neutral hairlines. */
     :root {
-      --bg: #06030d;
-      --surface: #0e0820;
-      --surface-2: #150a2e;
-      --fg: #ece6f5;
+      --bg: #030107;
+      --surface: #0b0813;
+      --surface-2: #140e20;
+      --fg: #f2eef8;
       --muted: #c5b8d6;             /* lifted from #a89bc0 for better readability */
       --muted-soft: #8a7da0;
-      --border: rgba(212, 175, 55, 0.14);
-      --border-strong: rgba(212, 175, 55, 0.35);
+      --border: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.24);
       --accent: #d4af37;          /* gold */
+      --accent-deep: #a8841f;     /* pressed/hover gold */
       --accent-soft: #f4e4a6;
       --accent-2: #9333d4;        /* purple */
       --accent-2-soft: #b04ae8;
@@ -94,16 +98,19 @@
       outline-offset: 3px;
       border-radius: 4px;
     }
-    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; letter-spacing: -0.01em; }
+    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; letter-spacing: 0.02em; }
     a { color: var(--accent); text-decoration: none; }
     .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
 
-    /* ===== Buttons ===== */
+    /* ===== Buttons =====
+       Sharp rectangles (zero radius), interactions are color-only —
+       no hover lifts or scaling. Gold = primary action exclusively. */
     button, .btn {
-      font: inherit; cursor: pointer; padding: 12px 22px;
-      border-radius: 999px; font-weight: 500; font-size: 14px;
-      letter-spacing: 1px; text-transform: uppercase;
-      transition: all 0.3s ease; display: inline-block;
+      font: inherit; cursor: pointer; padding: 14px 26px;
+      border-radius: 0; font-weight: 500; font-size: 13px;
+      letter-spacing: 2px; text-transform: uppercase;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      display: inline-block;
       text-align: center; text-decoration: none;
     }
 
@@ -126,19 +133,16 @@
       opacity: 0.85;
     }
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent-2-soft) 100%);
-      color: white; border: 1px solid transparent;
-      box-shadow: 0 6px 24px rgba(147, 51, 212, 0.35);
+      background: var(--accent);
+      color: #0a0612; border: 1px solid transparent;
+      font-weight: 600;
     }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 32px rgba(147, 51, 212, 0.5), 0 0 24px rgba(212, 175, 55, 0.2);
-    }
+    .btn-primary:hover { background: var(--accent-deep); color: #0a0612; }
     .btn-secondary {
       background: transparent; color: var(--fg);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.4);
     }
-    .btn-secondary:hover { border-color: var(--border-strong); color: var(--accent); }
+    .btn-secondary:hover { border-color: #ffffff; color: #ffffff; background: rgba(255, 255, 255, 0.06); }
     .btn-link {
       background: transparent; border: none; color: var(--accent);
       padding: 12px 0; text-transform: uppercase; letter-spacing: 1px;
@@ -171,8 +175,9 @@
     /* ===== Sections ===== */
     section { padding: 90px 0; }
     section h2 {
-      font-size: clamp(32px, 4vw, 44px);
+      font-size: clamp(32px, 4.5vw, 48px);
       margin: 0 0 16px; text-align: center;
+      text-transform: uppercase; line-height: 1.1;
     }
     section .lede {
       text-align: center; color: var(--muted);
@@ -180,10 +185,16 @@
     }
 
     /* ===== Hero ===== */
-    .hero { padding: 120px 0 110px; text-align: left; }
+    .hero {
+      padding: 100px 0 110px; text-align: left;
+      min-height: 72vh;
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: flex-start;
+    }
     .hero h1 {
-      font-size: clamp(48px, 7vw, 84px); line-height: 1.05;
-      max-width: 16ch; margin: 0 0 24px;
+      font-size: clamp(48px, 7.5vw, 96px); line-height: 0.98;
+      text-transform: uppercase;
+      max-width: 16ch; margin: 0 0 28px;
       background: linear-gradient(180deg, #ffffff 35%, var(--accent) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -191,7 +202,7 @@
     }
     .hero .eyebrow {
       font-family: 'Inter', sans-serif; font-size: 12px;
-      letter-spacing: 5px; text-transform: uppercase;
+      letter-spacing: 6px; text-transform: uppercase;
       color: var(--accent); margin-bottom: 24px;
     }
     .hero p.sub {
@@ -204,10 +215,10 @@
     .mood-switcher {
       margin-top: 48px;
       display: inline-flex; align-items: center; gap: 16px;
-      padding: 14px 20px;
+      padding: 16px 22px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 999px;
+      border-radius: 0;
       flex-wrap: wrap;
     }
     .mood-label {
@@ -232,7 +243,15 @@
         radial-gradient(ellipse 50% 35% at 20% 80%, rgba(212, 175, 55, 0.08), transparent 70%);
       pointer-events: none;
     }
-    .hero-shell { position: relative; overflow: hidden; }
+    .hero-shell { position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+    /* Thin gold horizon line at the foot of the hero — nod to the
+       Lamborghini hero progress bar */
+    .hero-shell::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 140px; height: 2px;
+      background: var(--accent);
+    }
 
     /* ===== Logo wall ===== */
     .proof { text-align: center; padding: 60px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
@@ -253,14 +272,13 @@
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
     }
     .feature {
-      padding: 32px; background: var(--surface);
-      border: 1px solid var(--border); border-radius: 16px;
-      transition: all 0.4s ease;
+      padding: 36px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 0;
+      transition: background 0.4s ease, border-color 0.4s ease;
     }
     .feature:hover {
       border-color: var(--border-strong);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(147, 51, 212, 0.15);
+      background: var(--surface-2);
     }
     .feature .num {
       font-family: 'Inter', sans-serif; font-size: 11px;
@@ -277,30 +295,31 @@
       counter-reset: step;
     }
     .step { text-align: center; }
+    /* Hexagonal step badge — geometric motif borrowed from the
+       Lamborghini design system (hexagon pause button / icon DNA) */
     .step .circle {
-      width: 64px; height: 64px; border-radius: 50%;
+      width: 68px; height: 60px;
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
       margin: 0 auto 20px;
-      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      background: var(--accent);
       display: flex; align-items: center; justify-content: center;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 28px; font-weight: 700; color: var(--bg);
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
+      font-size: 28px; font-weight: 700; color: #0a0612;
     }
     .step h3 { font-size: 22px; margin: 0 0 10px; }
     .step p { color: var(--muted); font-size: 15px; margin: 0; }
 
     /* ===== Tracks (replaces pricing) ===== */
-    .tracks h2 { font-style: italic; }
     .tracks-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
       margin-top: 16px;
     }
     .tier {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 18px; padding: 32px;
-      transition: all 0.4s ease; position: relative;
+      border-radius: 0; padding: 32px;
+      transition: background 0.4s ease, border-color 0.4s ease; position: relative;
     }
-    .tier:hover { transform: translateY(-6px); border-color: var(--border-strong); }
+    .tier:hover { background: var(--surface-2); border-color: var(--border-strong); }
     .tier .mood {
       font-family: 'Inter', sans-serif; font-size: 10px;
       letter-spacing: 2.5px; color: var(--accent);
@@ -343,8 +362,8 @@
       text-align: center; padding: 110px 0;
     }
     .closing h2 {
-      font-size: clamp(36px, 5vw, 52px);
-      font-style: italic; margin: 0 0 14px;
+      font-size: clamp(36px, 5vw, 56px);
+      margin: 0 0 14px;
       background: linear-gradient(180deg, #fff 40%, var(--accent));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -393,7 +412,7 @@
     @media (max-width: 600px) {
       .wrap { padding: 0 18px; }                /* tighter still */
       section { padding: 56px 0; }
-      .hero { padding: 70px 0 56px; text-align: center; }
+      .hero { padding: 70px 0 56px; text-align: center; align-items: stretch; min-height: 0; }
       .hero h1 {
         font-size: clamp(34px, 9vw, 44px);
         max-width: none;                        /* allow it to use full width */
@@ -408,10 +427,8 @@
       .hero .cta { flex-direction: column; align-items: stretch; gap: 12px; }
       .hero .cta .btn, .hero .cta .btn-link { width: 100%; text-align: center; }
 
-      /* Mood switcher: stack its parts so they don't squeeze sideways.
-         Softer corner radius — a 999px pill turns into an egg shape
-         once the content stacks vertically. */
-      .mood-switcher { flex-direction: column; gap: 10px; padding: 16px 20px; border-radius: 24px; }
+      /* Mood switcher: stack its parts so they don't squeeze sideways */
+      .mood-switcher { flex-direction: column; gap: 10px; padding: 16px 20px; }
       .mood-text { min-width: 0; }
 
       /* Top nav: hide menu links, keep only logo + Subscribe */

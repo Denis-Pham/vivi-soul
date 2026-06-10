@@ -17,6 +17,7 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 | `index.html` | Khung trang + toàn bộ style chính (inline `<style>`, theme tokens ở `:root`). Sections: Hero (mood switcher + dual CTA) → Logo wall → 3 Feature cards → "How to drift" → Latest Release → Featured Tracks → FAQ → Closing CTA → Footer |
 | `script.js` | **Toàn bộ nội dung track nằm ở đây** — mảng `featuredTracks` là single source of truth: phần tử `[0]` = Latest Release, phần còn lại đổ vào grid "Also from the channel". Kèm: FAQ accordion, mood switcher (5 moods), scroll reveal (IntersectionObserver), auto year |
 | `style.css` | Style phụ: thumbnail cards, Latest Release section, animations |
+| `DESIGN.md` | Design system tham chiếu (Lamborghini, từ getdesign.md) — đọc trước khi sửa UI để giữ ngôn ngữ thiết kế nhất quán |
 | `README.md` | Hướng dẫn gốc: chạy local, deploy GitHub Pages, bài học khi build |
 | `CHANGELOG.md` | File này — lịch sử update + quy ước làm việc |
 
@@ -61,6 +62,20 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 ---
 
 # 📅 Lịch sử update
+
+## [2026-06-10] — Nâng cấp dark-luxury theo design system Lamborghini (getdesign.md)
+**Agent/Người thực hiện:** Claude Code
+**Files thay đổi:** index.html, style.css, DESIGN.md (mới), CHANGELOG.md
+**Nội dung:**
+- Denis yêu cầu chọn 1 web cùng tông màu trên getdesign.md để nâng cấp trang → chọn **Lamborghini** (đen tuyền + gold, dark cinematic luxury — trùng 2/3 palette; Superhuman bị loại vì thân trang chuyển nền trắng). File DESIGN.md đầy đủ đã lưu vào repo
+- **Tokens:** nền hạ sâu `#06030d → #030107` (gần đen tuyền), surface phân tầng `#0b0813 / #140e20` — elevation bằng LỚP MÀU sáng dần thay vì shadow; border đổi từ gold-tint sang hairline trắng trung tính (gold chỉ dành cho CTA + accent nhỏ); thêm `--accent-deep` cho hover gold
+- **Buttons:** `.btn-primary` đổi từ gradient TÍM → **gold đặc chữ đen** (hover sậm màu, không transform); `.btn-secondary` thành ghost viền trắng 40%; mọi nút góc vuông (radius 0), hover chỉ đổi màu
+- **Typography:** hero h1 uppercase, scale tới 96px, line-height 0.98; mọi section h2 uppercase line-height 1.1; bỏ italic ở heading (tracks, closing) theo nguyên tắc "luôn thẳng đứng"
+- **Cards:** feature/tier/latest-release góc vuông, bỏ shadow + glow tím/gold, hover = nền sáng lên 1 tầng surface; play badge radius 14→4px; mood tag radius 999→2px
+- **Hexagon motif:** step circle tròn gradient → **lục giác gold** (clip-path) — DNA hình học của Lamborghini
+- **Hero:** min-height 72vh căn giữa dọc, hairline đáy + vạch gold 140px (nhại progress bar của Lambo); blob aurora tím GIẢM opacity (~40%) để bóng tối làm canvas chính, tím vẫn giữ làm chất riêng
+- Verify local (port 5174): 0 lỗi console, 7/7 thumbnail load, section email ẩn đúng, responsive mobile OK
+**Lý do / ghi chú:** Tím/đen/gold vẫn là palette gốc — chỉ thay đổi cách phân phối (đen làm nền tuyệt đối, gold đắt giá hơn vì chỉ dành cho hành động chính). Agent sau: đọc `DESIGN.md` trước khi sửa UI.
 
 ## [2026-06-10] — Xác nhận site LIVE trên GitHub Pages + chốt canonical/og:url
 **Agent/Người thực hiện:** Claude Code
