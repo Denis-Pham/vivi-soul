@@ -16,30 +16,44 @@
 // Reusable YouTube logo SVG (used by every Listen button)
 const YT_ICON_SVG = '<svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>';
 
-// The real track data — Vivi Soul YouTube releases.
-// `videoId` is the part after "v=" in the YouTube URL.
-// We use it to build the /embed/ link for the in-page player.
+// ===========================================
+// ▶ CÁCH CẬP NHẬT "LATEST RELEASE" KHI CÓ VIDEO MỚI:
+//   featuredTracks[0] (object ĐẦU TIÊN bên dưới) = Latest Release.
+//   Khi đăng video mới trên YouTube, chỉ cần:
+//     1) Mở video trên YouTube, copy phần sau "v=" trong link
+//        (vd https://www.youtube.com/watch?v=ABC123 → videoId là 'ABC123')
+//     2) Dán vào `videoId` VÀ `url` của object đầu tiên.
+//     3) (tùy chọn) sửa title / mood / description cho khớp.
+//   Lưu file → refresh trình duyệt. Ảnh thumbnail tự lấy từ YouTube.
+//
+//   Mẹo: muốn giữ video cũ lại trong "Also from the channel",
+//   hãy chèn THÊM một object mới lên ĐẦU mảng thay vì ghi đè.
+// ===========================================
+//
+// `videoId` là phần sau "v=" trong link YouTube.
+// ORDER MATTERS: featuredTracks[0] hiển thị làm Latest Release;
+// các track còn lại nằm ở mục "Also from the channel".
 const featuredTracks = [
   {
+    title: 'Nhạc Electronic Buổi Tối Đáng Nghe Nhất',
+    mood: 'Chill Electronic · Evening',
+    description: 'A relaxing electronic track for night listening — soft synths, slow build, perfect for late-evening wind-down.',
+    videoId: '1ZVPYNQAwX4',
+    url: 'https://www.youtube.com/watch?v=1ZVPYNQAwX4'
+  },
+  {
     title: 'Nhạc TikTok Remix Gây Nghiện — Version 1',
-    mood: 'TikTok Remix / Energetic',
-    description: 'A catchy remix track for short-form dance and high-energy vibes.',
+    mood: 'TikTok Remix · Energetic',
+    description: 'An upbeat remix for short-form dance content and high-energy moments.',
     videoId: 'x1pfDBt1AwM',
     url: 'https://www.youtube.com/watch?v=x1pfDBt1AwM'
   },
   {
     title: 'Nhạc TikTok Remix Gây Nghiện — Version 2',
-    mood: 'TikTok Remix / Dance',
-    description: 'A second upbeat VibeSoul remix test track for the channel.',
+    mood: 'TikTok Remix · Dance',
+    description: 'A second upbeat Vivi Soul remix in the same energetic series.',
     videoId: 'Or2S37veLn8',
     url: 'https://www.youtube.com/watch?v=Or2S37veLn8'
-  },
-  {
-    title: '[Chill VibeSoul] Nhạc Electronic Buổi Tối Đáng Nghe Nhất',
-    mood: 'Chill Electronic / Evening',
-    description: 'A relaxing electronic track for night listening and chill moments.',
-    videoId: '1ZVPYNQAwX4',
-    url: 'https://www.youtube.com/watch?v=1ZVPYNQAwX4'
   }
 ];
 
@@ -51,11 +65,14 @@ function renderFeaturedTracks() {
   // Clear whatever might be in the grid first.
   grid.innerHTML = '';
 
-  // For each track in the array, build one card and add it to the grid.
-  featuredTracks.forEach(track => {
-    // YouTube hosts a thumbnail for every video at a predictable URL.
-    // We just plug the videoId into this pattern — no embed permissions needed.
-    const thumbnailSrc = `https://img.youtube.com/vi/${track.videoId}/hqdefault.jpg`;
+  // Skip the first track — it's already shown as Latest Release above.
+  // Remaining tracks (TikTok remixes, etc.) appear in this "Also from the channel" grid.
+  featuredTracks.slice(1).forEach(track => {
+    // YouTube hosts several thumbnail sizes at predictable URLs.
+    // sddefault (640×480) is noticeably sharper than hqdefault for these cards;
+    // if a video has no sddefault, onerror falls back to hqdefault.
+    const thumbnailSrc = `https://img.youtube.com/vi/${track.videoId}/sddefault.jpg`;
+    const thumbnailFallback = `https://img.youtube.com/vi/${track.videoId}/hqdefault.jpg`;
 
     // Create a new <div> in memory and fill it with the card markup.
     const card = document.createElement('div');
@@ -64,7 +81,8 @@ function renderFeaturedTracks() {
       <a class="track-thumbnail"
          href="${track.url}" target="_blank" rel="noopener noreferrer"
          aria-label="Watch ${track.title} on YouTube">
-        <img src="${thumbnailSrc}" alt="${track.title}" loading="lazy">
+        <img src="${thumbnailSrc}" alt="${track.title}" loading="lazy"
+             onerror="this.onerror=null;this.src='${thumbnailFallback}';">
         <span class="play-badge" aria-hidden="true"></span>
       </a>
       <span class="mood">${track.mood}</span>
@@ -97,14 +115,17 @@ function renderLatestRelease() {
   // Grab the first track from the array — this is our "latest".
   const latestTrack = featuredTracks[0];
 
-  // Build the thumbnail URL from the videoId (same pattern as Featured Tracks).
-  const thumbnailSrc = `https://img.youtube.com/vi/${latestTrack.videoId}/hqdefault.jpg`;
+  // Latest Release is the hero card, so use the largest thumbnail (1280×720).
+  // maxresdefault doesn't exist for every video — onerror falls back to hqdefault.
+  const thumbnailSrc = `https://img.youtube.com/vi/${latestTrack.videoId}/maxresdefault.jpg`;
+  const thumbnailFallback = `https://img.youtube.com/vi/${latestTrack.videoId}/hqdefault.jpg`;
 
   container.innerHTML = `
     <a class="latest-release-thumbnail"
        href="${latestTrack.url}" target="_blank" rel="noopener noreferrer"
        aria-label="Watch ${latestTrack.title} on YouTube">
-      <img src="${thumbnailSrc}" alt="${latestTrack.title}" loading="lazy">
+      <img src="${thumbnailSrc}" alt="${latestTrack.title}" loading="lazy"
+           onerror="this.onerror=null;this.src='${thumbnailFallback}';">
       <span class="play-badge" aria-hidden="true"></span>
     </a>
     <div class="latest-release-content">
@@ -166,3 +187,37 @@ if (moodBtn && moodText) {
     }, 250);
   });
 }
+
+// ===========================================
+// 5) SCROLL REVEAL — sections fade + rise into view
+// -------------------------------------------
+// Progressive enhancement: we add the `.reveal` class with JS,
+// so if JS is off (or fails) everything stays fully visible.
+// Users with "reduce motion" are skipped — CSS keeps them visible.
+// ===========================================
+(function setupScrollReveal() {
+  const prefersReduced = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Sections we want to animate as they enter the viewport.
+  const targets = document.querySelectorAll(
+    '.features, .how, .latest-release-section, .tracks, .faq, .closing'
+  );
+  if (!targets.length) return;
+
+  // No IntersectionObserver support (or reduced motion) → leave content visible.
+  if (prefersReduced || !('IntersectionObserver' in window)) return;
+
+  targets.forEach(el => el.classList.add('reveal'));
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);   // animate once, then stop watching
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  targets.forEach(el => observer.observe(el));
+})();

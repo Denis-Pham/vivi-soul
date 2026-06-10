@@ -4,8 +4,49 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vivi Soul — Emotional AI music for the gentle hours</title>
+
+  <!-- ===== SEO ===== -->
+  <meta name="description" content="Vivi Soul — cinematic, soulful AI music for deep focus, late-night reflection, healing, and the bittersweet beauty of memories. Free to stream on YouTube." />
+  <meta name="theme-color" content="#06030d" />
+  <meta name="author" content="Vivi Soul" />
+  <link rel="canonical" href="https://www.youtube.com/@ViviSoulmusic" />
+
+  <!-- ===== Open Graph (Facebook, Zalo, Messenger…) ===== -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Vivi Soul" />
+  <meta property="og:title" content="Vivi Soul — AI music for the gentle hours" />
+  <meta property="og:description" content="Cinematic, soulful AI music for deep focus, late-night reflection, and healing. Press play — and let the world soften." />
+  <meta property="og:url" content="https://www.youtube.com/@ViviSoulmusic" />
+  <meta property="og:image" content="https://img.youtube.com/vi/1ZVPYNQAwX4/maxresdefault.jpg" />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="720" />
+
+  <!-- ===== Twitter / X card ===== -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Vivi Soul — AI music for the gentle hours" />
+  <meta name="twitter:description" content="Cinematic, soulful AI music for deep focus, late-night reflection, and healing." />
+  <meta name="twitter:image" content="https://img.youtube.com/vi/1ZVPYNQAwX4/maxresdefault.jpg" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2306030d'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='40' font-weight='700' text-anchor='middle' fill='%23d4af37'%3EV%3C/text%3E%3C/svg%3E">
+
+  <!-- ===== Fonts (preconnect speeds up first paint) ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <!-- ===== Structured data (helps Google show rich results) ===== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicGroup",
+    "name": "Vivi Soul",
+    "genre": ["Ambient", "Cinematic", "Lo-fi", "Healing"],
+    "description": "Emotional AI music for deep focus, late-night reflection, healing, and nostalgic memories.",
+    "url": "https://www.youtube.com/@ViviSoulmusic",
+    "sameAs": ["https://www.youtube.com/@ViviSoulmusic"]
+  }
+  </script>
   <style>
     /* ===== Theme tokens (Vivi Soul palette) ===== */
     :root {
@@ -13,7 +54,8 @@
       --surface: #0e0820;
       --surface-2: #150a2e;
       --fg: #ece6f5;
-      --muted: #a89bc0;
+      --muted: #c5b8d6;             /* lifted from #a89bc0 for better readability */
+      --muted-soft: #8a7da0;
       --border: rgba(212, 175, 55, 0.14);
       --border-strong: rgba(212, 175, 55, 0.35);
       --accent: #d4af37;          /* gold */
@@ -34,6 +76,24 @@
     }
     img, svg { max-width: 100%; height: auto; }   /* media never overflows its column */
     html { scroll-behavior: smooth; }
+
+    /* Skip link — hidden off-screen until a keyboard user tabs to it */
+    .skip-link {
+      position: absolute; left: 16px; top: -48px;
+      z-index: 999;
+      background: var(--accent); color: var(--bg);
+      padding: 10px 18px; border-radius: 8px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
+      transition: top 0.2s ease;
+    }
+    .skip-link:focus { top: 16px; outline: 2px solid var(--accent-soft); }
+
+    /* Visible focus ring for keyboard navigation */
+    a:focus-visible, button:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--accent-soft);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
     h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; letter-spacing: -0.01em; }
     a { color: var(--accent); text-decoration: none; }
     .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
@@ -241,33 +301,6 @@
       transition: all 0.4s ease; position: relative;
     }
     .tier:hover { transform: translateY(-6px); border-color: var(--border-strong); }
-    .tier.featured {
-      border-color: var(--accent);
-      box-shadow: 0 0 40px rgba(212, 175, 55, 0.18), 0 0 0 1px rgba(212, 175, 55, 0.3) inset;
-    }
-    .tier.featured::before {
-      content: 'Most Loved'; position: absolute; top: -12px; left: 28px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-      color: var(--bg); padding: 4px 14px; border-radius: 999px;
-      font-size: 10px; font-weight: 600; letter-spacing: 2px;
-      text-transform: uppercase; font-family: 'Inter', sans-serif;
-    }
-
-    /* "Upcoming" badge — honest placeholder while songs aren't published yet */
-    .status-badge {
-      position: absolute; top: -12px; left: 28px;
-      background: rgba(147, 51, 212, 0.85);
-      color: white; padding: 4px 14px; border-radius: 999px;
-      font-size: 10px; font-weight: 600; letter-spacing: 2px;
-      text-transform: uppercase; font-family: 'Inter', sans-serif;
-      box-shadow: 0 4px 16px rgba(147, 51, 212, 0.4);
-    }
-    .tier .cover {
-      height: 140px; border-radius: 12px; margin-bottom: 24px;
-    }
-    .cover-1 { background: linear-gradient(135deg, #1a0a35, #4a1d8e 50%, #9333d4); }
-    .cover-2 { background: linear-gradient(135deg, #0d2540, #3a6b9c 50%, #d4af37); }
-    .cover-3 { background: linear-gradient(135deg, #3a0a2e, #9c2b6b 50%, #c43a8e); }
     .tier .mood {
       font-family: 'Inter', sans-serif; font-size: 10px;
       letter-spacing: 2.5px; color: var(--accent);
@@ -390,7 +423,6 @@
 
       /* Track cards: a little less internal padding so they don't feel boxy */
       .tier { padding: 22px; }
-      .tier .cover { height: 160px; }
 
       /* Logo wall: smaller text + tighter gap */
       .logos { gap: 24px; font-size: 16px; }
@@ -410,9 +442,22 @@
 </head>
 <body>
 
+  <!-- Skip link: lets keyboard users jump past the nav straight to content -->
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <!-- Film grain: faint 35mm texture over the whole page (decorative) -->
+  <div class="film-grain" aria-hidden="true"></div>
+
   <!-- ===== HERO + NAV ===== -->
-  <div class="hero-shell">
-    <div class="hero-bg"></div>
+  <div class="hero-shell" id="main-content">
+    <div class="hero-bg">
+      <!-- Aurora liquid background: soft color blobs that drift behind the hero.
+           Pure CSS; they freeze automatically when "reduce motion" is on. -->
+      <span class="blob blob-1" aria-hidden="true"></span>
+      <span class="blob blob-2" aria-hidden="true"></span>
+      <span class="blob blob-3" aria-hidden="true"></span>
+      <span class="blob blob-4" aria-hidden="true"></span>
+    </div>
     <div class="wrap">
       <header class="topnav" data-od-id="topnav">
         <span class="logo">Vivi <span class="gold">Soul</span></span>
@@ -430,15 +475,17 @@
         <h1>AI music for the gentle hours.</h1>
         <p class="sub">Cinematic, soulful compositions for deep focus, late-night reflection, healing, and the bittersweet beauty of memories. Press play — and let the world soften.</p>
         <div class="cta">
-          <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>Listen on YouTube</a>
-          <a class="btn-link" href="#featured-tracks">Explore latest tracks →</a>
+          <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>Subscribe on YouTube</a>
+          <a class="btn-link" href="#latest-release">Explore latest release →</a>
         </div>
 
         <!-- Mood switcher widget -->
         <div class="mood-switcher">
-          <span class="mood-label">Tonight's mood:</span>
-          <span class="mood-text" id="moodText">Late-night soul</span>
-          <button class="btn-secondary mood-btn" id="moodBtn">Change Mood ↻</button>
+          <!-- Now-playing equalizer: purely decorative animated bars -->
+          <span class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span class="mood-label" id="moodLabel">Tonight's mood:</span>
+          <span class="mood-text" id="moodText" aria-live="polite" aria-atomic="true">Late-night soul</span>
+          <button class="btn-secondary mood-btn" id="moodBtn" aria-describedby="moodLabel">Change Mood ↻</button>
         </div>
       </section>
     </div>
@@ -476,8 +523,8 @@
         </div>
         <div class="feature">
           <span class="num">03 — Access</span>
-          <h3>Always free on YouTube</h3>
-          <p>No paywalls. No ads on the music itself. Just press play, anywhere, anytime — the channel exists to be listened to.</p>
+          <h3>Free to stream on YouTube</h3>
+          <p>No paywalls of any kind — the music lives on YouTube and is free to listen anywhere, anytime. (YouTube may show platform ads depending on your account and region.)</p>
         </div>
       </div>
     </div>
@@ -512,8 +559,8 @@
   <section class="latest-release-section" id="latest-release" data-od-id="latest-release">
     <div class="section-header">
       <p class="section-kicker">Latest Release</p>
-      <h2>Newest VibeSoul Track</h2>
-      <p>Start with the newest track from Vivi Soul.</p>
+      <h2>Newest Release</h2>
+      <p>Press play and let the evening drift in.</p>
     </div>
 
     <div class="latest-release-card" id="latest-release-card"></div>
@@ -522,9 +569,9 @@
   <!-- ===== TRACKS (data-driven from script.js) ===== -->
   <section class="tracks" id="featured-tracks" data-od-id="tracks">
     <div class="wrap">
-      <h2>Featured Tracks</h2>
-      <p class="lede">Three releases from the Vivi Soul channel. Tap any card to listen on YouTube.</p>
-      <p class="tracks-note">More tracks will be added as new Vivi Soul releases go live.</p>
+      <h2>Also from the channel</h2>
+      <p class="lede">Different mood, same channel — energetic remix experiments that don't fit the late-night calm of the Latest Release. Tap to watch on YouTube.</p>
+      <p class="tracks-note">More calm releases (healing piano, late-night soul) coming soon to the channel.</p>
 
       <!-- The cards below are rendered by script.js from the `featuredTracks` array.
            To change a title, mood, or link, edit script.js — not this section. -->
@@ -571,7 +618,7 @@
     <div class="wrap">
       <h2>Stay close to the soul.</h2>
       <p>Subscribe on YouTube — never miss a new release.</p>
-      <a class="btn btn-primary" style="padding: 16px 36px;" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>Follow on YouTube</a>
+      <a class="btn btn-primary" style="padding: 16px 36px;" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>Subscribe on YouTube</a>
     </div>
   </section>
 
@@ -579,11 +626,10 @@
   <footer class="site wrap" data-od-id="footer">
     <span class="dot"></span>
     © <span id="year"></span> Vivi Soul ·
-    <a href="#">Privacy</a> ·
-    <a href="#">Contact</a> ·
-    <a href="#">License</a>
+    <a href="#faq">FAQ</a> ·
+    <a href="https://www.youtube.com/@ViviSoulmusic/about" target="_blank" rel="noopener noreferrer">Contact via YouTube</a>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

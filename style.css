@@ -247,3 +247,179 @@
   .latest-release-content p { font-size: 15px; }
   .latest-release-actions .btn { width: 100%; text-align: center; }
 }
+
+/* =========================================
+   GRADIENT TEXT FALLBACK
+   Several headings use background-clip:text + transparent fill
+   for a gold/white gradient. On the rare browser that can't clip
+   the background to the text, the fill would stay transparent and
+   the text would vanish. This restores a solid gold color in that
+   case. (This file loads after the inline <style>, so it wins.)
+   ========================================= */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .logo .gold,
+  .hero h1,
+  .closing h2,
+  .mood-text,
+  .latest-release-section h2 {
+    -webkit-text-fill-color: var(--accent, #d4af37);
+    color: var(--accent, #d4af37);
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+   Respect users who ask their OS to minimize animation —
+   removes the hover lifts, zooms, fades, and smooth scroll.
+   ========================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Make sure scroll-reveal elements are always visible */
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* =========================================
+   AURORA LIQUID HERO BACKGROUND
+   Soft blurred color blobs that slowly drift behind the
+   hero — adapted from the "liquid background hero" pattern.
+   `mix-blend: screen` lets them glow against the dark bg.
+   They freeze when the user prefers reduced motion (handled
+   by the global reduced-motion block above).
+   ========================================= */
+.hero-bg { overflow: hidden; }   /* keep blobs from leaking past the hero */
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  mix-blend-mode: screen;
+  will-change: transform;
+  pointer-events: none;
+}
+/* purple — top right, the dominant glow */
+.blob-1 {
+  width: 520px; height: 520px;
+  top: -120px; right: -80px;
+  background: radial-gradient(circle at 30% 30%, #b04ae8, #9333d4 60%, transparent 72%);
+  opacity: 0.55;
+  animation: blobFloat1 14s ease-in-out infinite;
+}
+/* gold — left, warm accent */
+.blob-2 {
+  width: 440px; height: 440px;
+  top: 20%; left: -120px;
+  background: radial-gradient(circle at 40% 40%, #f4e4a6, #d4af37 55%, transparent 70%);
+  opacity: 0.28;
+  animation: blobFloat2 18s ease-in-out infinite;
+}
+/* magenta — lower center, depth */
+.blob-3 {
+  width: 480px; height: 480px;
+  bottom: -160px; left: 35%;
+  background: radial-gradient(circle at 50% 50%, #c43a8e, #7a1d6b 60%, transparent 72%);
+  opacity: 0.4;
+  animation: blobFloat3 16s ease-in-out infinite;
+}
+/* deep violet — mid, slow drift */
+.blob-4 {
+  width: 360px; height: 360px;
+  top: 55%; right: 8%;
+  background: radial-gradient(circle at 50% 50%, #7c5cff, #4a1d8e 60%, transparent 72%);
+  opacity: 0.32;
+  animation: blobFloat1 20s ease-in-out infinite reverse;
+}
+@keyframes blobFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-70px, 60px) scale(1.15); }
+}
+@keyframes blobFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50%      { transform: translate(90px, -40px) scale(0.9); }
+}
+@keyframes blobFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(0.95); }
+  50%      { transform: translate(-60px, -70px) scale(1.2); }
+}
+
+/* =========================================
+   EQUALIZER — Spotify-style "now playing" bars
+   Four little gold bars in the mood switcher that bounce
+   like a music visualiser. Decorative; stops with reduced motion.
+   ========================================= */
+.equalizer {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+  width: 22px;
+}
+.equalizer i {
+  display: block;
+  width: 3px;
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #f4e4a6, #d4af37);
+  transform-origin: bottom;
+  animation: eqBounce 1s ease-in-out infinite;
+}
+.equalizer i:nth-child(1) { animation-delay: -0.2s; }
+.equalizer i:nth-child(2) { animation-delay: -0.6s; }
+.equalizer i:nth-child(3) { animation-delay: -0.1s; }
+.equalizer i:nth-child(4) { animation-delay: -0.45s; }
+@keyframes eqBounce {
+  0%, 100% { transform: scaleY(0.3); }
+  50%      { transform: scaleY(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .equalizer i { animation: none; transform: scaleY(0.55); }
+}
+
+/* =========================================
+   FILM GRAIN — 35mm cinematic texture
+   A faint animated noise layer over the whole page for a
+   subtle filmic feel. pointer-events:none so it never blocks
+   clicks; opacity kept low so it never hurts readability.
+   ========================================= */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  animation: grainShift 0.6s steps(2) infinite;
+}
+@keyframes grainShift {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(-4%, 3%); }
+  100% { transform: translate(3%, -2%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .film-grain { animation: none; }
+}
+
+/* =========================================
+   SCROLL REVEAL
+   Sections fade + rise into view as you scroll.
+   JS adds .is-visible via IntersectionObserver.
+   ========================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
