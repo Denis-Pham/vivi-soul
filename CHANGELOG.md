@@ -51,8 +51,8 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 - [ ] **Bật form email**: tạo form miễn phí tại formspree.io → thay `FORM_ID_TODO` trong action của `#emailForm` (`index.html`) bằng ID thật. Section "Quiet mail, not noise." đang TỰ ẨN cho tới khi có ID (logic trong `script.js`)
 - [ ] **Bật audio nghe thử**: Denis export snippet MP3 15–30s cho từng track → bỏ vào folder `audio/` → thêm field `previewSrc: 'audio/<file>.mp3'` vào track tương ứng trong `featuredTracks` — nút Preview tự hiện (KHÔNG rip audio từ YouTube — vi phạm ToS)
-- [ ] Kiểm tra GitHub Pages đã bật chưa + xác nhận URL live `https://denis-pham.github.io/vivi-soul/`
-- [ ] Khi site live: đổi `og:url` + `canonical` trong `index.html` từ link YouTube sang URL Pages thật
+- [x] ~~Kiểm tra GitHub Pages~~ — ĐÃ LIVE tại `https://denis-pham.github.io/vivi-soul/` (xác nhận 2026-06-10, bản deploy đúng code mới nhất)
+- [x] ~~Đổi `og:url` + `canonical` sang URL Pages thật~~ — xong 2026-06-10
 - [ ] Thêm track mới vào `featuredTracks` khi kênh đăng video mới (4 video thật chưa dùng đến: `3HdXLkwtBgQ`, `5sqcEcJcU9A`, `_udLB3fXaAA`, `yovAJN75jsU`, `whgbcx-VqrY`)
 - [ ] Khi kênh có comment thật từ khán giả: thêm section testimonial (2–3 comment) thay thế hoặc bổ sung cho khối "For fans of"
 - [ ] Sửa git config email trong repo (đang là `you@example.com` placeholder)
@@ -61,6 +61,16 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 ---
 
 # 📅 Lịch sử update
+
+## [2026-06-10] — Xác nhận site LIVE trên GitHub Pages + chốt canonical/og:url
+**Agent/Người thực hiện:** Claude Code
+**Files thay đổi:** index.html, CHANGELOG.md
+**Nội dung:**
+- Kiểm tra qua GitHub API: Pages đã bật sẵn (`has_pages: true`), site live HTTP 200 tại `https://denis-pham.github.io/vivi-soul/`
+- Verify bản live: đã serve đúng code mới nhất (7 video thật, sub_confirmation, section email ẩn)
+- `canonical` + `og:url` đổi từ link YouTube → URL Pages thật (canonical phải trỏ về chính trang)
+- Quyết định của Denis: form email Formspree CHƯA bật lúc này — section vẫn tự ẩn, bật sau khi cần
+**Lý do / ghi chú:** Site chính thức live. Push lên `main` là tự redeploy (~1-2 phút).
 
 ## [2026-06-10] — Thay video chết bằng 7 video thật + gói cải tiến chuyển đổi
 **Agent/Người thực hiện:** Claude Code
