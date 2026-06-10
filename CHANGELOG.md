@@ -49,22 +49,34 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 ## ✅ Việc còn tồn đọng (TODO)
 
-- [ ] 🔴 **KHẨN — thay 3 videoId chết trong `featuredTracks` (`script.js`)**: cả 3 ID hiện tại (`1ZVPYNQAwX4`, `x1pfDBt1AwM`, `Or2S37veLn8`) đều KHÔNG tồn tại trên YouTube (oembed trả 404). Kênh thật có 12 video — ID thật mới nhất: `gJwebqoc5fg` (When the City Finally Sleeps), `gYsWF2XzSiU` (Quiet Diner at 2AM); còn lại: `ACCAJRzoAHU`, `3HdXLkwtBgQ`, `k8bmgboWxus`, `5sqcEcJcU9A`, `_udLB3fXaAA`, `7wLPLBYkHs4`, `yovAJN75jsU`, `pV3QkZVC2aI`, `whgbcx-VqrY`, `QWEDrddBqEg`
-- [ ] 🔴 **Sửa copy sai thực tế**: trang mô tả các track là "TikTok Remix / energetic" nhưng kênh thật 100% là lo-fi soul / ambient / healing — viết lại title/mood/description trong `featuredTracks` + lede của section "Also from the channel" + ghi chú `tracks-note`
-- [ ] 🔴 **Sửa `og:image` / `twitter:image` trong `index.html`**: đang trỏ thumbnail của video chết → share Facebook/Zalo sẽ hiện ảnh vỡ. Trỏ sang `https://img.youtube.com/vi/gJwebqoc5fg/hqdefault.jpg` (video thật)
-- [ ] 🟡 Thêm `?sub_confirmation=1` vào các link Subscribe (bật popup xác nhận đăng ký khi khách bấm sang YouTube)
-- [ ] 🟡 Xem lại logo wall "Heard alongside: Lofi Girl, ChillHop, Calm, Headspace…" — claim chưa kiểm chứng, nên thay bằng social proof thật (comment thật từ video / số liệu kênh)
-- [ ] 🟡 Xem lại FAQ "one to two new pieces a week" — xác nhận tần suất đăng thật với Denis trước khi giữ
-- [ ] **Commit + push 3 file đang sửa dở** (`index.html`, `script.js`, `style.css` — đợt nâng cấp SEO/accessibility, xem entry 2026-06-10 bên dưới)
+- [ ] **Bật form email**: tạo form miễn phí tại formspree.io → thay `FORM_ID_TODO` trong action của `#emailForm` (`index.html`) bằng ID thật. Section "Quiet mail, not noise." đang TỰ ẨN cho tới khi có ID (logic trong `script.js`)
+- [ ] **Bật audio nghe thử**: Denis export snippet MP3 15–30s cho từng track → bỏ vào folder `audio/` → thêm field `previewSrc: 'audio/<file>.mp3'` vào track tương ứng trong `featuredTracks` — nút Preview tự hiện (KHÔNG rip audio từ YouTube — vi phạm ToS)
 - [ ] Kiểm tra GitHub Pages đã bật chưa + xác nhận URL live `https://denis-pham.github.io/vivi-soul/`
 - [ ] Khi site live: đổi `og:url` + `canonical` trong `index.html` từ link YouTube sang URL Pages thật
-- [ ] Thêm track mới vào `featuredTracks` khi kênh đăng video mới
-- [ ] (Tuỳ chọn) Form capture email (Formspree) cho người đăng ký nhận nhạc mới
+- [ ] Thêm track mới vào `featuredTracks` khi kênh đăng video mới (4 video thật chưa dùng đến: `3HdXLkwtBgQ`, `5sqcEcJcU9A`, `_udLB3fXaAA`, `yovAJN75jsU`, `whgbcx-VqrY`)
+- [ ] Khi kênh có comment thật từ khán giả: thêm section testimonial (2–3 comment) thay thế hoặc bổ sung cho khối "For fans of"
+- [ ] Sửa git config email trong repo (đang là `you@example.com` placeholder)
 - [ ] (Tuỳ chọn) Custom domain trỏ về GitHub Pages
 
 ---
 
 # 📅 Lịch sử update
+
+## [2026-06-10] — Thay video chết bằng 7 video thật + gói cải tiến chuyển đổi
+**Agent/Người thực hiện:** Claude Code
+**Files thay đổi:** index.html, script.js, style.css, CHANGELOG.md
+**Nội dung:**
+- 🔴 `featuredTracks` viết lại hoàn toàn: 7 video THẬT từ kênh (Latest = `gJwebqoc5fg` When the City Finally Sleeps; grid 6 video lo-fi soul/ambient/cinematic) — đã verify từng videoId + thumbnail qua API trước khi dùng
+- 🔴 Copy sửa đúng thực tế kênh: lede + note của "Also from the channel" bỏ hết nội dung TikTok Remix; FAQ tần suất đăng đổi thành "regularly" (không claim cụ thể chưa kiểm chứng)
+- 🔴 `og:image` / `twitter:image` trỏ thumbnail video thật `gJwebqoc5fg`
+- 🟡 3 nút Subscribe (nav, hero, closing) thêm `?sub_confirmation=1`
+- 🟡 Logo wall "Heard alongside" → "For fans of" (định vị gu nhạc trung thực, không phải claim hợp tác). Không bịa testimonial — kênh chưa có comment thật (đã thử lấy qua API)
+- 🟢 Mood switcher nâng cấp: mỗi mood gắn 1 video thật + link "Listen →" tự đổi theo mood (map trong `script.js`)
+- 🟢 Section email capture "#updates" (Formspree) — TỰ ẨN cho tới khi điền Form ID thật, không bao giờ lộ form hỏng
+- 🟢 Hạ tầng audio preview: track có `previewSrc` sẽ tự hiện nút Preview (1 player dùng chung, bấm track khác tự dừng track cũ) — chờ Denis cung cấp file MP3
+- Fix nhỏ: mood-switcher trên mobile đổi border-radius 999px → 24px (hết hình quả trứng khi stack dọc)
+- Verify local: 0 lỗi console, 7/7 thumbnail load ảnh thật, mood switcher + link đổi đúng, section email ẩn đúng
+**Lý do / ghi chú:** Thực hiện cả 3 nhóm roadmap audit 2026-06-10 theo yêu cầu Denis. Màu chủ đạo tím/đen/gold giữ nguyên.
 
 ## [2026-06-10] — Audit toàn trang + nghiên cứu landing page mẫu (chưa sửa code)
 **Agent/Người thực hiện:** Claude Code

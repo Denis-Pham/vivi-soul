@@ -409,6 +409,85 @@
 }
 
 /* =========================================
+   MOOD LINK — "Listen →" inside the mood switcher
+   Points at a real track for the current mood (set by script.js).
+   ========================================= */
+.mood-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+.mood-link:hover { color: var(--accent-soft); }
+
+/* =========================================
+   EMAIL CAPTURE — "Quiet mail, not noise."
+   Section is hidden by script.js until a real
+   Formspree ID is configured in index.html.
+   ========================================= */
+.updates {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.email-form {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.email-form input[type='email'] {
+  flex: 1 1 260px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 12px 22px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+.email-form input[type='email']::placeholder { color: var(--muted-soft, #8a7da0); }
+.email-form input[type='email']:focus { border-color: var(--border-strong); }
+.email-success {
+  color: var(--accent-soft);
+  font-size: 16px;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .email-form { flex-direction: column; }
+  .email-form .btn { width: 100%; }
+}
+
+/* =========================================
+   AUDIO PREVIEW BUTTON — on track cards
+   Only rendered when a track has `previewSrc` (script.js).
+   ========================================= */
+.preview-btn {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+}
+.preview-btn:hover { border-color: var(--border-strong); background: rgba(212, 175, 55, 0.14); }
+.preview-btn.playing {
+  border-color: var(--accent);
+  background: rgba(212, 175, 55, 0.18);
+  color: var(--accent-soft);
+}
+.preview-btn .preview-icon { margin-right: 6px; }
+
+/* =========================================
    SCROLL REVEAL
    Sections fade + rise into view as you scroll.
    JS adds .is-visible via IntersectionObserver.
