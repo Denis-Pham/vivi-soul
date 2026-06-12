@@ -64,6 +64,17 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-06-12] — Header ghim cố định (logo + nút Subscribe luôn hiển thị khi cuộn)
+**Agent/Người thực hiện:** Claude Code
+**Files thay đổi:** index.html, fx.js, CHANGELOG.md
+**Nội dung:**
+- Denis phản hồi: tiêu đề + nút Subscribe vàng biến mất khi cuộn xuống → chuyển `header.topnav` sang `position: fixed` trên cùng, nền kính mờ `rgba(3,1,7,0.72)` + backdrop blur 12px, hairline đáy
+- **Quan trọng:** header phải đặt NGOÀI `<main id="page">` — `#page` có transform (skew theo vận tốc cuộn từ fx.js), mà `position:fixed` bên trong ancestor có transform sẽ bị ghim theo ancestor thay vì viewport. Agent sau đừng đưa phần tử fixed nào vào trong `#page`
+- Markup nav chuyển từ trong `.hero-shell > .wrap` ra ngay sau `#progress`, bọc bằng `.topnav-inner` (max-width 1080 căn giữa); `.hero-shell` thêm padding-top 72px nhường chỗ
+- Anchor không bị header che: `scroll-margin-top: 90px` (fallback) + Lenis scrollTo offset -16 → -84 trong fx.js
+- Verify local: cuộn tới 4000px header vẫn top:0, nút Subscribe luôn trong viewport, hero không bị đè, 0 lỗi console
+**Lý do / ghi chú:** CTA Subscribe là mục tiêu chuyển đổi số 1 của trang — phải luôn trong tầm mắt.
+
 ## [2026-06-12] — Nâng cấp 3D + chuyển động toàn trang (Three.js + GSAP + Lenis)
 **Agent/Người thực hiện:** Claude Code
 **Files thay đổi:** fx.js (mới), index.html, script.js, CHANGELOG.md

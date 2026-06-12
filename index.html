@@ -160,12 +160,24 @@
     }
     .btn-link:hover { color: var(--accent-soft); }
 
-    /* ===== Nav ===== */
+    /* ===== Nav — ghim cố định, nền kính mờ ===== */
     header.topnav {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 22px 0;
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 9985;                 /* trên nội dung, dưới progress bar (9995) */
+      background: rgba(3, 1, 7, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
+    .topnav-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 1080px; margin: 0 auto;
+      padding: 14px 32px;
+    }
+    /* nội dung hero nhường chỗ cho header cố định */
+    .hero-shell { padding-top: 72px; }
+    /* anchor jump không bị header che (fallback khi không có Lenis) */
+    section[id], #latest-release, #main-content { scroll-margin-top: 90px; }
     .logo {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 700; font-size: 22px; letter-spacing: 3px;
@@ -444,7 +456,7 @@
       /* Top nav: hide menu links, keep only logo + Subscribe */
       nav a:not(.btn) { display: none; }
       nav .btn-primary { margin-left: 0; padding: 9px 16px; font-size: 12px; }
-      header.topnav { padding: 16px 0; }
+      .topnav-inner { padding: 12px 18px; }
       .logo { font-size: 18px; letter-spacing: 2px; }
 
       /* All grids collapse to a single column on phones */
@@ -525,6 +537,22 @@
   <!-- Thanh tiến độ đọc trang — vạch gold mảnh trên cùng -->
   <div id="progress" aria-hidden="true"></div>
 
+  <!-- ===== NAV — ghim cố định trên cùng =====
+       Đặt NGOÀI #page vì #page có transform (skew theo vận tốc cuộn) —
+       position:fixed bên trong ancestor có transform sẽ bị ghim sai. -->
+  <header class="topnav" data-od-id="topnav">
+    <div class="topnav-inner">
+      <span class="logo">Vivi <span class="gold">Soul</span></span>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#featured-tracks">Tracks</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
   <!-- #page: bọc toàn bộ nội dung để nổi trên canvas 3D (z-10)
        và nhận hiệu ứng skew nhẹ theo vận tốc cuộn (fx.js) -->
   <main id="page">
@@ -540,17 +568,6 @@
       <span class="blob blob-4" aria-hidden="true"></span>
     </div>
     <div class="wrap">
-      <header class="topnav" data-od-id="topnav">
-        <span class="logo">Vivi <span class="gold">Soul</span></span>
-        <nav>
-          <a href="#features">Features</a>
-          <a href="#how">How it works</a>
-          <a href="#featured-tracks">Tracks</a>
-          <a href="#faq">FAQ</a>
-          <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>Subscribe</a>
-        </nav>
-      </header>
-
       <section class="hero" data-od-id="hero">
         <div class="eyebrow">— AI Music Channel —</div>
         <h1>AI music for the gentle hours.</h1>

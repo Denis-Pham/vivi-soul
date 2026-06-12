@@ -51,7 +51,7 @@ function boot() {
         const target = document.querySelector(a.getAttribute('href'));
         if (!target) return;
         e.preventDefault();
-        lenis.scrollTo(target, { offset: -16, duration: 1.1 });
+        lenis.scrollTo(target, { offset: -84, duration: 1.1 }); // chừa chỗ header cố định
       });
     });
   }
