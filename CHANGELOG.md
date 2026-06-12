@@ -64,6 +64,17 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-06-12] — Cuộn mượt hơn + con trỏ nốt nhạc + tiêu đề gradient trắng→vàng
+**Agent/Người thực hiện:** Claude Code
+**Files thay đổi:** fx.js, index.html, style.css, CHANGELOG.md
+**Nội dung:**
+- Denis phản hồi 3 ý: cuộn chưa mượt, chuột chưa thành hình nhạc, tiêu đề trắng trơn nhìn chưa đẹp
+- **Cuộn mượt:** BỎ hẳn hiệu ứng skew `#page` theo vận tốc cuộn (transform cả trang ~13k px mỗi frame ép browser repaint liên tục — nguyên nhân chính gây giật); cap pixel ratio render 3D 2 → 1.6; Lenis lerp 0.095 → 0.08. ⚠️ Agent sau: ĐỪNG thêm transform vào `#page` — phá position:fixed của phần tử con
+- **Con trỏ nốt nhạc** (chỉ desktop pointer mịn): fx.js tạo `#cursor` (♪ gold, lắc nhẹ theo thời gian, bám sát chuột) + `#ring` (vòng gold đuổi theo có độ trễ, phóng to khi hover link/nút/summary); `body.fx-cursor` bật `cursor:none`; pointer thô (mobile) tự ẩn; reduced-motion không tạo
+- **Tiêu đề section gradient trắng→vàng** (giống hero): áp cho h2 của features/how/tracks/faq/updates — gradient đặt cả ở h2 LẪN từng từ `.w > span` (sau khi word-split mỗi span có background riêng nên giữ hiệu ứng khi chữ chuyển động); cập nhật fallback `@supports not background-clip` trong style.css để chữ không tàng hình trên browser cũ
+- Verify local: con trỏ ♪ + ring tạo đúng, hover Subscribe ring phóng to, span gradient + fill transparent đúng, `#page` hết transform, 0 lỗi console. (Quirk máy local: rAF của cửa sổ preview hay bị suspend — không tái hiện trên browser thật)
+**Lý do / ghi chú:** Phản hồi trực tiếp từ Denis sau khi xem bản live 3D đầu tiên.
+
 ## [2026-06-12] — Header ghim cố định (logo + nút Subscribe luôn hiển thị khi cuộn)
 **Agent/Người thực hiện:** Claude Code
 **Files thay đổi:** index.html, fx.js, CHANGELOG.md

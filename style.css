@@ -259,7 +259,10 @@
   .hero h1,
   .closing h2,
   .mood-text,
-  .latest-release-section h2 {
+  .latest-release-section h2,
+  .features h2, .how h2, .tracks h2, .faq h2, .updates h2,
+  .features h2 .w > span, .how h2 .w > span, .tracks h2 .w > span,
+  .faq h2 .w > span, .updates h2 .w > span {
     -webkit-text-fill-color: var(--accent, #d4af37);
     color: var(--accent, #d4af37);
   }

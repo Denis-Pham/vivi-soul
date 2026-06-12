@@ -43,7 +43,7 @@ function boot() {
 
   let lenis = null;
   if (window.Lenis) {
-    lenis = new Lenis({ lerp: 0.095, smoothWheel: true });
+    lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
     lenis.on('scroll', ScrollTrigger.update);
     // Anchor link đi qua Lenis cho mượt (trừ skip-link — giữ hành vi a11y gốc)
     document.querySelectorAll('a[href^="#"]:not(.skip-link)').forEach(a => {
@@ -107,6 +107,25 @@ function boot() {
   gsap.fromTo('#mq2 .track', { xPercent: -25 }, { xPercent: 0, ease: 'none',
     scrollTrigger: { trigger: '#mq2', start: 'top bottom', end: 'bottom top', scrub: 0.4 } });
 
+  /* ---------------- con trỏ nốt nhạc (chỉ desktop, pointer mịn) ---------------- */
+  let cursorEl = null, ringEl = null;
+  const cur = { x: innerWidth / 2, y: innerHeight / 2, rx: innerWidth / 2, ry: innerHeight / 2 };
+  if (matchMedia('(pointer: fine)').matches) {
+    cursorEl = document.createElement('div');
+    cursorEl.id = 'cursor';
+    cursorEl.textContent = '♪';
+    ringEl = document.createElement('div');
+    ringEl.id = 'ring';
+    document.body.append(cursorEl, ringEl);
+    document.body.classList.add('fx-cursor');   // bật cursor:none qua CSS
+    addEventListener('pointermove', e => { cur.x = e.clientX; cur.y = e.clientY; });
+    // vòng tròn phóng to khi rê vào phần tử bấm được
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest('a, button, summary')) ringEl.classList.add('hot');
+      else ringEl.classList.remove('hot');
+    });
+  }
+
   /* ================= THẾ GIỚI 3D (Three.js) ================= */
   let render3D = null;
   try {
@@ -126,6 +145,15 @@ function boot() {
       lastSeenScroll = scrollY;
       ScrollTrigger.update();
     }
+    // con trỏ ♪: nốt bám sát chuột (lắc nhẹ), vòng tròn đuổi theo có độ trễ
+    if (cursorEl) {
+      cur.rx += (cur.x - cur.rx) * 0.18;
+      cur.ry += (cur.y - cur.ry) * 0.18;
+      cursorEl.style.transform =
+        `translate(${cur.x - 7}px, ${cur.y - 14}px) rotate(${Math.sin(now * 0.002) * 12}deg)`;
+      const half = ringEl.classList.contains('hot') ? 32 : 18;
+      ringEl.style.transform = `translate(${cur.rx - half}px, ${cur.ry - half}px)`;
+    }
     if (render3D) render3D();
     requestAnimationFrame(loop);
   }
@@ -136,7 +164,8 @@ function boot() {
      ============================================================ */
   function init3D() {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    // cap 1.6 thay vì 2: màn hình HiDPI đỡ phải vẽ gấp đôi pixel → cuộn mượt hơn
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.6));
     renderer.setSize(innerWidth, innerHeight);
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100);
@@ -372,8 +401,8 @@ function boot() {
       mouse.x = (e.clientX / innerWidth - 0.5) * 2;
       mouse.y = (e.clientY / innerHeight - 0.5) * 2;
     });
-    // Nội dung nghiêng rất nhẹ theo vận tốc cuộn (chỉ desktop)
-    const skewSetter = gsap.quickTo('#page', 'skewY', { duration: 0.5, ease: 'power3' });
+    // (Đã BỎ hiệu ứng skew #page theo vận tốc cuộn: transform cả trang
+    //  mỗi frame ép browser vẽ lại liên tục → nguyên nhân chính gây giật.)
     const clock = new THREE.Clock();
 
     addEventListener('resize', () => {
@@ -396,11 +425,10 @@ function boot() {
       camera.rotation.y = -mouse.x * 0.018;
       camera.rotation.x = mouse.y * 0.012;
 
-      // vận tốc cuộn → spin vật thể + skew nội dung
+      // vận tốc cuộn → vật thể 3D xoay nhanh hơn
       const dv = scrollY - lastScroll; lastScroll = scrollY;
       velo = THREE.MathUtils.lerp(velo, THREE.MathUtils.clamp(dv, -60, 60), 0.12);
       spin = THREE.MathUtils.lerp(spin, velo * 0.0035, 0.08);
-      if (innerWidth >= 760) skewSetter(THREE.MathUtils.clamp(velo * 0.03, -2.2, 2.2));
 
       for (const id of IDS) {
         const g = stage[id];

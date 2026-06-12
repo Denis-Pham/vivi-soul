@@ -518,6 +518,39 @@
       font-style: italic; color: transparent;
       -webkit-text-stroke: 1px var(--accent);
     }
+    /* ----- Tiêu đề section lớn: trắng chuyển vàng (như hero) -----
+       Gradient áp cả ở h2 (khi chưa tách chữ) lẫn từng từ .w > span
+       (sau khi fx.js tách để làm word-reveal) — span có background
+       riêng nên hiệu ứng giữ nguyên khi từng từ chuyển động. */
+    .features h2, .how h2, .tracks h2, .faq h2, .updates h2,
+    .features h2 .w > span, .how h2 .w > span, .tracks h2 .w > span,
+    .faq h2 .w > span, .updates h2 .w > span {
+      background: linear-gradient(180deg, #ffffff 30%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ----- Con trỏ nốt nhạc (fx.js tạo #cursor + #ring, chỉ pointer mịn) ----- */
+    @media (pointer: fine) {
+      body.fx-cursor, body.fx-cursor a, body.fx-cursor button,
+      body.fx-cursor summary, body.fx-cursor input { cursor: none; }
+      #cursor {
+        position: fixed; top: 0; left: 0; z-index: 9997; pointer-events: none;
+        font-size: 22px; line-height: 1; color: var(--accent);
+        text-shadow: 0 0 12px rgba(212, 175, 55, 0.75);
+        will-change: transform;
+      }
+      #ring {
+        position: fixed; top: 0; left: 0; z-index: 9997; pointer-events: none;
+        width: 36px; height: 36px; border-radius: 50%;
+        border: 1px solid rgba(212, 175, 55, 0.55);
+        transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease;
+        will-change: transform;
+      }
+      #ring.hot { width: 64px; height: 64px; opacity: 0.5; }
+    }
+    @media (pointer: coarse) { #cursor, #ring { display: none; } }
+
     @media (prefers-reduced-motion: reduce) {
       #stage, #progress { display: none; }
       .marquee .track { transform: none !important; }
@@ -553,8 +586,9 @@
     </div>
   </header>
 
-  <!-- #page: bọc toàn bộ nội dung để nổi trên canvas 3D (z-10)
-       và nhận hiệu ứng skew nhẹ theo vận tốc cuộn (fx.js) -->
+  <!-- #page: bọc toàn bộ nội dung để nổi trên canvas 3D (z-10).
+       Lưu ý: đừng thêm transform vào #page — sẽ phá position:fixed
+       của mọi phần tử con (đã từng dính với hiệu ứng skew, nay đã bỏ). -->
   <main id="page">
 
   <!-- ===== HERO + NAV ===== -->
