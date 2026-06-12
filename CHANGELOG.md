@@ -15,13 +15,14 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 | File | Vai trò |
 |---|---|
 | `index.html` | Khung trang + toàn bộ style chính (inline `<style>`, theme tokens ở `:root`). Sections: Hero (mood switcher + dual CTA) → Logo wall → 3 Feature cards → "How to drift" → Latest Release → Featured Tracks → FAQ → Closing CTA → Footer |
-| `script.js` | **Toàn bộ nội dung track nằm ở đây** — mảng `featuredTracks` là single source of truth: phần tử `[0]` = Latest Release, phần còn lại đổ vào grid "Also from the channel". Kèm: FAQ accordion, mood switcher (5 moods), scroll reveal (IntersectionObserver), auto year |
+| `script.js` | **Toàn bộ nội dung track nằm ở đây** — mảng `featuredTracks` là single source of truth: phần tử `[0]` = Latest Release, phần còn lại đổ vào grid "Also from the channel". Kèm: FAQ accordion, mood switcher (5 moods), scroll reveal fallback (IntersectionObserver — chỉ chạy khi CDN GSAP bị chặn), auto year |
+| `fx.js` | **Lớp 3D + chuyển động** (ES module): thế giới wireframe Three.js bám theo scroll (vinyl, sóng âm, equalizer, nốt nhạc, vòng hào quang), GSAP ScrollTrigger (word-reveal, batch reveal, marquee, progress bar), Lenis smooth scroll. Tự tắt hoàn toàn khi reduced-motion / CDN lỗi / WebGL lỗi |
 | `style.css` | Style phụ: thumbnail cards, Latest Release section, animations |
 | `DESIGN.md` | Design system tham chiếu (Lamborghini, từ getdesign.md) — đọc trước khi sửa UI để giữ ngôn ngữ thiết kế nhất quán |
 | `README.md` | Hướng dẫn gốc: chạy local, deploy GitHub Pages, bài học khi build |
 | `CHANGELOG.md` | File này — lịch sử update + quy ước làm việc |
 
-**Stack:** HTML + CSS + JavaScript thuần — không framework, không build tool. Chạy local: `python3 -m http.server 5173`.
+**Stack:** HTML + CSS + JavaScript thuần — không framework, không build tool. Thư viện hiệu ứng load qua CDN (GSAP 3.12 + ScrollTrigger, Lenis 1.1, Three.js 0.170 qua importmap) — trang vẫn hoạt động đầy đủ nếu CDN bị chặn. Chạy local: `python3 -m http.server 5173`.
 
 **Theme:** dark cinematic — tím / đen / vàng gold. Tokens: `--bg`, `--surface`, `--fg`, `--muted`, `--accent` (gold `#d4af37`), `--accent-2`… đều ở `:root` trong `index.html`.
 
@@ -62,6 +63,21 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 ---
 
 # 📅 Lịch sử update
+
+## [2026-06-12] — Nâng cấp 3D + chuyển động toàn trang (Three.js + GSAP + Lenis)
+**Agent/Người thực hiện:** Claude Code
+**Files thay đổi:** fx.js (mới), index.html, script.js, CHANGELOG.md
+**Nội dung:**
+- Denis yêu cầu trang "lên 3D và có sự chuyển động", tham khảo 2 portfolio mẫu (scroll-driven 3D wireframe + GSAP choreography). Áp công thức đó nhưng đổi chất liệu sang ÂM NHẠC, giữ nguyên palette tím/đen/gold
+- **`fx.js` (mới):** thế giới 3D wireframe bám theo scroll — camera đi xuống theo trang, mỗi section một "đạo cụ": hero = đĩa vinyl gold quay chậm (rãnh tím) + 2 nốt nhạc bay · features = equalizer 3D 30 cột tím nhún · latest-release = 2 dải sóng âm sin gold/tím · tracks = 6 nốt nhạc lơ lửng hai mép · closing = 3 vòng hào quang xoay quanh CTA · bụi vàng lấp lánh rải suốt trang. Vật thể chỉ hiện rõ trong "chương" của mình (fade theo khoảng cách), xoay nhẹ theo vận tốc cuộn, parallax theo chuột
+- **GSAP ScrollTrigger:** hero intro trồi lên lần lượt + hero exit mờ dần khi cuộn; word-reveal từng từ cho h2 (trừ heading gradient-text); batch reveal có stagger cho card/step/FAQ/logos; progress bar gold trên cùng; nội dung skew rất nhẹ theo vận tốc cuộn (desktop)
+- **2 dải marquee** chữ Cormorant lớn (outline gold xen kẽ) trôi ngang ngược hướng nhau theo scroll — đặt sau Features và sau Tracks
+- **Lenis smooth scroll** + anchor link đi qua Lenis (trừ skip-link, giữ a11y); `ScrollTrigger.update()` gọi từ rAF khi scrollY đổi (không phụ thuộc scroll event — có môi trường không phát event khi scroll bằng code)
+- `index.html`: thêm canvas #stage (z-0) + #progress, bọc nội dung trong `<main id="page">` (z-10), section `.features/.tracks` nền trong suốt + `.proof/.how/.faq/.updates` mờ 88% để lộ lớp 3D, `.closing` bỏ nền đặc để lộ vòng hào quang
+- `script.js`: scroll reveal IntersectionObserver cũ chuyển thành FALLBACK — chỉ chạy khi GSAP CDN bị chặn
+- **An toàn:** prefers-reduced-motion → fx tắt hẳn (canvas + progress tự gỡ, trang tĩnh như cũ); CDN/WebGL lỗi → tự gỡ canvas, nội dung không bao giờ bị ẩn
+- Verify local (port 5174): 0 lỗi console, WebGL render thật, marquee/reveal/progress chạy đúng theo scroll, mobile vinyl lùi sâu sau chữ
+**Lý do / ghi chú:** Màu chủ đạo tím/đen/gold giữ nguyên (vật thể 3D dùng đúng token `#d4af37` / `#9333d4`). Agent sau: hiệu ứng mới thêm vào `fx.js`, đừng đụng `script.js` (chỉ chứa nội dung/logic dữ liệu).
 
 ## [2026-06-10] — Nâng cấp dark-luxury theo design system Lamborghini (getdesign.md)
 **Agent/Người thực hiện:** Claude Code

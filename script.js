@@ -244,6 +244,10 @@ if (moodBtn && moodText) {
   const prefersReduced = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // fx.js (GSAP ScrollTrigger) đảm nhận reveal khi CDN tải được —
+  // khối này chỉ còn là fallback khi GSAP bị chặn / offline.
+  if (window.gsap && window.ScrollTrigger && !prefersReduced) return;
+
   // Sections we want to animate as they enter the viewport.
   const targets = document.querySelectorAll(
     '.features, .how, .latest-release-section, .tracks, .faq, .updates, .closing'

@@ -35,6 +35,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
+  <!-- ===== FX libs (CDN — không build tool, đúng quy ước project) =====
+       GSAP + ScrollTrigger: choreography theo scroll. Lenis: cuộn mượt.
+       Three.js (importmap): lớp 3D wireframe phía sau trang — fx.js.
+       Nếu CDN bị chặn, fx.js tự tắt và trang hoạt động như cũ. -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+  </script>
+
   <!-- ===== Structured data (helps Google show rich results) ===== -->
   <script type="application/ld+json">
   {
@@ -356,9 +367,8 @@
 
     /* ===== Closing CTA ===== */
     .closing {
-      background:
-        radial-gradient(ellipse at center, rgba(147, 51, 212, 0.3), transparent 65%),
-        linear-gradient(180deg, var(--surface), var(--bg));
+      /* nền trong suốt (chỉ giữ quầng tím) để lộ vòng hào quang 3D phía sau */
+      background: radial-gradient(ellipse at center, rgba(147, 51, 212, 0.28), transparent 65%);
       text-align: center; padding: 110px 0;
     }
     .closing h2 {
@@ -457,6 +467,49 @@
 
       footer.site a { display: inline-block; margin: 4px 6px; }
     }
+
+    /* =========================================
+       ===== FX LAYER — 3D + motion (fx.js) =====
+       Canvas 3D nằm dưới (z-0), nội dung nằm trên (z-10).
+       Một số section nền đặc chuyển sang hơi trong để lộ
+       thế giới wireframe phía sau. fx.js tự tắt khi
+       reduced-motion hoặc CDN lỗi → mọi thứ về như cũ.
+       ========================================= */
+    #stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    #page { position: relative; z-index: 10; }
+    #progress {
+      position: fixed; top: 0; left: 0; height: 2px; width: 100%; z-index: 9995;
+      transform-origin: 0 50%; transform: scaleX(0);
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+    }
+    /* nền section: trong suốt / mờ nhẹ để thấy lớp 3D */
+    .features, .tracks { background: transparent; }
+    .proof, .how, .faq, .updates { background: rgba(11, 8, 19, 0.88); }
+
+    /* word-reveal: từng từ trồi lên từ trong "phong bì" overflow hidden */
+    .w { display: inline-block; overflow: hidden; vertical-align: bottom;
+      padding: 0.12em 0.06em 0.16em; margin: -0.12em -0.06em -0.16em; }
+    .w > span { display: inline-block; will-change: transform; }
+
+    /* marquee chữ lớn chạy ngang theo scroll */
+    .marquee {
+      position: relative; z-index: 10; overflow: hidden; padding: 4vh 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .marquee .track { display: inline-flex; white-space: nowrap; will-change: transform; }
+    .marquee .chunk {
+      font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600;
+      font-size: clamp(36px, 6.5vw, 84px); line-height: 1.15; padding-right: 4vw;
+      color: var(--fg); opacity: 0.92;
+    }
+    .marquee .chunk em {
+      font-style: italic; color: transparent;
+      -webkit-text-stroke: 1px var(--accent);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #stage, #progress { display: none; }
+      .marquee .track { transform: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -466,6 +519,15 @@
 
   <!-- Film grain: faint 35mm texture over the whole page (decorative) -->
   <div class="film-grain" aria-hidden="true"></div>
+
+  <!-- Lớp 3D wireframe chạy phía sau toàn trang (vẽ bởi fx.js) -->
+  <canvas id="stage" aria-hidden="true"></canvas>
+  <!-- Thanh tiến độ đọc trang — vạch gold mảnh trên cùng -->
+  <div id="progress" aria-hidden="true"></div>
+
+  <!-- #page: bọc toàn bộ nội dung để nổi trên canvas 3D (z-10)
+       và nhận hiệu ứng skew nhẹ theo vận tốc cuộn (fx.js) -->
+  <main id="page">
 
   <!-- ===== HERO + NAV ===== -->
   <div class="hero-shell" id="main-content">
@@ -551,6 +613,14 @@
     </div>
   </section>
 
+  <!-- Marquee 1: dải mood chữ lớn, trôi ngang theo scroll (fx.js) -->
+  <div class="marquee" id="mq1" aria-hidden="true">
+    <div class="track">
+      <div class="chunk">deep focus — <em>late-night soul</em> — healing rain — <em>cinematic memories</em> — nostalgic love —&nbsp;</div>
+      <div class="chunk">deep focus — <em>late-night soul</em> — healing rain — <em>cinematic memories</em> — nostalgic love —&nbsp;</div>
+    </div>
+  </div>
+
   <!-- ===== HOW IT WORKS ===== -->
   <section class="how" id="how" data-od-id="how">
     <div class="wrap">
@@ -608,6 +678,14 @@
     </div>
   </section>
 
+  <!-- Marquee 2: lời mời nhẹ nhàng, trôi ngược hướng marquee 1 -->
+  <div class="marquee" id="mq2" aria-hidden="true">
+    <div class="track">
+      <div class="chunk">press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;</div>
+      <div class="chunk">press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;</div>
+    </div>
+  </div>
+
   <!-- ===== FAQ ===== -->
   <section class="faq" id="faq" data-od-id="faq">
     <div class="wrap">
@@ -650,7 +728,7 @@
   </section>
 
   <!-- ===== CLOSING CTA ===== -->
-  <section class="closing" data-od-id="closing">
+  <section class="closing" id="closing" data-od-id="closing">
     <div class="wrap">
       <h2>Stay close to the soul.</h2>
       <p>Subscribe on YouTube — never miss a new release.</p>
@@ -666,6 +744,10 @@
     <a href="https://www.youtube.com/@ViviSoulmusic/about" target="_blank" rel="noopener noreferrer">Contact via YouTube</a>
   </footer>
 
+  </main><!-- /#page -->
+
   <script src="script.js" defer></script>
+  <!-- Lớp 3D + scroll choreography — chạy SAU script.js (cần tracks đã render) -->
+  <script type="module" src="fx.js"></script>
 </body>
 </html>
