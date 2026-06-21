@@ -15,7 +15,7 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 | File | Vai trò |
 |---|---|
 | `index.html` | Khung trang + toàn bộ style chính (inline `<style>`, theme tokens ở `:root`). Sections: Hero (mood switcher + dual CTA) → Logo wall → 3 Feature cards → "How to drift" → Latest Release → Featured Tracks → FAQ → Closing CTA → Footer |
-| `script.js` | **Toàn bộ nội dung track nằm ở đây** — mảng `featuredTracks` là single source of truth: phần tử `[0]` = Latest Release, phần còn lại đổ vào grid "Also from the channel". Kèm: FAQ accordion, mood switcher (5 moods), scroll reveal fallback (IntersectionObserver — chỉ chạy khi CDN GSAP bị chặn), auto year |
+| `script.js` | **Toàn bộ nội dung track nằm ở đây** — mảng `featuredTracks` là single source of truth: phần tử `[0]` = Latest Release, phần còn lại đổ vào grid "Also from the channel". Kèm: **bộ chuyển ngữ song ngữ Anh/Việt (i18n)** — object `TRANSLATIONS` + hàm `applyLanguage()`; FAQ accordion, mood switcher (5 moods, có `labelVi`), scroll reveal fallback (IntersectionObserver — chỉ chạy khi CDN GSAP bị chặn), auto year |
 | `fx.js` | **Lớp 3D + chuyển động** (ES module): thế giới wireframe Three.js bám theo scroll (vinyl, sóng âm, equalizer, nốt nhạc, vòng hào quang), GSAP ScrollTrigger (word-reveal, batch reveal, marquee, progress bar), Lenis smooth scroll. Tự tắt hoàn toàn khi reduced-motion / CDN lỗi / WebGL lỗi |
 | `style.css` | Style phụ: thumbnail cards, Latest Release section, animations |
 | `DESIGN.md` | Design system tham chiếu (Lamborghini, từ getdesign.md) — đọc trước khi sửa UI để giữ ngôn ngữ thiết kế nhất quán |
@@ -36,6 +36,7 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 6. Không thêm framework / build tool — giữ project deploy thẳng lên GitHub Pages.
 7. Dùng **đường dẫn tương đối** (`href="style.css"`, không có `/` đầu) — site chạy ở subfolder `/vivi-soul/` trên GitHub Pages.
 8. Sau khi sửa xong: commit với message rõ ràng, push lên `origin main` để Pages tự redeploy.
+9. **Song ngữ (i18n):** mọi chữ TĨNH mới thêm vào `index.html` phải gắn `data-i18n="key"` (hoặc `data-i18n-html` cho chữ có thẻ, `data-i18n-aria` cho aria-label) VÀ thêm key đó vào CẢ `en` lẫn `vi` trong object `TRANSLATIONS` (`script.js`). Chữ ĐỘNG (track) thêm field `moodVi` + `descVi`; mood switcher thêm `labelVi`. Title track GIỮ tiếng Anh (khớp tên video thật trên YouTube). Lưu ý: `applyLanguage()` chạy TRƯỚC `fx.js` nên word-reveal của `<h2>` tách từ đúng ngữ.
 
 ### Format entry mẫu
 
@@ -63,6 +64,19 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 ---
 
 # 📅 Lịch sử update
+
+## [2026-06-21] — Thêm bộ chuyển ngữ Anh/Việt + dịch toàn bộ landing page
+**Agent/Người thực hiện:** Claude Code
+**Files thay đổi:** index.html, script.js, CHANGELOG.md
+**Nội dung:**
+- 🟢 **Nút chuyển ngữ EN / VI** trong nav (góc vuông, ngôn ngữ đang chọn tô gold — đúng phong cách Lamborghini). Dùng `<button>` (không phải `<a>`) nên KHÔNG bị rule ẩn link trên mobile; vẫn hiện trên điện thoại
+- 🟢 **Hệ i18n nhẹ, thuần JS** trong `script.js`: object `TRANSLATIONS` (en/vi) + `applyLanguage(lang)` quét `data-i18n` (textContent), `data-i18n-html` (chữ có `<em>`, dùng cho 2 marquee), `data-i18n-aria` (aria-label); đổi luôn `<html lang>` + `document.title`
+- 🟢 **Dịch toàn bộ landing page sang tiếng Việt:** nav, hero, mood switcher, logo wall, 3 feature card, "Cách thả trôi", Latest Release, Featured Tracks, FAQ (4 cặp Q&A), section email (đang ẩn), closing CTA, footer, + 2 dải marquee
+- 🟢 **Track song ngữ:** mỗi track thêm `moodVi` + `descVi`; mood switcher thêm `labelVi`. **Title track GIỮ tiếng Anh** (khớp tên video thật trên YouTube để người xem bấm vào thấy đúng video)
+- 🟢 **Ghi nhớ lựa chọn:** lưu `localStorage('viviLang')`; lần đầu tự nhận diện trình duyệt tiếng Việt → VI, còn lại mặc định EN (SEO/meta tĩnh vẫn English)
+- 🔧 Tương thích lớp 3D: `applyLanguage()` chạy TRƯỚC `fx.js` nên word-reveal tách từ `<h2>` đúng ngữ; đổi ngữ lúc đang chạy thì gọi `ScrollTrigger.refresh()`. Nút Preview audio chuyển sang `bindPreviewButtons()` (gắn lại sau mỗi lần render, cờ chống trùng listener)
+- ✅ Verify local (port 5174): 0 lỗi console; EN init → VI → EN round-trip đổi đúng toàn bộ (nav, hero, track, marquee, mood, h2 word-reveal, footer); localStorage lưu đúng; lớp 3D giữ nguyên, 6 track card render OK
+**Lý do / ghi chú:** Denis yêu cầu thêm chuyển ngữ tiếng Việt cho trang. Screenshot tool bị timeout do `fx.js` chạy rAF Three.js vô hạn (trang không "đứng yên") — đã verify đầy đủ bằng eval + a11y snapshot thay thế.
 
 ## [2026-06-12] — Cuộn mượt hơn + con trỏ nốt nhạc + tiêu đề gradient trắng→vàng
 **Agent/Người thực hiện:** Claude Code

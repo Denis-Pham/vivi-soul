@@ -195,6 +195,28 @@
     nav a:hover { color: var(--accent); }
     nav .btn-primary { margin-left: 24px; padding: 10px 20px; }
 
+    /* ===== Language switch (EN / VI) — góc vuông, active = gold ===== */
+    .lang-switch {
+      display: inline-flex; align-items: stretch;
+      margin-left: 28px;
+      border: 1px solid var(--border-strong);
+      vertical-align: middle;
+    }
+    .lang-switch button {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; letter-spacing: 1.5px; line-height: 1;
+      padding: 7px 10px; min-width: 38px;
+      background: transparent; color: var(--muted);
+      border: none; border-radius: 0;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .lang-switch button + button { border-left: 1px solid var(--border-strong); }
+    .lang-switch button[aria-pressed="true"] {
+      background: var(--accent); color: #0a0612; font-weight: 600;
+    }
+    .lang-switch button:not([aria-pressed="true"]):hover { color: var(--accent); }
+
     /* ===== Sections ===== */
     section { padding: 90px 0; }
     section h2 {
@@ -453,10 +475,14 @@
       .mood-switcher { flex-direction: column; gap: 10px; padding: 16px 20px; }
       .mood-text { min-width: 0; }
 
-      /* Top nav: hide menu links, keep only logo + Subscribe */
+      /* Top nav: hide menu links, keep logo + lang switch + Subscribe.
+         Lang switch dùng <button> nên không bị rule ẩn link bên dưới. */
       nav a:not(.btn) { display: none; }
-      nav .btn-primary { margin-left: 0; padding: 9px 16px; font-size: 12px; }
-      .topnav-inner { padding: 12px 18px; }
+      nav .btn-primary { margin-left: 12px; padding: 9px 14px; font-size: 12px; }
+      nav { display: flex; align-items: center; }
+      .lang-switch { margin-left: 0; }
+      .lang-switch button { padding: 6px 8px; min-width: 32px; font-size: 10px; letter-spacing: 1px; }
+      .topnav-inner { padding: 12px 18px; gap: 10px; }
       .logo { font-size: 18px; letter-spacing: 2px; }
 
       /* All grids collapse to a single column on phones */
@@ -577,11 +603,17 @@
     <div class="topnav-inner">
       <span class="logo">Vivi <span class="gold">Soul</span></span>
       <nav>
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
-        <a href="#featured-tracks">Tracks</a>
-        <a href="#faq">FAQ</a>
-        <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>Subscribe</a>
+        <a href="#features" data-i18n="nav.features">Features</a>
+        <a href="#how" data-i18n="nav.how">How it works</a>
+        <a href="#featured-tracks" data-i18n="nav.tracks">Tracks</a>
+        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+        <!-- Chuyển ngữ EN / VI — dùng <button> (không phải <a>) để KHÔNG bị
+             ẩn bởi rule "nav a:not(.btn){display:none}" trên mobile -->
+        <span class="lang-switch" id="langSwitch" role="group" aria-label="Language / Ngôn ngữ">
+          <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang="vi" lang="vi" aria-pressed="false">VI</button>
+        </span>
+        <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="nav.subscribe">Subscribe</span></a>
       </nav>
     </div>
   </header>
@@ -603,23 +635,23 @@
     </div>
     <div class="wrap">
       <section class="hero" data-od-id="hero">
-        <div class="eyebrow">— AI Music Channel —</div>
-        <h1>AI music for the gentle hours.</h1>
-        <p class="sub">Cinematic, soulful compositions for deep focus, late-night reflection, healing, and the bittersweet beauty of memories. Press play — and let the world soften.</p>
+        <div class="eyebrow" data-i18n="hero.eyebrow">— AI Music Channel —</div>
+        <h1 data-i18n="hero.title">AI music for the gentle hours.</h1>
+        <p class="sub" data-i18n="hero.sub">Cinematic, soulful compositions for deep focus, late-night reflection, healing, and the bittersweet beauty of memories. Press play — and let the world soften.</p>
         <div class="cta">
-          <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>Subscribe on YouTube</a>
-          <a class="btn-link" href="#latest-release">Explore latest release →</a>
+          <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="hero.cta.subscribe">Subscribe on YouTube</span></a>
+          <a class="btn-link" href="#latest-release" data-i18n="hero.cta.explore">Explore latest release →</a>
         </div>
 
         <!-- Mood switcher widget -->
         <div class="mood-switcher">
           <!-- Now-playing equalizer: purely decorative animated bars -->
           <span class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          <span class="mood-label" id="moodLabel">Tonight's mood:</span>
+          <span class="mood-label" id="moodLabel" data-i18n="mood.label">Tonight's mood:</span>
           <span class="mood-text" id="moodText" aria-live="polite" aria-atomic="true">Late-night soul</span>
-          <button class="btn-secondary mood-btn" id="moodBtn" aria-describedby="moodLabel">Change Mood ↻</button>
+          <button class="btn-secondary mood-btn" id="moodBtn" aria-describedby="moodLabel" data-i18n="mood.button">Change Mood ↻</button>
           <!-- Updated by script.js to point at a real track matching the current mood -->
-          <a class="mood-link" id="moodLink" href="https://www.youtube.com/watch?v=gJwebqoc5fg" target="_blank" rel="noopener noreferrer">Listen →</a>
+          <a class="mood-link" id="moodLink" href="https://www.youtube.com/watch?v=gJwebqoc5fg" target="_blank" rel="noopener noreferrer" data-i18n="mood.listen">Listen →</a>
         </div>
       </section>
     </div>
@@ -628,7 +660,7 @@
   <!-- ===== LOGO WALL ===== -->
   <section class="proof" data-od-id="proof">
     <div class="wrap">
-      <h2>For fans of</h2>
+      <h2 data-i18n="proof.title">For fans of</h2>
       <div class="logos">
         <span>Lofi Girl</span>
         <span>ChillHop</span>
@@ -642,56 +674,57 @@
   <!-- ===== FEATURES ===== -->
   <section class="features" id="features" data-od-id="features">
     <div class="wrap">
-      <h2>Why Vivi Soul</h2>
-      <p class="lede">Music designed for emotion, not algorithms. Three things we care about.</p>
+      <h2 data-i18n="features.title">Why Vivi Soul</h2>
+      <p class="lede" data-i18n="features.lede">Music designed for emotion, not algorithms. Three things we care about.</p>
       <div class="feature-grid">
         <div class="feature">
-          <span class="num">01 — Composition</span>
-          <h3>Cinematic by design</h3>
-          <p>Every track is structured like a short film — quiet openings, slow swells, and resolutions that linger. Not background noise.</p>
+          <span class="num" data-i18n="features.f1.num">01 — Composition</span>
+          <h3 data-i18n="features.f1.title">Cinematic by design</h3>
+          <p data-i18n="features.f1.body">Every track is structured like a short film — quiet openings, slow swells, and resolutions that linger. Not background noise.</p>
         </div>
         <div class="feature">
-          <span class="num">02 — Mood</span>
-          <h3>Healing soundscapes</h3>
-          <p>Soft piano, warm ambience, and gentle textures tuned for late-night calm, focused work, and recovering days.</p>
+          <span class="num" data-i18n="features.f2.num">02 — Mood</span>
+          <h3 data-i18n="features.f2.title">Healing soundscapes</h3>
+          <p data-i18n="features.f2.body">Soft piano, warm ambience, and gentle textures tuned for late-night calm, focused work, and recovering days.</p>
         </div>
         <div class="feature">
-          <span class="num">03 — Access</span>
-          <h3>Free to stream on YouTube</h3>
-          <p>No paywalls of any kind — the music lives on YouTube and is free to listen anywhere, anytime. (YouTube may show platform ads depending on your account and region.)</p>
+          <span class="num" data-i18n="features.f3.num">03 — Access</span>
+          <h3 data-i18n="features.f3.title">Free to stream on YouTube</h3>
+          <p data-i18n="features.f3.body">No paywalls of any kind — the music lives on YouTube and is free to listen anywhere, anytime. (YouTube may show platform ads depending on your account and region.)</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Marquee 1: dải mood chữ lớn, trôi ngang theo scroll (fx.js) -->
+  <!-- Marquee 1: dải mood chữ lớn, trôi ngang theo scroll (fx.js).
+       data-i18n-html vì chuỗi có thẻ <em> + &nbsp; -->
   <div class="marquee" id="mq1" aria-hidden="true">
     <div class="track">
-      <div class="chunk">deep focus — <em>late-night soul</em> — healing rain — <em>cinematic memories</em> — nostalgic love —&nbsp;</div>
-      <div class="chunk">deep focus — <em>late-night soul</em> — healing rain — <em>cinematic memories</em> — nostalgic love —&nbsp;</div>
+      <div class="chunk" data-i18n-html="mq1">deep focus — <em>late-night soul</em> — healing rain — <em>cinematic memories</em> — nostalgic love —&nbsp;</div>
+      <div class="chunk" data-i18n-html="mq1">deep focus — <em>late-night soul</em> — healing rain — <em>cinematic memories</em> — nostalgic love —&nbsp;</div>
     </div>
   </div>
 
   <!-- ===== HOW IT WORKS ===== -->
   <section class="how" id="how" data-od-id="how">
     <div class="wrap">
-      <h2>How to drift</h2>
-      <p class="lede">Three steps. No app to install.</p>
+      <h2 data-i18n="how.title">How to drift</h2>
+      <p class="lede" data-i18n="how.lede">Three steps. No app to install.</p>
       <div class="steps">
         <div class="step">
           <div class="circle">1</div>
-          <h3>Subscribe</h3>
-          <p>Follow Vivi Soul on YouTube to get every new track the moment it drops.</p>
+          <h3 data-i18n="how.s1.title">Subscribe</h3>
+          <p data-i18n="how.s1.body">Follow Vivi Soul on YouTube to get every new track the moment it drops.</p>
         </div>
         <div class="step">
           <div class="circle">2</div>
-          <h3>Pick a mood</h3>
-          <p>Focus, healing, late-night, nostalgic — choose the soundscape that fits the hour.</p>
+          <h3 data-i18n="how.s2.title">Pick a mood</h3>
+          <p data-i18n="how.s2.body">Focus, healing, late-night, nostalgic — choose the soundscape that fits the hour.</p>
         </div>
         <div class="step">
           <div class="circle">3</div>
-          <h3>Drift</h3>
-          <p>Press play, dim the lights, and let the music carry you for as long as you need.</p>
+          <h3 data-i18n="how.s3.title">Drift</h3>
+          <p data-i18n="how.s3.body">Press play, dim the lights, and let the music carry you for as long as you need.</p>
         </div>
       </div>
     </div>
@@ -700,9 +733,9 @@
   <!-- ===== LATEST RELEASE (rendered from featuredTracks[0]) ===== -->
   <section class="latest-release-section" id="latest-release" data-od-id="latest-release">
     <div class="section-header">
-      <p class="section-kicker">Latest Release</p>
-      <h2>Newest Release</h2>
-      <p>Press play and let the evening drift in.</p>
+      <p class="section-kicker" data-i18n="latest.kicker">Latest Release</p>
+      <h2 data-i18n="latest.title">Newest Release</h2>
+      <p data-i18n="latest.sub">Press play and let the evening drift in.</p>
     </div>
 
     <div class="latest-release-card" id="latest-release-card"></div>
@@ -711,9 +744,9 @@
   <!-- ===== TRACKS (data-driven from script.js) ===== -->
   <section class="tracks" id="featured-tracks" data-od-id="tracks">
     <div class="wrap">
-      <h2>Also from the channel</h2>
-      <p class="lede">Soft lo-fi soul, healing ambient, and cinematic pieces from the channel — pick the hour that fits yours. Tap to watch on YouTube.</p>
-      <p class="tracks-note">New releases land here as they drop — subscribe so you never miss the quiet ones.</p>
+      <h2 data-i18n="tracks.title">Also from the channel</h2>
+      <p class="lede" data-i18n="tracks.lede">Soft lo-fi soul, healing ambient, and cinematic pieces from the channel — pick the hour that fits yours. Tap to watch on YouTube.</p>
+      <p class="tracks-note" data-i18n="tracks.note">New releases land here as they drop — subscribe so you never miss the quiet ones.</p>
 
       <!-- The cards below are rendered by script.js from the `featuredTracks` array.
            To change a title, mood, or link, edit script.js — not this section. -->
@@ -732,32 +765,32 @@
   <!-- Marquee 2: lời mời nhẹ nhàng, trôi ngược hướng marquee 1 -->
   <div class="marquee" id="mq2" aria-hidden="true">
     <div class="track">
-      <div class="chunk">press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;</div>
-      <div class="chunk">press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;</div>
+      <div class="chunk" data-i18n-html="mq2">press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;</div>
+      <div class="chunk" data-i18n-html="mq2">press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;</div>
     </div>
   </div>
 
   <!-- ===== FAQ ===== -->
   <section class="faq" id="faq" data-od-id="faq">
     <div class="wrap">
-      <h2>Questions</h2>
-      <p class="lede">Things people often ask.</p>
+      <h2 data-i18n="faq.title">Questions</h2>
+      <p class="lede" data-i18n="faq.lede">Things people often ask.</p>
       <div class="faq-list">
         <details>
-          <summary>Is the music really AI-generated?</summary>
-          <p>Yes. Every track on Vivi Soul is composed with AI tools, then arranged, mixed, and curated by a human ear so the emotion lands. Think of it as a co-creation — machine + soul.</p>
+          <summary data-i18n="faq.q1">Is the music really AI-generated?</summary>
+          <p data-i18n="faq.a1">Yes. Every track on Vivi Soul is composed with AI tools, then arranged, mixed, and curated by a human ear so the emotion lands. Think of it as a co-creation — machine + soul.</p>
         </details>
         <details>
-          <summary>Is it free to listen?</summary>
-          <p>Always. The channel lives on YouTube and the music itself will never sit behind a paywall. If you want to support, subscribing and sharing means more than money.</p>
+          <summary data-i18n="faq.q2">Is it free to listen?</summary>
+          <p data-i18n="faq.a2">Always. The channel lives on YouTube and the music itself will never sit behind a paywall. If you want to support, subscribing and sharing means more than money.</p>
         </details>
         <details>
-          <summary>How often do new tracks drop?</summary>
-          <p>New pieces arrive regularly, usually late in the evening. Subscribe with the bell on so you don't miss the quieter releases.</p>
+          <summary data-i18n="faq.q3">How often do new tracks drop?</summary>
+          <p data-i18n="faq.a3">New pieces arrive regularly, usually late in the evening. Subscribe with the bell on so you don't miss the quieter releases.</p>
         </details>
         <details>
-          <summary>Can I use the music in my own videos?</summary>
-          <p>Reach out before commercial use. For personal projects, study sessions, and journaling streams — go ahead, just credit Vivi Soul in the description.</p>
+          <summary data-i18n="faq.q4">Can I use the music in my own videos?</summary>
+          <p data-i18n="faq.a4">Reach out before commercial use. For personal projects, study sessions, and journaling streams — go ahead, just credit Vivi Soul in the description.</p>
         </details>
       </div>
     </div>
@@ -768,22 +801,22 @@
        is configured (replace FORM_ID_TODO — see comment in script.js). -->
   <section class="updates" id="updates" data-od-id="updates">
     <div class="wrap">
-      <h2>Quiet mail, not noise.</h2>
-      <p class="lede">One gentle email when a new track drops. No spam, no daily digests — unsubscribe anytime.</p>
+      <h2 data-i18n="updates.title">Quiet mail, not noise.</h2>
+      <p class="lede" data-i18n="updates.lede">One gentle email when a new track drops. No spam, no daily digests — unsubscribe anytime.</p>
       <form class="email-form" id="emailForm" action="https://formspree.io/f/FORM_ID_TODO" method="POST">
-        <input type="email" name="email" required placeholder="your@email.com" aria-label="Email address" autocomplete="email">
-        <button type="submit" class="btn btn-primary">Notify me</button>
+        <input type="email" name="email" required placeholder="your@email.com" aria-label="Email address" data-i18n-aria="updates.aria" autocomplete="email">
+        <button type="submit" class="btn btn-primary" data-i18n="updates.button">Notify me</button>
       </form>
-      <p class="email-success" id="emailSuccess" hidden>Thank you — you're on the list. New releases will find you. 🤍</p>
+      <p class="email-success" id="emailSuccess" data-i18n="updates.success" hidden>Thank you — you're on the list. New releases will find you. 🤍</p>
     </div>
   </section>
 
   <!-- ===== CLOSING CTA ===== -->
   <section class="closing" id="closing" data-od-id="closing">
     <div class="wrap">
-      <h2>Stay close to the soul.</h2>
-      <p>Subscribe on YouTube — never miss a new release.</p>
-      <a class="btn btn-primary" style="padding: 16px 36px;" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>Subscribe on YouTube</a>
+      <h2 data-i18n="closing.title">Stay close to the soul.</h2>
+      <p data-i18n="closing.sub">Subscribe on YouTube — never miss a new release.</p>
+      <a class="btn btn-primary" style="padding: 16px 36px;" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="closing.cta">Subscribe on YouTube</span></a>
     </div>
   </section>
 
@@ -791,8 +824,8 @@
   <footer class="site wrap" data-od-id="footer">
     <span class="dot"></span>
     © <span id="year"></span> Vivi Soul ·
-    <a href="#faq">FAQ</a> ·
-    <a href="https://www.youtube.com/@ViviSoulmusic/about" target="_blank" rel="noopener noreferrer">Contact via YouTube</a>
+    <a href="#faq" data-i18n="footer.faq">FAQ</a> ·
+    <a href="https://www.youtube.com/@ViviSoulmusic/about" target="_blank" rel="noopener noreferrer" data-i18n="footer.contact">Contact via YouTube</a>
   </footer>
 
   </main><!-- /#page -->
