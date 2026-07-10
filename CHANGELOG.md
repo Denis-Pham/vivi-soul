@@ -65,6 +65,15 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-07-10] — 2 bug fix từ audit độc lập của Hermes Agent (pilot collab)
+**Agent/Người thực hiện:** Hermes Agent (audit + fix, kanban task t_027ddf70) → Claude Code review + merge → Denis duyệt
+**Files thay đổi:** script.js, CHANGELOG.md
+**Nội dung:**
+- 🔧 **Localize aria-label động** (`be29d42`): 3 chỗ card render động (thumbnail Featured/Latest, nút Preview) hardcode aria-label tiếng Anh — đổi sang VI thì chữ hiển thị đổi nhưng accessible name vẫn EN. Thêm 2 key `tracks.watchAria`/`tracks.previewAria` (EN+VI) render qua helper `t()` sẵn có
+- 🔧 **Xử lý Promise của `Audio.play()`** (`22e3f18`): trước đây bỏ qua Promise — preview lỗi/bị chặn autoplay thì UI kẹt trạng thái "đang phát" + unhandled rejection. Giờ await, reset UI khi reject, guard chống race khi click nút khác giữa chừng. (Hiện chưa track nào có `previewSrc` nên nút Preview chưa render — fix phòng thủ cho feature sẵn có)
+- ✅ Verify: Hermes chạy `node --check` script.js/fx.js PASS, i18n parity 67/67; Claude verify độc lập syntax + soi race case; diff chỉ chạm script.js (+16/−6)
+**Lý do / ghi chú:** Task thật đầu tiên của cơ chế collab Claude Code + Hermes (git sync qua bare repo `E:\HerBot\data\projects` + kanban board `project-x` — spec ở `Project X/docs/superpowers/specs/2026-07-10-claude-hermes-collab-design.md`). Hermes làm trên branch `hermes/site-audit`, Claude review, Denis duyệt merge. Lưu ý cho task sau: body task giao Hermes trên repo này PHẢI dặn đọc + ghi CHANGELOG.md (lần này Claude ghi bù).
+
 ## [2026-06-21] — Thêm bộ chuyển ngữ Anh/Việt + dịch toàn bộ landing page
 **Agent/Người thực hiện:** Claude Code
 **Files thay đổi:** index.html, script.js, CHANGELOG.md
