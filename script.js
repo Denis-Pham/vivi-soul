@@ -81,6 +81,8 @@ const TRANSLATIONS = {
     'tracks.note': 'New releases land here as they drop — subscribe so you never miss the quiet ones.',
     'tracks.watch': 'Watch on YouTube',
     'tracks.preview': 'Preview',
+    'tracks.watchAria': 'Watch {title} on YouTube',
+    'tracks.previewAria': 'Play a short preview of {title}',
 
     'faq.title': 'Questions',
     'faq.lede': 'Things people often ask.',
@@ -160,6 +162,8 @@ const TRANSLATIONS = {
     'tracks.note': 'Bản mới sẽ xuất hiện ở đây ngay khi ra mắt — đăng ký để không bỏ lỡ những bản lặng lẽ nhất.',
     'tracks.watch': 'Xem trên YouTube',
     'tracks.preview': 'Nghe thử',
+    'tracks.watchAria': 'Xem {title} trên YouTube',
+    'tracks.previewAria': 'Nghe thử một đoạn ngắn của {title}',
 
     'faq.title': 'Câu hỏi',
     'faq.lede': 'Những điều mọi người hay hỏi.',
@@ -318,7 +322,7 @@ function renderFeaturedTracks() {
     card.innerHTML = `
       <a class="track-thumbnail"
          href="${track.url}" target="_blank" rel="noopener noreferrer"
-         aria-label="Watch ${track.title} on YouTube">
+         aria-label="${t('tracks.watchAria').replace('{title}', track.title)}">
         <img src="${thumbnailSrc}" alt="${track.title}" loading="lazy"
              onerror="this.onerror=null;this.src='${thumbnailFallback}';">
         <span class="play-badge" aria-hidden="true"></span>
@@ -327,7 +331,7 @@ function renderFeaturedTracks() {
       <h3>${track.title}</h3>
       <p class="desc">${trackDesc(track)}</p>
       ${track.previewSrc ? `
-      <button class="preview-btn" data-preview="${track.previewSrc}" aria-label="Play a short preview of ${track.title}">
+      <button class="preview-btn" data-preview="${track.previewSrc}" aria-label="${t('tracks.previewAria').replace('{title}', track.title)}">
         <span class="preview-icon" aria-hidden="true">▶</span> ${t('tracks.preview')}
       </button>` : ''}
       <a class="btn btn-secondary" style="width: 100%;"
@@ -361,7 +365,7 @@ function renderLatestRelease() {
   container.innerHTML = `
     <a class="latest-release-thumbnail"
        href="${latestTrack.url}" target="_blank" rel="noopener noreferrer"
-       aria-label="Watch ${latestTrack.title} on YouTube">
+       aria-label="${t('tracks.watchAria').replace('{title}', latestTrack.title)}">
       <img src="${thumbnailSrc}" alt="${latestTrack.title}" loading="lazy"
            onerror="this.onerror=null;this.src='${thumbnailFallback}';">
       <span class="play-badge" aria-hidden="true"></span>
