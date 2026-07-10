@@ -587,15 +587,21 @@ function bindPreviewButtons() {
   document.querySelectorAll('.preview-btn').forEach(btn => {
     if (btn.dataset.bound) return;   // tránh gắn listener trùng
     btn.dataset.bound = '1';
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
       if (activePreviewBtn === btn) { stopPreview(); return; }   // tap again = stop
       stopPreview();
       previewPlayer.src = btn.dataset.preview;
-      previewPlayer.play();
+      activePreviewBtn = btn;
+      try {
+        await previewPlayer.play();
+      } catch (err) {
+        if (activePreviewBtn === btn) stopPreview();
+        return;
+      }
+      if (activePreviewBtn !== btn) return;
       btn.classList.add('playing');
       const icon = btn.querySelector('.preview-icon');
       if (icon) icon.textContent = '❚❚';
-      activePreviewBtn = btn;
     });
   });
 }
