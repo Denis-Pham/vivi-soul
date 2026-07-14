@@ -1,0 +1,8 @@
+# Vivi Soul — cho phép mọi crawler
+# Lưu ý: với GitHub Pages dạng project site (denis-pham.github.io/vivi-soul/),
+# crawler chỉ đọc robots.txt ở domain gốc — file này phát huy tác dụng đầy đủ
+# khi gắn custom domain (TODO trong CHANGELOG).
+User-agent: *
+Allow: /
+
+Sitemap: https://denis-pham.github.io/vivi-soul/sitemap.xml

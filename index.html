@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vivi Soul — Emotional AI music for the gentle hours</title>
+  <title>Vivi Soul — AI music for the gentle hours</title>
 
   <!-- ===== SEO ===== -->
   <meta name="description" content="Vivi Soul — cinematic, soulful AI music for deep focus, late-night reflection, healing, and the bittersweet beauty of memories. Free to stream on YouTube." />
-  <meta name="theme-color" content="#030107" />
+  <meta name="theme-color" content="#050308" />
   <meta name="author" content="Vivi Soul" />
   <link rel="canonical" href="https://denis-pham.github.io/vivi-soul/" />
 
@@ -17,741 +17,694 @@
   <meta property="og:title" content="Vivi Soul — AI music for the gentle hours" />
   <meta property="og:description" content="Cinematic, soulful AI music for deep focus, late-night reflection, and healing. Press play — and let the world soften." />
   <meta property="og:url" content="https://denis-pham.github.io/vivi-soul/" />
-  <meta property="og:image" content="https://img.youtube.com/vi/gJwebqoc5fg/maxresdefault.jpg" />
-  <meta property="og:image:width" content="1280" />
-  <meta property="og:image:height" content="720" />
+  <!-- OG image ổn định, có thương hiệu (không phụ thuộc thumbnail YouTube) -->
+  <meta property="og:image" content="https://denis-pham.github.io/vivi-soul/assets/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
 
   <!-- ===== Twitter / X card ===== -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Vivi Soul — AI music for the gentle hours" />
   <meta name="twitter:description" content="Cinematic, soulful AI music for deep focus, late-night reflection, and healing." />
-  <meta name="twitter:image" content="https://img.youtube.com/vi/gJwebqoc5fg/maxresdefault.jpg" />
+  <meta name="twitter:image" content="https://denis-pham.github.io/vivi-soul/assets/og-image.jpg" />
 
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2306030d'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='40' font-weight='700' text-anchor='middle' fill='%23d4af37'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23050308'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='40' font-weight='700' text-anchor='middle' fill='%23D5AE36'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/vivi-soul-logo.jpg">
 
-  <!-- ===== Fonts (preconnect speeds up first paint) ===== -->
+  <!-- ===== Fonts (Cormorant Garamond: display serif · Manrope: UI/body — cả hai hỗ trợ tiếng Việt) ===== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
   <!-- ===== FX libs (CDN — không build tool, đúng quy ước project) =====
-       GSAP + ScrollTrigger: choreography theo scroll. Lenis: cuộn mượt.
-       Three.js (importmap): lớp 3D wireframe phía sau trang — fx.js.
-       Nếu CDN bị chặn, fx.js tự tắt và trang hoạt động như cũ. -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+       Lenis (cuộn mượt) + Three.js (lớp 3D wireframe — fx.js).
+       GSAP đã gỡ từ bản redesign 2026-07: motion "breathing, not
+       performing", nội dung không bao giờ chờ hiệu ứng mới hiện.
+       Nếu CDN bị chặn, fx.js tự tắt và trang hoạt động đầy đủ như thường. -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script type="importmap">
   { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
   </script>
 
-  <!-- ===== Structured data (helps Google show rich results) ===== -->
+  <!-- ===== Structured data ===== -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "MusicGroup",
     "name": "Vivi Soul",
-    "genre": ["Ambient", "Cinematic", "Lo-fi", "Healing"],
-    "description": "Emotional AI music for deep focus, late-night reflection, healing, and nostalgic memories.",
+    "genre": ["Ambient", "Cinematic", "Lo-fi", "Soul"],
+    "description": "Emotional AI-assisted music for deep focus, late-night reflection, healing, and nostalgic memories.",
     "url": "https://www.youtube.com/@ViviSoulmusic",
     "sameAs": ["https://www.youtube.com/@ViviSoulmusic"]
   }
   </script>
+
   <style>
-    /* ===== Theme tokens (Vivi Soul palette) =====
-       Dark-luxury pass (Lamborghini DESIGN.md): near-absolute black canvas,
-       elevation by surface lightening (#0b → #14) instead of shadows,
-       gold reserved for primary CTAs and small accents, neutral hairlines. */
+    /* =========================================================
+       VIVI SOUL DESIGN SYSTEM — tokens
+       Nguồn: claude.ai design project "Vivi Soul Design System"
+       (bản spec đầy đủ lưu ở DESIGN.md). Ấm, điện ảnh, thân mật:
+       nền ink & plum, chữ warm ivory (KHÔNG trắng tinh), hành động
+       antique gold, nhấn cảm xúc dusk rose. Elevation = làm sáng
+       bề mặt (ink → plum → violet), không dùng shadow nặng.
+       ========================================================= */
     :root {
-      --bg: #030107;
-      --surface: #0b0813;
-      --surface-2: #140e20;
-      --fg: #f2eef8;
-      --muted: #c5b8d6;             /* lifted from #a89bc0 for better readability */
-      --muted-soft: #8a7da0;
-      --border: rgba(255, 255, 255, 0.09);
-      --border-strong: rgba(255, 255, 255, 0.24);
-      --accent: #d4af37;          /* gold */
-      --accent-deep: #a8841f;     /* pressed/hover gold */
-      --accent-soft: #f4e4a6;
-      --accent-2: #9333d4;        /* purple */
-      --accent-2-soft: #b04ae8;
+      /* ---- Ink & plum ramp (nền → bề mặt) ---- */
+      --ink-900: #050308;
+      --ink-800: #0B0611;
+      --plum-900: #16091F;
+      --plum-800: #1F0E2C;
+      --plum-700: #2A1339;
+      --violet-700: #32104A;
+      --violet-600: #45215F;
+
+      /* ---- Ivory & lavender (chữ) ---- */
+      --ivory: #F3EEE4;
+      --ivory-dim: #DAD3C6;
+      --lavender: #B9AFBF;
+      --lavender-mut: #9A8FA6;
+      --smoke: #6E6577;
+
+      /* ---- Antique gold (hành động / accent) ---- */
+      --gold: #D5AE36;
+      --gold-soft: #E8CE7A;
+      --gold-ember: #A97720;
+      --gold-deep: #7A5518;
+
+      /* ---- Nhấn cảm xúc (rose / burgundy) ---- */
+      --rose: #C77B86;
+      --rose-soft: #E3A9AF;
+      --burgundy: #5E2130;
+
+      --on-gold: #1A0E05;
+
+      /* ---- Semantic aliases (ưu tiên dùng trong component) ---- */
+      --bg: var(--ink-900);
+      --surface: var(--plum-900);
+      --surface-raised: var(--plum-800);
+      --surface-hover: var(--plum-700);
+      --fg: var(--ivory);
+      --muted: var(--lavender);
+      --muted-soft: var(--lavender-mut);
+      --accent: var(--gold);
+      --accent-soft: var(--gold-soft);
+      --accent-deep: var(--gold-ember);
+
+      --border: rgba(243, 238, 228, 0.10);
+      --border-strong: rgba(243, 238, 228, 0.22);
+      --border-gold: rgba(213, 174, 54, 0.32);
+      --border-focus: var(--gold-soft);
+
+      --status-success: #7FB08A;
+      --status-error: #D98A8A;
+
+      --glow-violet: rgba(120, 58, 180, 0.28);
+      --glow-gold: rgba(213, 174, 54, 0.14);
+      --glow-rose: rgba(199, 123, 134, 0.16);
+      --scrim: rgba(5, 3, 8, 0.72);
+      --scrim-strong: rgba(5, 3, 8, 0.88);
+
+      /* ---- Typography ---- */
+      --font-display: 'Cormorant Garamond', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+      --font-ui: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+      --fs-hero: clamp(2.75rem, 1.6rem + 6vw, 6.5rem);
+      --fs-display: clamp(2.25rem, 1.4rem + 4.2vw, 4.5rem);
+      --fs-title: clamp(1.9rem, 1.35rem + 2.6vw, 3.25rem);
+      --fs-heading: clamp(1.5rem, 1.2rem + 1.4vw, 2.375rem);
+      --fs-subheading: clamp(1.3125rem, 1.15rem + 0.8vw, 1.6875rem);
+      --fs-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.1875rem);
+      --fs-body: 1rem;
+      --fs-sm: 0.875rem;
+      --fs-xs: 0.78125rem;
+      --fs-eyebrow: 0.75rem;
+      --fs-micro: 0.6875rem;
+
+      --lh-display: 1.02;
+      --lh-tight: 1.12;
+      --lh-heading: 1.22;
+      --lh-snug: 1.4;
+      --lh-body: 1.65;
+      --lh-relaxed: 1.78;
+
+      --tracking-eyebrow: 0.28em;
+      --tracking-wide: 0.16em;
+      --tracking-label: 0.1em;
+      --tracking-display: -0.01em;
+
+      /* ---- Spacing / layout ---- */
+      --section-y: clamp(3.5rem, 2rem + 6vw, 7rem);
+      --container: 1200px;
+      --container-wide: 1360px;
+      --container-narrow: 760px;
+      --gutter: clamp(1.125rem, 0.5rem + 3vw, 2.5rem);
+      --tap-min: 44px;
+      --control-h: 48px;
+      --control-h-sm: 38px;
+
+      /* ---- Hình khối / elevation / chuyển động ---- */
+      --radius-xs: 2px;
+      --radius-sm: 4px;
+      --radius-pill: 999px;
+      --shadow-sm: 0 2px 10px rgba(5, 3, 8, 0.35);
+      --shadow-md: 0 10px 30px rgba(5, 3, 8, 0.45);
+      --shadow-lg: 0 20px 60px rgba(5, 3, 8, 0.55);
+      --shadow-glow-gold: 0 0 40px rgba(213, 174, 54, 0.18);
+      --shadow-glow-violet: 0 0 60px rgba(120, 58, 180, 0.22);
+      --blur-nav: 14px;
+      --blur-soft: 8px;
+      --dur-fast: 220ms;
+      --dur: 400ms;
+      --dur-slow: 700ms;
+      --dur-reveal: 900ms;
+      --dur-drift: 16s;
+      --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+      --ease-drift: cubic-bezier(0.45, 0, 0.55, 1);
     }
 
     /* ===== Base ===== */
-    * { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       background: var(--bg);
       color: var(--fg);
-      font: 16px/1.65 'Inter', -apple-system, system-ui, sans-serif;
+      font-family: var(--font-ui);
       font-weight: 300;
-      overflow-x: hidden;        /* safety net: never allow sideways scroll */
+      font-size: var(--fs-body);
+      line-height: var(--lh-body);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
-    img, svg { max-width: 100%; height: auto; }   /* media never overflows its column */
-    html { scroll-behavior: smooth; }
+    img, svg { max-width: 100%; height: auto; }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--gold-soft); }
+    ::selection { background: rgba(213, 174, 54, 0.28); color: var(--ivory); }
 
-    /* Skip link — hidden off-screen until a keyboard user tabs to it */
-    .skip-link {
-      position: absolute; left: 16px; top: -48px;
-      z-index: 999;
-      background: var(--accent); color: var(--bg);
-      padding: 10px 18px; border-radius: 8px;
-      font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
-      transition: top 0.2s ease;
-    }
-    .skip-link:focus { top: 16px; outline: 2px solid var(--accent-soft); }
-
-    /* Visible focus ring for keyboard navigation */
-    a:focus-visible, button:focus-visible, summary:focus-visible {
-      outline: 2px solid var(--accent-soft);
-      outline-offset: 3px;
-      border-radius: 4px;
-    }
-    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; letter-spacing: 0.02em; }
-    a { color: var(--accent); text-decoration: none; }
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
-
-    /* ===== Buttons =====
-       Sharp rectangles (zero radius), interactions are color-only —
-       no hover lifts or scaling. Gold = primary action exclusively. */
-    button, .btn {
-      font: inherit; cursor: pointer; padding: 14px 26px;
-      border-radius: 0; font-weight: 500; font-size: 13px;
-      letter-spacing: 2px; text-transform: uppercase;
-      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-      display: inline-block;
-      text-align: center; text-decoration: none;
-    }
-
-    /* YouTube icon inside buttons */
-    .yt-icon {
-      width: 18px; height: 18px;
-      vertical-align: -4px;          /* lines the icon up with the text */
-      margin-right: 8px;
-      fill: currentColor;            /* icon color follows the button's text color */
-    }
-
-    /* Small note under Featured Tracks */
-    .tracks-note {
-      max-width: 56ch;
-      margin: -32px auto 48px;       /* tightens space under .lede */
-      text-align: center;
-      color: var(--muted);
-      font-size: 13.5px;
-      font-style: italic;
-      opacity: 0.85;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #0a0612; border: 1px solid transparent;
+    h1, h2, h3 {
+      font-family: var(--font-display);
       font-weight: 600;
+      letter-spacing: var(--tracking-display);
     }
-    .btn-primary:hover { background: var(--accent-deep); color: #0a0612; }
-    .btn-secondary {
-      background: transparent; color: var(--fg);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-    }
-    .btn-secondary:hover { border-color: #ffffff; color: #ffffff; background: rgba(255, 255, 255, 0.06); }
-    .btn-link {
-      background: transparent; border: none; color: var(--accent);
-      padding: 12px 0; text-transform: uppercase; letter-spacing: 1px;
-    }
-    .btn-link:hover { color: var(--accent-soft); }
 
-    /* ===== Nav — ghim cố định, nền kính mờ ===== */
+    /* Skip link */
+    .skip-link {
+      position: fixed; left: 16px; top: -60px; z-index: 9998;
+      background: var(--gold); color: var(--on-gold);
+      padding: 10px 18px; border-radius: var(--radius-sm);
+      font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+      transition: top var(--dur-fast) var(--ease-soft);
+    }
+    .skip-link:focus { top: 16px; color: var(--on-gold); outline: 2px solid var(--gold-soft); }
+
+    a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 3px;
+      border-radius: var(--radius-xs);
+    }
+
+    /* ===== Layout primitives ===== */
+    .container { width: 100%; max-width: var(--container); margin: 0 auto; padding-inline: var(--gutter); }
+    .container--narrow { max-width: var(--container-narrow); }
+    section { padding-block: var(--section-y); position: relative; }
+    .section--hairline { border-top: 1px solid var(--border); }
+
+    .section-head { max-width: 46rem; margin-bottom: clamp(2rem, 1rem + 3vw, 3.5rem); }
+    .section-head--center { margin-inline: auto; text-align: center; }
+    section h2 {
+      font-size: var(--fs-title);
+      line-height: var(--lh-tight);
+      color: var(--fg);
+      margin: 0;
+    }
+    .lede {
+      font-family: var(--font-ui); font-weight: 300;
+      font-size: var(--fs-lead); line-height: var(--lh-relaxed);
+      color: var(--muted); max-width: 42ch; margin: 1.1rem 0 0;
+    }
+    .section-head--center .lede { margin-inline: auto; }
+
+    /* Eyebrow — nhãn nhỏ in hoa tracked, motif editorial */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.7em;
+      font-family: var(--font-ui);
+      font-size: var(--fs-eyebrow); font-weight: 600;
+      letter-spacing: var(--tracking-eyebrow); text-transform: uppercase;
+      line-height: 1; margin: 0 0 1.1rem;
+      color: var(--gold);
+    }
+    .eyebrow--rose { color: var(--rose); }
+    .eyebrow--muted { color: var(--muted-soft); }
+    .eyebrow .rule { display: inline-block; width: 2.2em; height: 1px; background: currentColor; opacity: 0.7; flex: none; }
+
+    /* =========================================================
+       Header — sticky, kính mờ, thu gọn khi cuộn
+       (đặt NGOÀI #page — tránh mọi rắc rối transform trong quá khứ)
+       ========================================================= */
     header.topnav {
       position: fixed; top: 0; left: 0; right: 0;
-      z-index: 9985;                 /* trên nội dung, dưới progress bar (9995) */
-      background: rgba(3, 1, 7, 0.72);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      z-index: 9985;
+      background: rgba(5, 3, 8, 0.72);
+      backdrop-filter: blur(var(--blur-nav));
+      -webkit-backdrop-filter: blur(var(--blur-nav));
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--dur) var(--ease-soft), background var(--dur) var(--ease-soft);
+    }
+    header.topnav[data-scrolled="true"] {
+      border-bottom-color: var(--border);
+      background: rgba(5, 3, 8, 0.86);
     }
     .topnav-inner {
-      display: flex; justify-content: space-between; align-items: center;
-      max-width: 1080px; margin: 0 auto;
-      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      max-width: var(--container-wide); margin: 0 auto;
+      padding: 1.1rem var(--gutter);
+      transition: padding var(--dur) var(--ease-soft);
     }
-    /* nội dung hero nhường chỗ cho header cố định */
-    .hero-shell { padding-top: 72px; }
-    /* anchor jump không bị header che (fallback khi không có Lenis) */
-    section[id], #latest-release, #main-content { scroll-margin-top: 90px; }
-    .logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700; font-size: 22px; letter-spacing: 3px;
-    }
-    .logo .gold {
-      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    nav a {
-      color: var(--muted); margin-left: 28px; font-size: 13px;
-      letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Inter', sans-serif;
-      transition: color 0.3s;
-    }
-    nav a:hover { color: var(--accent); }
-    nav .btn-primary { margin-left: 24px; padding: 10px 20px; }
+    header.topnav[data-scrolled="true"] .topnav-inner { padding-block: 0.65rem; }
 
-    /* ===== Language switch (EN / VI) — góc vuông, active = gold ===== */
-    .lang-switch {
-      display: inline-flex; align-items: stretch;
-      margin-left: 28px;
-      border: 1px solid var(--border-strong);
-      vertical-align: middle;
-    }
-    .lang-switch button {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px; letter-spacing: 1.5px; line-height: 1;
-      padding: 7px 10px; min-width: 38px;
-      background: transparent; color: var(--muted);
-      border: none; border-radius: 0;
-      text-transform: uppercase; cursor: pointer;
-      transition: background 0.25s ease, color 0.25s ease;
-    }
-    .lang-switch button + button { border-left: 1px solid var(--border-strong); }
-    .lang-switch button[aria-pressed="true"] {
-      background: var(--accent); color: #0a0612; font-weight: 600;
-    }
-    .lang-switch button:not([aria-pressed="true"]):hover { color: var(--accent); }
+    .brand { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--fg); }
+    .brand:hover { color: var(--fg); }
+    .brand-logo { width: 34px; height: 34px; border-radius: 50%; display: block; border: 1px solid var(--border-gold); flex: none; }
+    .brand-name { font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; letter-spacing: 0.02em; line-height: 1; white-space: nowrap; }
+    .brand-name em { font-style: normal; color: var(--gold); }
 
-    /* ===== Sections ===== */
-    section { padding: 90px 0; }
-    section h2 {
-      font-size: clamp(32px, 4.5vw, 48px);
-      margin: 0 0 16px; text-align: center;
-      text-transform: uppercase; line-height: 1.1;
+    nav.mainnav { display: flex; align-items: center; gap: clamp(1rem, 0.4rem + 1.4vw, 2rem); }
+    nav.mainnav a {
+      font-family: var(--font-ui); font-size: var(--fs-sm); font-weight: 500;
+      letter-spacing: 0.04em; color: var(--muted); white-space: nowrap;
+      transition: color var(--dur-fast) var(--ease-soft);
     }
-    section .lede {
-      text-align: center; color: var(--muted);
-      max-width: 56ch; margin: 0 auto 56px; font-size: 17px;
-    }
+    nav.mainnav a:hover { color: var(--gold); }
+    .topnav-actions { display: flex; align-items: center; gap: 0.9rem; }
+    .menu-btn { display: none; }
 
-    /* ===== Hero ===== */
-    .hero {
-      padding: 100px 0 110px; text-align: left;
-      min-height: 72vh;
-      display: flex; flex-direction: column; justify-content: center;
-      align-items: flex-start;
+    /* Mobile menu sheet */
+    .mobile-nav { display: none; }
+    .mobile-nav[data-open="true"] {
+      display: block; position: fixed; inset: 0; z-index: 9992;
+      background: var(--scrim-strong);
+      backdrop-filter: blur(var(--blur-nav));
+      -webkit-backdrop-filter: blur(var(--blur-nav));
+      padding: 5rem var(--gutter) 2rem;
+    }
+    .mobile-nav-links { display: flex; flex-direction: column; gap: 0.4rem; }
+    .mobile-nav-links a {
+      font-family: var(--font-display); font-size: 1.8rem; color: var(--fg);
+      padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+    }
+    .mobile-nav-links a:hover { color: var(--gold); }
+    .mobile-nav-close { position: absolute; top: 1.4rem; right: var(--gutter); }
+    .mobile-nav-foot { margin-top: 2rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+    /* nội dung nhường chỗ cho header cố định + anchor không bị che */
+    #page { padding-top: 76px; }
+    section[id], #main-content { scroll-margin-top: 90px; }
+
+    /* =========================================================
+       Hero — "giờ hiện tại": chữ + hành động bên trái, Vivi bên phải
+       ========================================================= */
+    .hero { padding-block: clamp(3rem, 1.5rem + 5vw, 5.5rem) clamp(3.5rem, 2rem + 5vw, 6rem); }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: center;
     }
     .hero h1 {
-      font-size: clamp(48px, 7.5vw, 96px); line-height: 0.98;
-      text-transform: uppercase;
-      max-width: 16ch; margin: 0 0 28px;
-      background: linear-gradient(180deg, #ffffff 35%, var(--accent) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 60px rgba(212, 175, 55, 0.08);
+      font-size: var(--fs-hero); line-height: var(--lh-display);
+      margin: 1.4rem 0 0; color: var(--fg);
+      text-wrap: balance; max-width: 15ch;
     }
-    .hero .eyebrow {
-      font-family: 'Inter', sans-serif; font-size: 12px;
-      letter-spacing: 6px; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 24px;
+    .hero .sub {
+      font-size: var(--fs-lead); font-weight: 300; line-height: var(--lh-relaxed);
+      color: var(--muted); max-width: 46ch; margin: 1.5rem 0 0;
     }
-    .hero p.sub {
-      font-size: 19px; color: var(--muted);
-      max-width: 54ch; margin: 0 0 40px; font-weight: 300;
-    }
-    .hero .cta { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2rem; }
 
-    /* Mood switcher widget */
-    .mood-switcher {
-      margin-top: 48px;
-      display: inline-flex; align-items: center; gap: 16px;
-      padding: 16px 22px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 0;
-      flex-wrap: wrap;
+    /* Now-playing chip (JS đổ tên bản mới nhất từ featuredTracks[0]) */
+    .hero-now {
+      margin-top: 2.25rem; display: inline-flex; align-items: center; gap: 0.9rem;
+      padding: 0.8rem 1.1rem;
+      background: rgba(22, 9, 31, 0.7);
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      flex-wrap: wrap; color: var(--fg);
     }
-    .mood-label {
-      font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
-      color: var(--muted);
+    .hero-now:hover { color: var(--fg); border-color: var(--border-strong); }
+    .hero-now-label {
+      font-family: var(--font-ui); font-size: var(--fs-micro);
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted-soft);
     }
-    .mood-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px; font-style: italic;
-      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      transition: opacity 0.4s ease;
-      min-width: 180px;
-    }
-    .mood-text.fade { opacity: 0; }
-    .mood-btn { padding: 8px 16px; font-size: 11px; }
-    .hero-bg {
-      position: absolute; inset: 0; z-index: -1;
-      background:
-        radial-gradient(ellipse 60% 40% at 70% 30%, rgba(147, 51, 212, 0.22), transparent 70%),
-        radial-gradient(ellipse 50% 35% at 20% 80%, rgba(212, 175, 55, 0.08), transparent 70%);
-      pointer-events: none;
-    }
-    .hero-shell { position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
-    /* Thin gold horizon line at the foot of the hero — nod to the
-       Lamborghini hero progress bar */
-    .hero-shell::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0;
-      width: 140px; height: 2px;
-      background: var(--accent);
+    .hero-now-title {
+      font-family: var(--font-display); font-style: italic;
+      font-size: 1.2rem; color: var(--gold-soft); line-height: 1.1;
     }
 
-    /* ===== Logo wall ===== */
-    .proof { text-align: center; padding: 60px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
-    .proof h2 {
-      font-family: 'Inter', sans-serif; font-size: 12px;
-      text-transform: uppercase; letter-spacing: 4px;
-      color: var(--muted); margin: 0 0 28px; font-weight: 500;
+    /* Vivi identity — emblem thật trong vòng orbit, chờ art chân dung sau */
+    .hero-visual { position: relative; }
+    .vivi-portrait {
+      position: relative; border: 1px solid var(--border-gold);
+      border-radius: var(--radius-sm); overflow: hidden;
+      box-shadow: var(--shadow-lg);
     }
-    .logos {
-      display: flex; justify-content: center; gap: 56px; flex-wrap: wrap;
-      opacity: 0.55; font-family: 'Cormorant Garamond', serif;
-      font-weight: 600; font-size: 19px; letter-spacing: 1px; color: var(--fg);
+    .vivi-identity {
+      position: relative; aspect-ratio: 4 / 5; display: grid; place-items: center;
+      background: radial-gradient(120% 90% at 50% 35%, var(--violet-700), var(--plum-900) 70%);
+      overflow: hidden;
     }
-
-    /* ===== Features ===== */
-    .features { background: var(--bg); }
-    .feature-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    .vivi-identity::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, transparent 40%, rgba(5, 3, 8, 0.55) 100%),
+                  radial-gradient(120% 90% at 70% 10%, rgba(213, 174, 54, 0.12), transparent 60%);
     }
-    .feature {
-      padding: 36px; background: var(--surface);
-      border: 1px solid var(--border); border-radius: 0;
-      transition: background 0.4s ease, border-color 0.4s ease;
+    .vivi-identity--rose {
+      background: radial-gradient(120% 90% at 50% 35%, #3A1030, var(--plum-900) 72%);
     }
-    .feature:hover {
-      border-color: var(--border-strong);
-      background: var(--surface-2);
+    .vivi-orbit {
+      position: absolute; border-radius: 50%; border: 1px solid var(--border-gold); opacity: 0.5;
+      width: 78%; aspect-ratio: 1;
     }
-    .feature .num {
-      font-family: 'Inter', sans-serif; font-size: 11px;
-      letter-spacing: 3px; color: var(--accent);
-      text-transform: uppercase; margin-bottom: 16px; display: block;
+    .vivi-orbit--inner { width: 58%; border-color: rgba(199, 123, 134, 0.28); opacity: 0.6; }
+    .vivi-emblem {
+      width: 52%; border-radius: 50%; position: relative; z-index: 1;
+      box-shadow: var(--shadow-glow-violet);
     }
-    .feature h3 { font-size: 24px; margin: 0 0 10px; color: var(--fg); }
-    .feature p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
-
-    /* ===== How it works ===== */
-    .how { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .steps {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
-      counter-reset: step;
-    }
-    .step { text-align: center; }
-    /* Hexagonal step badge — geometric motif borrowed from the
-       Lamborghini design system (hexagon pause button / icon DNA) */
-    .step .circle {
-      width: 68px; height: 60px;
-      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-      margin: 0 auto 20px;
-      background: var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px; font-weight: 700; color: #0a0612;
-    }
-    .step h3 { font-size: 22px; margin: 0 0 10px; }
-    .step p { color: var(--muted); font-size: 15px; margin: 0; }
-
-    /* ===== Tracks (replaces pricing) ===== */
-    .tracks-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
-      margin-top: 16px;
-    }
-    .tier {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 0; padding: 32px;
-      transition: background 0.4s ease, border-color 0.4s ease; position: relative;
-    }
-    .tier:hover { background: var(--surface-2); border-color: var(--border-strong); }
-    .tier .mood {
-      font-family: 'Inter', sans-serif; font-size: 10px;
-      letter-spacing: 2.5px; color: var(--accent);
-      text-transform: uppercase; display: block; margin-bottom: 8px;
-    }
-    .tier h3 { font-size: 26px; margin: 0 0 10px; }
-    .tier p.desc { color: var(--muted); font-size: 14.5px; margin: 0 0 22px; line-height: 1.7; }
-    .tier button { width: 100%; }
-
-    /* ===== FAQ ===== */
-    .faq { background: var(--surface); border-top: 1px solid var(--border); }
-    .faq-list { max-width: 720px; margin: 0 auto; }
-    details {
-      border-bottom: 1px solid var(--border);
-      padding: 22px 4px;
-    }
-    details summary {
-      cursor: pointer; list-style: none; font-family: 'Cormorant Garamond', serif;
-      font-size: 22px; color: var(--fg); display: flex;
-      justify-content: space-between; align-items: center;
-      transition: color 0.3s;
-    }
-    details summary::-webkit-details-marker { display: none; }
-    details summary::after {
-      content: '+'; color: var(--accent); font-size: 24px;
-      transition: transform 0.3s;
-    }
-    details[open] summary::after { transform: rotate(45deg); }
-    details summary:hover { color: var(--accent); }
-    details p {
-      margin: 14px 0 0; color: var(--muted); font-size: 15px;
-      line-height: 1.8;
+    .vivi-caption {
+      position: absolute; left: 1rem; bottom: 1rem; z-index: 2;
+      font-family: var(--font-display); font-style: italic; font-size: 1.05rem;
+      color: var(--ivory); text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6); max-width: 80%;
     }
 
-    /* ===== Closing CTA ===== */
-    .closing {
-      /* nền trong suốt (chỉ giữ quầng tím) để lộ vòng hào quang 3D phía sau */
-      background: radial-gradient(ellipse at center, rgba(147, 51, 212, 0.28), transparent 65%);
-      text-align: center; padding: 110px 0;
+    /* =========================================================
+       Mood selector — "đây là giờ phút như thế nào?"
+       Chips + feature panel render bởi script.js (data MOODS).
+       ========================================================= */
+    .mood-layout {
+      display: grid; grid-template-columns: 320px 1fr;
+      gap: clamp(1.5rem, 1rem + 2vw, 2.75rem); align-items: stretch;
     }
+    .mood-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .mood-feature {
+      position: relative; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      background: rgba(22, 9, 31, 0.6);
+      padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+      display: flex; flex-direction: column; gap: 1.2rem;
+    }
+    .mood-feature-desc {
+      font-family: var(--font-display); font-style: italic;
+      font-size: var(--fs-subheading); line-height: var(--lh-snug);
+      color: var(--fg); margin: 0; max-width: 34ch;
+    }
+    .mood-feature-thumb {
+      position: relative; display: block; border-radius: var(--radius-sm);
+      overflow: hidden; border: 1px solid var(--border); margin-top: auto;
+    }
+    .mood-feature-foot {
+      display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center; justify-content: space-between;
+    }
+    .mood-feature-reco {
+      margin: 0; font-family: var(--font-ui); font-size: var(--fs-micro);
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted-soft);
+    }
+    .mood-feature-track {
+      margin: 0.25rem 0 0; font-family: var(--font-display); font-weight: 600;
+      font-size: var(--fs-subheading); color: var(--fg);
+    }
+
+    /* =========================================================
+       Grids: archive / why / story / steps / cta / footer
+       ========================================================= */
+    .archive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 0.5rem + 1.5vw, 1.75rem); }
+    .archive-grid > * { min-width: 0; }
+
+    .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 0.5rem + 1.5vw, 2rem); }
+    .why-card {
+      padding: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      background: rgba(22, 9, 31, 0.55);
+      transition: border-color var(--dur) var(--ease-soft), background var(--dur) var(--ease-soft);
+    }
+    .why-card:hover { border-color: var(--border-strong); background: rgba(31, 14, 44, 0.65); }
+    .why-num {
+      font-family: var(--font-ui); font-size: var(--fs-micro);
+      letter-spacing: 0.28em; color: var(--gold); text-transform: uppercase;
+    }
+    .why-card h3 {
+      font-size: var(--fs-subheading); line-height: var(--lh-heading);
+      color: var(--fg); margin: 0.9rem 0 0.6rem;
+    }
+    .why-card p { font-size: var(--fs-sm); line-height: var(--lh-relaxed); color: var(--muted); margin: 0; }
+
+    .story-grid {
+      display: grid; grid-template-columns: 0.9fr 1.1fr;
+      gap: clamp(2rem, 1rem + 4vw, 4rem); align-items: center;
+    }
+    .story-body {
+      font-size: var(--fs-lead); line-height: var(--lh-relaxed);
+      color: var(--muted); margin: 1.3rem 0 0; max-width: 52ch;
+    }
+    .story-portrait {
+      border: 1px solid var(--border-gold); border-radius: var(--radius-sm);
+      overflow: hidden; box-shadow: var(--shadow-md); position: relative;
+    }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.25rem, 1rem + 2vw, 2.5rem); list-style: none; margin: 0; padding: 0; }
+    .step-n { font-family: var(--font-display); font-size: 2.6rem; font-weight: 600; color: var(--gold); line-height: 1; display: block; }
+    .step-rule { height: 1px; background: var(--border-gold); margin: 1rem 0; }
+    .step h3 { font-size: var(--fs-subheading); color: var(--fg); margin: 0 0 0.5rem; }
+    .step p { font-size: var(--fs-sm); line-height: var(--lh-relaxed); color: var(--muted); margin: 0; }
+
+    /* FAQ dùng container hẹp */
+    .faq-list { margin: 0 auto; }
+
+    /* Final CTA */
+    .closing { text-align: center; }
+    .closing-inner { padding-block: clamp(2rem, 1rem + 3vw, 4rem); }
     .closing h2 {
-      font-size: clamp(36px, 5vw, 56px);
-      margin: 0 0 14px;
-      background: linear-gradient(180deg, #fff 40%, var(--accent));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: var(--fs-display); line-height: var(--lh-tight);
+      margin: 1rem 0 0; text-wrap: balance;
     }
-    .closing p { color: var(--muted); margin: 0 0 32px; font-size: 17px; }
-
-    /* ===== Footer ===== */
-    footer.site {
-      padding: 28px 0; color: var(--muted); font-size: 12.5px;
-      text-align: center; letter-spacing: 1px;
-      border-top: 1px solid var(--border);
+    .closing .sub {
+      font-size: var(--fs-lead); font-weight: 300; color: var(--muted);
+      margin: 1.1rem auto 0; max-width: 40ch;
     }
-    footer.site .dot {
-      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent); margin-right: 10px; vertical-align: middle;
-      box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+    .closing-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; margin-top: 2rem; }
+    .closing-collab { margin-top: 1.6rem; }
+
+    /* Footer */
+    footer.site { border-top: 1px solid var(--border); padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem); position: relative; z-index: 10; }
+    .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2rem; }
+    .footer-brandline { display: inline-flex; align-items: center; gap: 0.6rem; }
+    .footer-tag { color: var(--muted-soft); font-size: var(--fs-sm); margin: 1rem 0 0; max-width: 34ch; line-height: var(--lh-relaxed); }
+    .footer-col h4 {
+      font-family: var(--font-ui); font-size: var(--fs-micro);
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted-soft); margin: 0 0 1rem;
     }
-    footer.site a { color: var(--muted); margin: 0 10px; }
-    footer.site a:hover { color: var(--accent); }
-
-    /* =========================================
-       ===== Responsive — tablet then mobile =====
-       Desktop: default rules above (3-col grids,
-                full-size headings, side-by-side CTAs).
-       ========================================= */
-
-    /* --- Tablet (up to 900px) --------------------------------- */
-    @media (max-width: 900px) {
-      .wrap { padding: 0 24px; }                /* tighter side gutters */
-      section { padding: 70px 0; }              /* less air around sections */
-      .hero { padding: 90px 0 70px; }
-      .hero h1 { font-size: clamp(40px, 6.5vw, 64px); }
-      section h2 { font-size: clamp(28px, 4vw, 38px); }
-
-      /* Track cards: drop from 3 → 2 columns and let the 3rd wrap underneath */
-      .tracks-grid { grid-template-columns: repeat(2, 1fr); }
-
-      /* Features and steps stay 3-up here but with smaller gap */
-      .feature-grid, .steps { gap: 20px; }
-
-      /* Nav: keep the links but tighten spacing */
-      nav a { margin-left: 18px; font-size: 12px; letter-spacing: 1px; }
+    .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col a { color: var(--muted); font-size: var(--fs-sm); }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-legal {
+      margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+      display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between;
     }
+    .footer-usage { color: var(--muted-soft); font-size: var(--fs-xs); line-height: var(--lh-relaxed); max-width: 62ch; margin: 0; }
+    .footer-copy { color: var(--smoke); font-size: var(--fs-xs); display: inline-flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
 
-    /* --- Mobile (up to 600px) --------------------------------- */
-    @media (max-width: 600px) {
-      .wrap { padding: 0 18px; }                /* tighter still */
-      section { padding: 56px 0; }
-      .hero { padding: 70px 0 56px; text-align: center; align-items: stretch; min-height: 0; }
-      .hero h1 {
-        font-size: clamp(34px, 9vw, 44px);
-        max-width: none;                        /* allow it to use full width */
-        margin-left: auto; margin-right: auto;
-      }
-      .hero .eyebrow { letter-spacing: 3px; }
-      .hero p.sub { font-size: 16px; margin-left: auto; margin-right: auto; }
-      section h2 { font-size: 26px; }
-      section .lede { font-size: 15px; margin-bottom: 36px; }
-
-      /* Hero buttons: stack vertically and stretch full width */
-      .hero .cta { flex-direction: column; align-items: stretch; gap: 12px; }
-      .hero .cta .btn, .hero .cta .btn-link { width: 100%; text-align: center; }
-
-      /* Mood switcher: stack its parts so they don't squeeze sideways */
-      .mood-switcher { flex-direction: column; gap: 10px; padding: 16px 20px; }
-      .mood-text { min-width: 0; }
-
-      /* Top nav: hide menu links, keep logo + lang switch + Subscribe.
-         Lang switch dùng <button> nên không bị rule ẩn link bên dưới. */
-      nav a:not(.btn) { display: none; }
-      nav .btn-primary { margin-left: 12px; padding: 9px 14px; font-size: 12px; }
-      nav { display: flex; align-items: center; }
-      .lang-switch { margin-left: 0; }
-      .lang-switch button { padding: 6px 8px; min-width: 32px; font-size: 10px; letter-spacing: 1px; }
-      .topnav-inner { padding: 12px 18px; gap: 10px; }
-      .logo { font-size: 18px; letter-spacing: 2px; }
-
-      /* All grids collapse to a single column on phones */
-      .feature-grid, .steps, .tracks-grid { grid-template-columns: 1fr; gap: 18px; }
-
-      /* Track cards: a little less internal padding so they don't feel boxy */
-      .tier { padding: 22px; }
-
-      /* Logo wall: smaller text + tighter gap */
-      .logos { gap: 24px; font-size: 16px; }
-      .proof { padding: 44px 0; }
-      .proof h2 { letter-spacing: 3px; }
-
-      /* FAQ summary text wraps better */
-      details summary { font-size: 18px; }
-
-      /* Closing CTA: smaller padding */
-      .closing { padding: 80px 0; }
-      .closing h2 { font-size: clamp(28px, 7vw, 36px); }
-
-      footer.site a { display: inline-block; margin: 4px 6px; }
+    /* =========================================================
+       Responsive
+       ========================================================= */
+    @media (max-width: 1040px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-visual { order: -1; max-width: 420px; }
+      .story-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .story-portrait { max-width: 420px; }
+      .archive-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 860px) {
+      nav.mainnav, .lang-desktop { display: none; }
+      .menu-btn { display: inline-flex; }
+      .mood-layout { grid-template-columns: 1fr; }
+      .mood-list { flex-direction: row; flex-wrap: wrap; }
+      .mood-list .mood-chip { flex: 1 1 44%; }
+      .why-grid, .steps { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .archive-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+      .hero-cta { flex-direction: column; align-items: stretch; }
+      .hero-cta > * { width: 100%; }
+      .mood-list .mood-chip { flex: 1 1 100%; }
+      .hero { text-align: left; }
     }
 
-    /* =========================================
-       ===== FX LAYER — 3D + motion (fx.js) =====
-       Canvas 3D nằm dưới (z-0), nội dung nằm trên (z-10).
-       Một số section nền đặc chuyển sang hơi trong để lộ
-       thế giới wireframe phía sau. fx.js tự tắt khi
-       reduced-motion hoặc CDN lỗi → mọi thứ về như cũ.
-       ========================================= */
-    #stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    /* =========================================================
+       FX LAYER — 3D + motion (fx.js)
+       Canvas dưới nội dung; atmosphere dưới cùng; fx.js tự tắt
+       khi reduced-motion / CDN lỗi → trang tĩnh vẫn đầy đủ.
+       ========================================================= */
+    #stage { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
     #page { position: relative; z-index: 10; }
     #progress {
       position: fixed; top: 0; left: 0; height: 2px; width: 100%; z-index: 9995;
       transform-origin: 0 50%; transform: scaleX(0);
-      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-    }
-    /* nền section: trong suốt / mờ nhẹ để thấy lớp 3D */
-    .features, .tracks { background: transparent; }
-    .proof, .how, .faq, .updates { background: rgba(11, 8, 19, 0.88); }
-
-    /* word-reveal: từng từ trồi lên từ trong "phong bì" overflow hidden */
-    .w { display: inline-block; overflow: hidden; vertical-align: bottom;
-      padding: 0.12em 0.06em 0.16em; margin: -0.12em -0.06em -0.16em; }
-    .w > span { display: inline-block; will-change: transform; }
-
-    /* marquee chữ lớn chạy ngang theo scroll */
-    .marquee {
-      position: relative; z-index: 10; overflow: hidden; padding: 4vh 0;
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-    }
-    .marquee .track { display: inline-flex; white-space: nowrap; will-change: transform; }
-    .marquee .chunk {
-      font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600;
-      font-size: clamp(36px, 6.5vw, 84px); line-height: 1.15; padding-right: 4vw;
-      color: var(--fg); opacity: 0.92;
-    }
-    .marquee .chunk em {
-      font-style: italic; color: transparent;
-      -webkit-text-stroke: 1px var(--accent);
-    }
-    /* ----- Tiêu đề section lớn: trắng chuyển vàng (như hero) -----
-       Gradient áp cả ở h2 (khi chưa tách chữ) lẫn từng từ .w > span
-       (sau khi fx.js tách để làm word-reveal) — span có background
-       riêng nên hiệu ứng giữ nguyên khi từng từ chuyển động. */
-    .features h2, .how h2, .tracks h2, .faq h2, .updates h2,
-    .features h2 .w > span, .how h2 .w > span, .tracks h2 .w > span,
-    .faq h2 .w > span, .updates h2 .w > span {
-      background: linear-gradient(180deg, #ffffff 30%, var(--accent) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+      background: linear-gradient(90deg, var(--gold), var(--gold-soft));
     }
 
-    /* ----- Con trỏ nốt nhạc (fx.js tạo #cursor + #ring, chỉ pointer mịn) ----- */
-    @media (pointer: fine) {
-      body.fx-cursor, body.fx-cursor a, body.fx-cursor button,
-      body.fx-cursor summary, body.fx-cursor input { cursor: none; }
-      #cursor {
-        position: fixed; top: 0; left: 0; z-index: 9997; pointer-events: none;
-        font-size: 22px; line-height: 1; color: var(--accent);
-        text-shadow: 0 0 12px rgba(212, 175, 55, 0.75);
-        will-change: transform;
-      }
-      #ring {
-        position: fixed; top: 0; left: 0; z-index: 9997; pointer-events: none;
-        width: 36px; height: 36px; border-radius: 50%;
-        border: 1px solid rgba(212, 175, 55, 0.55);
-        transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease;
-        will-change: transform;
-      }
-      #ring.hot { width: 64px; height: 64px; opacity: 0.5; }
+    /* Reveal nhẹ nhàng: class .reveal do JS thêm — không có JS thì
+       nội dung hiển thị đầy đủ mặc định (yêu cầu của design system) */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: 0; transform: translateY(18px); transition: opacity var(--dur-reveal) var(--ease-soft), transform var(--dur-reveal) var(--ease-soft); }
+      .reveal.is-visible { opacity: 1; transform: none; }
     }
-    @media (pointer: coarse) { #cursor, #ring { display: none; } }
 
     @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
       #stage, #progress { display: none; }
-      .marquee .track { transform: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Skip link: lets keyboard users jump past the nav straight to content -->
-  <a class="skip-link" href="#main-content">Skip to content</a>
+  <!-- Skip link cho keyboard users -->
+  <a class="skip-link" href="#main-content" data-i18n="skip">Skip to content</a>
 
-  <!-- Film grain: faint 35mm texture over the whole page (decorative) -->
+  <!-- Atmosphere: 2 quầng sáng trôi chậm (tím trên phải, hồng dưới trái) + film grain -->
+  <div class="atmos" aria-hidden="true"></div>
   <div class="film-grain" aria-hidden="true"></div>
 
-  <!-- Lớp 3D wireframe chạy phía sau toàn trang (vẽ bởi fx.js) -->
+  <!-- Lớp 3D wireframe (fx.js) + thanh tiến độ đọc -->
   <canvas id="stage" aria-hidden="true"></canvas>
-  <!-- Thanh tiến độ đọc trang — vạch gold mảnh trên cùng -->
   <div id="progress" aria-hidden="true"></div>
 
-  <!-- ===== NAV — ghim cố định trên cùng =====
-       Đặt NGOÀI #page vì #page có transform (skew theo vận tốc cuộn) —
-       position:fixed bên trong ancestor có transform sẽ bị ghim sai. -->
+  <!-- ===== HEADER — sticky glass, thu gọn khi cuộn ===== -->
   <header class="topnav" data-od-id="topnav">
     <div class="topnav-inner">
-      <span class="logo">Vivi <span class="gold">Soul</span></span>
-      <nav>
-        <a href="#features" data-i18n="nav.features">Features</a>
-        <a href="#how" data-i18n="nav.how">How it works</a>
-        <a href="#featured-tracks" data-i18n="nav.tracks">Tracks</a>
+      <a class="brand" href="#main-content" aria-label="Vivi Soul — home">
+        <img class="brand-logo" src="assets/vivi-soul-logo.jpg" alt="" width="34" height="34">
+        <span class="brand-name">Vivi <em>Soul</em></span>
+      </a>
+      <nav class="mainnav" aria-label="Primary">
+        <a href="#moods" data-i18n="nav.moods">Moods</a>
+        <a href="#releases" data-i18n="nav.releases">Releases</a>
+        <a href="#story" data-i18n="nav.story">Story</a>
+        <a href="#listen" data-i18n="nav.listen">How to listen</a>
         <a href="#faq" data-i18n="nav.faq">FAQ</a>
-        <!-- Chuyển ngữ EN / VI — dùng <button> (không phải <a>) để KHÔNG bị
-             ẩn bởi rule "nav a:not(.btn){display:none}" trên mobile -->
-        <span class="lang-switch" id="langSwitch" role="group" aria-label="Language / Ngôn ngữ">
+      </nav>
+      <div class="topnav-actions">
+        <span class="lang-switch lang-desktop" role="group" aria-label="Language / Ngôn ngữ">
           <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
           <button type="button" data-lang="vi" lang="vi" aria-pressed="false">VI</button>
         </span>
-        <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="nav.subscribe">Subscribe</span></a>
-      </nav>
+        <a class="btn btn-primary btn-sm" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="nav.subscribe">Subscribe</span></a>
+        <button class="btn btn-secondary btn-sm menu-btn" type="button" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- #page: bọc toàn bộ nội dung để nổi trên canvas 3D (z-10).
-       Lưu ý: đừng thêm transform vào #page — sẽ phá position:fixed
-       của mọi phần tử con (đã từng dính với hiệu ứng skew, nay đã bỏ). -->
+  <!-- Mobile menu sheet -->
+  <div class="mobile-nav" id="mobileNav" data-open="false" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="mobile-nav-close">
+      <button class="btn btn-secondary btn-sm" type="button" id="menuCloseBtn" aria-label="Close menu"><span data-i18n="nav.close">Close</span> ✕</button>
+    </div>
+    <nav class="mobile-nav-links" aria-label="Mobile">
+      <a href="#moods" data-i18n="nav.moods">Moods</a>
+      <a href="#releases" data-i18n="nav.releases">Releases</a>
+      <a href="#story" data-i18n="nav.story">Story</a>
+      <a href="#listen" data-i18n="nav.listen">How to listen</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+    </nav>
+    <div class="mobile-nav-foot">
+      <span class="lang-switch lang-switch--lg" role="group" aria-label="Language / Ngôn ngữ">
+        <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="vi" lang="vi" aria-pressed="false">VI</button>
+      </span>
+      <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="nav.subscribe">Subscribe</span></a>
+    </div>
+  </div>
+
+  <!-- #page: nội dung nổi trên canvas 3D (z-10). ĐỪNG thêm transform vào #page. -->
   <main id="page">
 
-  <!-- ===== HERO + NAV ===== -->
-  <div class="hero-shell" id="main-content">
-    <div class="hero-bg">
-      <!-- Aurora liquid background: soft color blobs that drift behind the hero.
-           Pure CSS; they freeze automatically when "reduce motion" is on. -->
-      <span class="blob blob-1" aria-hidden="true"></span>
-      <span class="blob blob-2" aria-hidden="true"></span>
-      <span class="blob blob-3" aria-hidden="true"></span>
-      <span class="blob blob-4" aria-hidden="true"></span>
-    </div>
-    <div class="wrap">
-      <section class="hero" data-od-id="hero">
-        <div class="eyebrow" data-i18n="hero.eyebrow">— AI Music Channel —</div>
-        <h1 data-i18n="hero.title">AI music for the gentle hours.</h1>
+  <!-- ===== HERO — "the current hour" ===== -->
+  <section class="hero container" id="main-content" data-od-id="hero" aria-labelledby="hero-title">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow"><span class="rule" aria-hidden="true"></span><span data-i18n="hero.eyebrow">An AI-assisted music channel</span></p>
+        <h1 id="hero-title" data-i18n="hero.title">AI music for the gentle hours.</h1>
         <p class="sub" data-i18n="hero.sub">Cinematic, soulful compositions for deep focus, late-night reflection, healing, and the bittersweet beauty of memories. Press play — and let the world soften.</p>
-        <div class="cta">
-          <a class="btn btn-primary" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="hero.cta.subscribe">Subscribe on YouTube</span></a>
-          <a class="btn-link" href="#latest-release" data-i18n="hero.cta.explore">Explore latest release →</a>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" id="heroListenBtn" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="hero.cta.primary">Listen to the latest release</span></a>
+          <a class="btn btn-secondary btn-lg" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer" data-i18n="hero.cta.secondary">Subscribe on YouTube</a>
         </div>
 
-        <!-- Mood switcher widget -->
-        <div class="mood-switcher">
-          <!-- Now-playing equalizer: purely decorative animated bars -->
+        <!-- Chip "bản mới nhất" — JS đổ title + link từ featuredTracks[0]; ẩn khi không có JS -->
+        <a class="hero-now" id="heroNow" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer" hidden>
           <span class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          <span class="mood-label" id="moodLabel" data-i18n="mood.label">Tonight's mood:</span>
-          <span class="mood-text" id="moodText" aria-live="polite" aria-atomic="true">Late-night soul</span>
-          <button class="btn-secondary mood-btn" id="moodBtn" aria-describedby="moodLabel" data-i18n="mood.button">Change Mood ↻</button>
-          <!-- Updated by script.js to point at a real track matching the current mood -->
-          <a class="mood-link" id="moodLink" href="https://www.youtube.com/watch?v=gJwebqoc5fg" target="_blank" rel="noopener noreferrer" data-i18n="mood.listen">Listen →</a>
-        </div>
-      </section>
-    </div>
-  </div>
-
-  <!-- ===== LOGO WALL ===== -->
-  <section class="proof" data-od-id="proof">
-    <div class="wrap">
-      <h2 data-i18n="proof.title">For fans of</h2>
-      <div class="logos">
-        <span>Lofi Girl</span>
-        <span>ChillHop</span>
-        <span>Sleepy</span>
-        <span>Calm</span>
-        <span>Headspace</span>
+          <span>
+            <span class="hero-now-label" data-i18n="hero.latest">Latest release</span><br>
+            <span class="hero-now-title" id="heroNowTitle"></span>
+          </span>
+        </a>
       </div>
-    </div>
-  </section>
 
-  <!-- ===== FEATURES ===== -->
-  <section class="features" id="features" data-od-id="features">
-    <div class="wrap">
-      <h2 data-i18n="features.title">Why Vivi Soul</h2>
-      <p class="lede" data-i18n="features.lede">Music designed for emotion, not algorithms. Three things we care about.</p>
-      <div class="feature-grid">
-        <div class="feature">
-          <span class="num" data-i18n="features.f1.num">01 — Composition</span>
-          <h3 data-i18n="features.f1.title">Cinematic by design</h3>
-          <p data-i18n="features.f1.body">Every track is structured like a short film — quiet openings, slow swells, and resolutions that linger. Not background noise.</p>
-        </div>
-        <div class="feature">
-          <span class="num" data-i18n="features.f2.num">02 — Mood</span>
-          <h3 data-i18n="features.f2.title">Healing soundscapes</h3>
-          <p data-i18n="features.f2.body">Soft piano, warm ambience, and gentle textures tuned for late-night calm, focused work, and recovering days.</p>
-        </div>
-        <div class="feature">
-          <span class="num" data-i18n="features.f3.num">03 — Access</span>
-          <h3 data-i18n="features.f3.title">Free to stream on YouTube</h3>
-          <p data-i18n="features.f3.body">No paywalls of any kind — the music lives on YouTube and is free to listen anywhere, anytime. (YouTube may show platform ads depending on your account and region.)</p>
+      <div class="hero-visual">
+        <div class="vivi-portrait">
+          <div class="vivi-identity">
+            <span class="vivi-orbit" aria-hidden="true"></span>
+            <span class="vivi-orbit vivi-orbit--inner" aria-hidden="true"></span>
+            <img class="vivi-emblem" src="assets/vivi-soul-logo.jpg" data-i18n-alt="hero.emblemAlt" alt="Vivi Soul emblem — a violet and antique-gold V with a star">
+          </div>
+          <span class="vivi-caption" data-i18n="hero.caption">Vivi keeps the hour with you.</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Marquee 1: dải mood chữ lớn, trôi ngang theo scroll (fx.js).
-       data-i18n-html vì chuỗi có thẻ <em> + &nbsp; -->
-  <div class="marquee" id="mq1" aria-hidden="true">
-    <div class="track">
-      <div class="chunk" data-i18n-html="mq1">deep focus — <em>late-night soul</em> — healing rain — <em>cinematic memories</em> — nostalgic love —&nbsp;</div>
-      <div class="chunk" data-i18n-html="mq1">deep focus — <em>late-night soul</em> — healing rain — <em>cinematic memories</em> — nostalgic love —&nbsp;</div>
-    </div>
-  </div>
-
-  <!-- ===== HOW IT WORKS ===== -->
-  <section class="how" id="how" data-od-id="how">
-    <div class="wrap">
-      <h2 data-i18n="how.title">How to drift</h2>
-      <p class="lede" data-i18n="how.lede">Three steps. No app to install.</p>
-      <div class="steps">
-        <div class="step">
-          <div class="circle">1</div>
-          <h3 data-i18n="how.s1.title">Subscribe</h3>
-          <p data-i18n="how.s1.body">Follow Vivi Soul on YouTube to get every new track the moment it drops.</p>
-        </div>
-        <div class="step">
-          <div class="circle">2</div>
-          <h3 data-i18n="how.s2.title">Pick a mood</h3>
-          <p data-i18n="how.s2.body">Focus, healing, late-night, nostalgic — choose the soundscape that fits the hour.</p>
-        </div>
-        <div class="step">
-          <div class="circle">3</div>
-          <h3 data-i18n="how.s3.title">Drift</h3>
-          <p data-i18n="how.s3.body">Press play, dim the lights, and let the music carry you for as long as you need.</p>
-        </div>
+  <!-- ===== MOOD SELECTOR — mood-first browsing ===== -->
+  <section class="section--hairline" id="moods" data-od-id="moods" aria-labelledby="moods-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-i18n="moods.eyebrow">What kind of hour is this?</p>
+        <h2 id="moods-title" data-i18n="moods.title">Start with a mood.</h2>
+        <p class="lede" data-i18n="moods.sub">Not a genre, not an algorithm — a feeling. Choose the hour you're in and Vivi finds the sound for it.</p>
       </div>
+      <!-- Chips + feature panel render bởi script.js từ mảng MOODS -->
+      <div class="mood-layout" id="moodLayout">
+        <div class="mood-list" id="moodList" role="tablist" aria-label="Moods"></div>
+        <div class="mood-feature" id="moodFeature" role="tabpanel" aria-live="polite"></div>
+      </div>
+      <noscript>
+        <p class="tracks-note">
+          The mood explorer needs JavaScript. Visit
+          <a href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer">the Vivi Soul YouTube channel</a>
+          to browse every release.
+        </p>
+      </noscript>
     </div>
   </section>
 
-  <!-- ===== LATEST RELEASE (rendered from featuredTracks[0]) ===== -->
-  <section class="latest-release-section" id="latest-release" data-od-id="latest-release">
-    <div class="section-header">
-      <p class="section-kicker" data-i18n="latest.kicker">Latest Release</p>
-      <h2 data-i18n="latest.title">Newest Release</h2>
-      <p data-i18n="latest.sub">Press play and let the evening drift in.</p>
+  <!-- ===== LATEST RELEASE (render từ featuredTracks[0]) ===== -->
+  <section id="latest-release" data-od-id="latest-release" aria-labelledby="latest-title">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow" data-i18n="latest.kicker">Latest release</p>
+        <h2 id="latest-title" data-i18n="latest.title">The newest quiet hour.</h2>
+        <p class="lede" data-i18n="latest.sub">Press play and let the evening drift in.</p>
+      </div>
+      <div id="latest-release-card"></div>
     </div>
-
-    <div class="latest-release-card" id="latest-release-card"></div>
   </section>
 
-  <!-- ===== TRACKS (data-driven from script.js) ===== -->
-  <section class="tracks" id="featured-tracks" data-od-id="tracks">
-    <div class="wrap">
-      <h2 data-i18n="tracks.title">Also from the channel</h2>
-      <p class="lede" data-i18n="tracks.lede">Soft lo-fi soul, healing ambient, and cinematic pieces from the channel — pick the hour that fits yours. Tap to watch on YouTube.</p>
-      <p class="tracks-note" data-i18n="tracks.note">New releases land here as they drop — subscribe so you never miss the quiet ones.</p>
-
-      <!-- The cards below are rendered by script.js from the `featuredTracks` array.
-           To change a title, mood, or link, edit script.js — not this section. -->
-      <div class="tracks-grid" id="tracks-grid"></div>
-
+  <!-- ===== RELEASE ARCHIVE (render từ featuredTracks.slice(1)) ===== -->
+  <section class="section--hairline" id="releases" data-od-id="releases" aria-labelledby="releases-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-i18n="releases.eyebrow">The archive</p>
+        <h2 id="releases-title" data-i18n="releases.title">A small collection for slow hours.</h2>
+        <p class="lede" data-i18n="releases.sub">Soft lo-fi soul, healing ambient, and cinematic pieces. Pick the hour that fits yours — each one opens on YouTube.</p>
+      </div>
+      <div class="archive-grid" id="tracks-grid"></div>
       <noscript>
         <p class="tracks-note" style="margin-top: 32px;">
           Track previews require JavaScript. Visit
@@ -762,76 +715,199 @@
     </div>
   </section>
 
-  <!-- Marquee 2: lời mời nhẹ nhàng, trôi ngược hướng marquee 1 -->
-  <div class="marquee" id="mq2" aria-hidden="true">
-    <div class="track">
-      <div class="chunk" data-i18n-html="mq2">press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;</div>
-      <div class="chunk" data-i18n-html="mq2">press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;</div>
+  <!-- ===== WHY VIVI SOUL ===== -->
+  <section id="why" data-od-id="why" aria-labelledby="why-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-i18n="why.eyebrow">Why Vivi Soul</p>
+        <h2 id="why-title" data-i18n="why.title">Made for emotion, not for the feed.</h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <span class="why-num" data-i18n="why.p1.num">01</span>
+          <h3 data-i18n="why.p1.title">Cinematic by design</h3>
+          <p data-i18n="why.p1.body">Every track is structured like a short film — quiet openings, slow swells, and resolutions that linger. Not background noise.</p>
+        </div>
+        <div class="why-card">
+          <span class="why-num" data-i18n="why.p2.num">02</span>
+          <h3 data-i18n="why.p2.title">Emotional soundscapes</h3>
+          <p data-i18n="why.p2.body">Soft piano, warm ambience, and gentle textures made for late-night calm, focused work, and recovering days.</p>
+        </div>
+        <div class="why-card">
+          <span class="why-num" data-i18n="why.p3.num">03</span>
+          <h3 data-i18n="why.p3.title">AI-assisted, human-curated</h3>
+          <p data-i18n="why.p3.body">AI tools help shape each idea, but the arrangement, selection, editing, and emotional curation are human work. The feeling is chosen, not generated.</p>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ===== FAQ ===== -->
-  <section class="faq" id="faq" data-od-id="faq">
-    <div class="wrap">
-      <h2 data-i18n="faq.title">Questions</h2>
-      <p class="lede" data-i18n="faq.lede">Things people often ask.</p>
+  <!-- ===== MEET VIVI / BRAND STORY ===== -->
+  <section class="section--hairline" id="story" data-od-id="story" aria-labelledby="story-title">
+    <div class="container">
+      <div class="story-grid">
+        <div>
+          <p class="eyebrow eyebrow--rose" data-i18n="story.eyebrow">Meet Vivi</p>
+          <h2 id="story-title" data-i18n="story.title">The quiet companion behind every release.</h2>
+          <p class="story-body" data-i18n="story.body">Vivi is present in the room, never demanding attention, always holding the mood. Not a mascot and not a brand face — a feeling that stays with you across different hours: the warm lamp left on after midnight, the calm on the far side of a heavy day.</p>
+          <p class="story-body" data-i18n="story.body2">The channel exists for the moments music is really for — focusing, resting, recovering, remembering. Sound and image are made as one world so that pressing play feels less like opening an app and more like stepping into a room that was left warm for you.</p>
+        </div>
+        <div class="story-portrait">
+          <!-- Slot chân dung Vivi — dùng emblem trong orbit sắc hồng cho tới khi có art thật -->
+          <div class="vivi-identity vivi-identity--rose">
+            <span class="vivi-orbit" aria-hidden="true"></span>
+            <span class="vivi-orbit vivi-orbit--inner" aria-hidden="true"></span>
+            <img class="vivi-emblem" src="assets/vivi-soul-logo.jpg" data-i18n-alt="story.emblemAlt" alt="Vivi Soul emblem held in a soft rose glow">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW TO LISTEN ===== -->
+  <section id="listen" data-od-id="listen" aria-labelledby="listen-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-i18n="listen.eyebrow">How to listen</p>
+        <h2 id="listen-title" data-i18n="listen.title">Three steps. No app to install.</h2>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <span class="step-n" aria-hidden="true">01</span>
+          <div class="step-rule" aria-hidden="true"></div>
+          <h3 data-i18n="listen.s1.title">Choose your hour</h3>
+          <p data-i18n="listen.s1.body">Focus, late-night, healing, a rainy window — pick the mood that fits the moment.</p>
+        </li>
+        <li class="step">
+          <span class="step-n" aria-hidden="true">02</span>
+          <div class="step-rule" aria-hidden="true"></div>
+          <h3 data-i18n="listen.s2.title">Press play</h3>
+          <p data-i18n="listen.s2.body">One track opens on YouTube. No app to install, no account required.</p>
+        </li>
+        <li class="step">
+          <span class="step-n" aria-hidden="true">03</span>
+          <div class="step-rule" aria-hidden="true"></div>
+          <h3 data-i18n="listen.s3.title">Let the room soften</h3>
+          <p data-i18n="listen.s3.body">Dim the lights, breathe out, and stay as long as you need. Subscribing is optional.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== FAQ / TRUST ===== -->
+  <section class="section--hairline" id="faq" data-od-id="faq" aria-labelledby="faq-title">
+    <div class="container container--narrow">
+      <div class="section-head section-head--center">
+        <p class="eyebrow" data-i18n="faq.eyebrow">Questions &amp; trust</p>
+        <h2 id="faq-title" data-i18n="faq.title">The things people ask.</h2>
+      </div>
       <div class="faq-list">
-        <details>
-          <summary data-i18n="faq.q1">Is the music really AI-generated?</summary>
-          <p data-i18n="faq.a1">Yes. Every track on Vivi Soul is composed with AI tools, then arranged, mixed, and curated by a human ear so the emotion lands. Think of it as a co-creation — machine + soul.</p>
+        <details open>
+          <summary><span data-i18n="faq.q1">Is the music created with AI?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+          <p data-i18n="faq.a1">Yes. Every track is composed with AI tools, then arranged, mixed, and curated by a human ear so the emotion lands. Think of it as a co-creation — the machine helps, the taste is human.</p>
         </details>
         <details>
-          <summary data-i18n="faq.q2">Is it free to listen?</summary>
-          <p data-i18n="faq.a2">Always. The channel lives on YouTube and the music itself will never sit behind a paywall. If you want to support, subscribing and sharing means more than money.</p>
+          <summary><span data-i18n="faq.q2">Is listening free?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+          <p data-i18n="faq.a2">Always. The music lives on YouTube and will never sit behind a paywall. YouTube itself may show platform ads depending on your account and region. "Free to listen", though, is not the same as "free to reuse".</p>
         </details>
         <details>
-          <summary data-i18n="faq.q3">How often do new tracks drop?</summary>
-          <p data-i18n="faq.a3">New pieces arrive regularly, usually late in the evening. Subscribe with the bell on so you don't miss the quieter releases.</p>
+          <summary><span data-i18n="faq.q3">How often are new tracks released?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+          <p data-i18n="faq.a3">New pieces arrive regularly, usually late in the evening. Subscribe with the bell on so the quieter releases still find you.</p>
         </details>
         <details>
-          <summary data-i18n="faq.q4">Can I use the music in my own videos?</summary>
-          <p data-i18n="faq.a4">Reach out before commercial use. For personal projects, study sessions, and journaling streams — go ahead, just credit Vivi Soul in the description.</p>
+          <summary><span data-i18n="faq.q4">Can I use the music in my own videos?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+          <p data-i18n="faq.a4">Please contact Vivi Soul before reusing music in videos, streams, client work, or commercial projects. Permission and credit requirements may vary by track — and AI assistance does not automatically determine licensing rights.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq.q5">How do I request commercial use or a collaboration?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+          <p data-i18n="faq.a5">Reach out through the channel's About page with a short note about your project. Vivi Soul reads every message and replies to genuine collaboration and licensing requests.</p>
         </details>
       </div>
     </div>
   </section>
 
   <!-- ===== EMAIL CAPTURE =====
-       Hidden automatically by script.js until the Formspree ID below
-       is configured (replace FORM_ID_TODO — see comment in script.js). -->
-  <section class="updates" id="updates" data-od-id="updates">
-    <div class="wrap">
-      <h2 data-i18n="updates.title">Quiet mail, not noise.</h2>
-      <p class="lede" data-i18n="updates.lede">One gentle email when a new track drops. No spam, no daily digests — unsubscribe anytime.</p>
+       Tự ẩn (script.js) cho tới khi FORM_ID_TODO được thay bằng Formspree ID thật. -->
+  <section class="section--hairline updates" id="updates" data-od-id="updates" aria-labelledby="updates-title">
+    <div class="container container--narrow" style="text-align: center;">
+      <div class="section-head section-head--center">
+        <p class="eyebrow" data-i18n="updates.eyebrow">Quiet mail</p>
+        <h2 id="updates-title" data-i18n="updates.title">Quiet mail, not noise.</h2>
+        <p class="lede" data-i18n="updates.lede">One gentle email when a new track drops. No spam, no daily digests — unsubscribe anytime.</p>
+      </div>
       <form class="email-form" id="emailForm" action="https://formspree.io/f/FORM_ID_TODO" method="POST">
-        <input type="email" name="email" required placeholder="your@email.com" aria-label="Email address" data-i18n-aria="updates.aria" autocomplete="email">
+        <input class="field-input" type="email" name="email" required placeholder="your@email.com" aria-label="Email address" data-i18n-aria="updates.aria" autocomplete="email">
         <button type="submit" class="btn btn-primary" data-i18n="updates.button">Notify me</button>
       </form>
-      <p class="email-success" id="emailSuccess" data-i18n="updates.success" hidden>Thank you — you're on the list. New releases will find you. 🤍</p>
+      <p class="email-success" id="emailSuccess" data-i18n="updates.success" hidden>Thank you — you're on the list. New releases will find you.</p>
     </div>
   </section>
 
-  <!-- ===== CLOSING CTA ===== -->
-  <section class="closing" id="closing" data-od-id="closing">
-    <div class="wrap">
-      <h2 data-i18n="closing.title">Stay close to the soul.</h2>
-      <p data-i18n="closing.sub">Subscribe on YouTube — never miss a new release.</p>
-      <a class="btn btn-primary" style="padding: 16px 36px;" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="closing.cta">Subscribe on YouTube</span></a>
+  <!-- ===== FINAL CTA ===== -->
+  <section class="closing section--hairline" id="subscribe" data-od-id="closing" aria-labelledby="cta-title">
+    <div class="container closing-inner">
+      <p class="eyebrow" style="justify-content: center;">Vivi Soul</p>
+      <h2 id="cta-title" data-i18n="cta.title">Stay close to the soul.</h2>
+      <p class="sub" data-i18n="cta.sub">Subscribe on YouTube and the next quiet hour will find you.</p>
+      <div class="closing-actions">
+        <a class="btn btn-primary btn-lg" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="cta.primary">Subscribe on YouTube</span></a>
+        <a class="btn btn-secondary btn-lg" id="ctaLatestBtn" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer" data-i18n="cta.secondary">Explore the latest release</a>
+      </div>
+      <div class="closing-collab">
+        <a class="btn-link" href="https://www.youtube.com/@ViviSoulmusic/about" target="_blank" rel="noopener noreferrer"><span data-i18n="cta.collab">Collaboration &amp; music use</span> →</a>
+      </div>
     </div>
   </section>
 
   <!-- ===== FOOTER ===== -->
-  <footer class="site wrap" data-od-id="footer">
-    <span class="dot"></span>
-    © <span id="year"></span> Vivi Soul ·
-    <a href="#faq" data-i18n="footer.faq">FAQ</a> ·
-    <a href="https://www.youtube.com/@ViviSoulmusic/about" target="_blank" rel="noopener noreferrer" data-i18n="footer.contact">Contact via YouTube</a>
+  <footer class="site" data-od-id="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="footer-brandline">
+            <img class="brand-logo" src="assets/vivi-soul-logo.jpg" alt="" width="30" height="30">
+            <span class="brand-name" style="font-size: 1.25rem;">Vivi <em>Soul</em></span>
+          </span>
+          <p class="footer-tag" data-i18n="footer.tagline">AI music for the gentle hours.</p>
+          <span class="badge badge--success" style="margin-top: 0.4rem;"><span class="badge-dot" aria-hidden="true"></span><span data-i18n="footer.free">Free on YouTube</span></span>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.nav">Explore</h4>
+          <ul>
+            <li><a href="#moods" data-i18n="nav.moods">Moods</a></li>
+            <li><a href="#releases" data-i18n="nav.releases">Releases</a></li>
+            <li><a href="#story" data-i18n="nav.story">Story</a></li>
+            <li><a href="#listen" data-i18n="nav.listen">How to listen</a></li>
+            <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.connect">Connect</h4>
+          <ul>
+            <li><a href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+            <li><a href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer" data-i18n="nav.subscribe">Subscribe</a></li>
+            <li><a href="https://www.youtube.com/@ViviSoulmusic/about" target="_blank" rel="noopener noreferrer" data-i18n="cta.collab">Collaboration &amp; music use</a></li>
+            <li><a href="https://www.youtube.com/@ViviSoulmusic/about" target="_blank" rel="noopener noreferrer" data-i18n="footer.contact">Contact via YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p class="footer-usage" data-i18n="footer.usage">Free to listen on YouTube. Free to listen is not free to reuse — please ask before using any track in your own videos, streams, or projects.</p>
+        <span class="footer-copy">
+          <span class="lang-switch" role="group" aria-label="Language / Ngôn ngữ">
+            <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+            <button type="button" data-lang="vi" lang="vi" aria-pressed="false">VI</button>
+          </span>
+          <span>© <span id="year"></span> Vivi Soul · <span data-i18n="footer.rights">All rights reserved.</span></span>
+        </span>
+      </div>
+    </div>
   </footer>
 
   </main><!-- /#page -->
 
   <script src="script.js" defer></script>
-  <!-- Lớp 3D + scroll choreography — chạy SAU script.js (cần tracks đã render) -->
+  <!-- Lớp 3D + scroll choreography — chạy SAU script.js (cần nội dung đã render) -->
   <script type="module" src="fx.js"></script>
 </body>
 </html>

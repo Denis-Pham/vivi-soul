@@ -1,22 +1,23 @@
 // ===========================================
-// VIVI SOUL — Small interactive touches
+// VIVI SOUL — Nội dung + logic tương tác
+// (Theo Vivi Soul Design System — xem DESIGN.md)
 // ===========================================
 
 // Reusable YouTube logo SVG (used by every Listen button)
 const YT_ICON_SVG = '<svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>';
 
+// Waveform glyph — motif thương hiệu trên mood chip + poster fallback
+const WAVE_SVG = '<svg class="mood-chip-wave" width="22" height="18" viewBox="0 0 22 18" fill="none" aria-hidden="true"><line x1="2" x2="2" y1="6" y2="12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="6" x2="6" y1="2" y2="16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="10" x2="10" y1="4" y2="14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="14" x2="14" y1="1" y2="17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="18" x2="18" y1="5" y2="13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+const POSTER_SVG = '<svg width="46" height="30" viewBox="0 0 46 30" fill="none" aria-hidden="true"><line x1="3" x2="3" y1="12" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="8" x2="8" y1="9" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="13" x2="13" y1="5" y2="25" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="18" x2="18" y1="10" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="23" x2="23" y1="3" y2="27" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="28" x2="28" y1="11" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="33" x2="33" y1="7" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="38" x2="38" y1="4" y2="26" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="43" x2="43" y1="11.5" y2="18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+
 // ===========================================
 // 0) NGÔN NGỮ (i18n) — song ngữ Anh / Việt
 // -------------------------------------------
-// • Mọi chữ tĩnh trong index.html mang thuộc tính:
-//     data-i18n="key"        → đổi textContent
-//     data-i18n-html="key"   → đổi innerHTML (chữ có thẻ, vd <em>)
-//     data-i18n-aria="key"   → đổi aria-label
-// • Chữ động (track card, mood) đọc trực tiếp từ `currentLang` bên dưới.
-// • Lựa chọn lưu ở localStorage('viviLang'); mặc định: theo trình duyệt,
-//   nếu không phải tiếng Việt thì English.
-// • QUAN TRỌNG: script.js chạy TRƯỚC fx.js, nên khi applyLanguage()
-//   đổi text các <h2> xong thì fx.js mới tách từ → word-reveal đúng ngữ.
+// • Chữ tĩnh trong index.html: data-i18n / data-i18n-html /
+//   data-i18n-aria / data-i18n-alt (alt của ảnh).
+// • Chữ động (track card, mood) đọc trực tiếp từ `currentLang`.
+// • Lựa chọn lưu ở localStorage('viviLang'); mặc định theo trình duyệt.
+// • QUAN TRỌNG: script.js chạy TRƯỚC fx.js.
 // ===========================================
 let currentLang = (function detectLang() {
   try {
@@ -28,166 +29,206 @@ let currentLang = (function detectLang() {
 
 const TRANSLATIONS = {
   en: {
-    'doc.title': 'Vivi Soul — Emotional AI music for the gentle hours',
+    'doc.title': 'Vivi Soul — AI music for the gentle hours',
+    'skip': 'Skip to content',
 
-    'nav.features': 'Features',
-    'nav.how': 'How it works',
-    'nav.tracks': 'Tracks',
+    'nav.moods': 'Moods',
+    'nav.releases': 'Releases',
+    'nav.story': 'Story',
+    'nav.listen': 'How to listen',
     'nav.faq': 'FAQ',
     'nav.subscribe': 'Subscribe',
+    'nav.close': 'Close',
 
-    'hero.eyebrow': '— AI Music Channel —',
+    'hero.eyebrow': 'An AI-assisted music channel',
     'hero.title': 'AI music for the gentle hours.',
     'hero.sub': 'Cinematic, soulful compositions for deep focus, late-night reflection, healing, and the bittersweet beauty of memories. Press play — and let the world soften.',
-    'hero.cta.subscribe': 'Subscribe on YouTube',
-    'hero.cta.explore': 'Explore latest release →',
-    'mood.label': "Tonight's mood:",
-    'mood.button': 'Change Mood ↻',
-    'mood.listen': 'Listen →',
+    'hero.cta.primary': 'Listen to the latest release',
+    'hero.cta.secondary': 'Subscribe on YouTube',
+    'hero.latest': 'Latest release',
+    'hero.caption': 'Vivi keeps the hour with you.',
+    'hero.emblemAlt': 'Vivi Soul emblem — a violet and antique-gold V with a star',
 
-    'proof.title': 'For fans of',
+    'moods.eyebrow': 'What kind of hour is this?',
+    'moods.title': 'Start with a mood.',
+    'moods.sub': "Not a genre, not an algorithm — a feeling. Choose the hour you're in and Vivi finds the sound for it.",
+    'moods.recommended': 'Recommended for this hour',
+    'moods.listen': 'Listen on YouTube',
 
-    'features.title': 'Why Vivi Soul',
-    'features.lede': 'Music designed for emotion, not algorithms. Three things we care about.',
-    'features.f1.num': '01 — Composition',
-    'features.f1.title': 'Cinematic by design',
-    'features.f1.body': 'Every track is structured like a short film — quiet openings, slow swells, and resolutions that linger. Not background noise.',
-    'features.f2.num': '02 — Mood',
-    'features.f2.title': 'Healing soundscapes',
-    'features.f2.body': 'Soft piano, warm ambience, and gentle textures tuned for late-night calm, focused work, and recovering days.',
-    'features.f3.num': '03 — Access',
-    'features.f3.title': 'Free to stream on YouTube',
-    'features.f3.body': 'No paywalls of any kind — the music lives on YouTube and is free to listen anywhere, anytime. (YouTube may show platform ads depending on your account and region.)',
-
-    'mq1': 'deep focus — <em>late-night soul</em> — healing rain — <em>cinematic memories</em> — nostalgic love —&nbsp;',
-    'mq2': 'press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;',
-
-    'how.title': 'How to drift',
-    'how.lede': 'Three steps. No app to install.',
-    'how.s1.title': 'Subscribe',
-    'how.s1.body': 'Follow Vivi Soul on YouTube to get every new track the moment it drops.',
-    'how.s2.title': 'Pick a mood',
-    'how.s2.body': 'Focus, healing, late-night, nostalgic — choose the soundscape that fits the hour.',
-    'how.s3.title': 'Drift',
-    'how.s3.body': 'Press play, dim the lights, and let the music carry you for as long as you need.',
-
-    'latest.kicker': 'Latest Release',
-    'latest.title': 'Newest Release',
+    'latest.kicker': 'Latest release',
+    'latest.title': 'The newest quiet hour.',
     'latest.sub': 'Press play and let the evening drift in.',
-    'latest.watch': 'Watch Latest on YouTube',
 
-    'tracks.title': 'Also from the channel',
-    'tracks.lede': 'Soft lo-fi soul, healing ambient, and cinematic pieces from the channel — pick the hour that fits yours. Tap to watch on YouTube.',
-    'tracks.note': 'New releases land here as they drop — subscribe so you never miss the quiet ones.',
-    'tracks.watch': 'Watch on YouTube',
-    'tracks.preview': 'Preview',
-    'tracks.watchAria': 'Watch {title} on YouTube',
-    'tracks.previewAria': 'Play a short preview of {title}',
+    'releases.eyebrow': 'The archive',
+    'releases.title': 'A small collection for slow hours.',
+    'releases.sub': 'Soft lo-fi soul, healing ambient, and cinematic pieces. Pick the hour that fits yours — each one opens on YouTube.',
 
-    'faq.title': 'Questions',
-    'faq.lede': 'Things people often ask.',
-    'faq.q1': 'Is the music really AI-generated?',
-    'faq.a1': 'Yes. Every track on Vivi Soul is composed with AI tools, then arranged, mixed, and curated by a human ear so the emotion lands. Think of it as a co-creation — machine + soul.',
-    'faq.q2': 'Is it free to listen?',
-    'faq.a2': 'Always. The channel lives on YouTube and the music itself will never sit behind a paywall. If you want to support, subscribing and sharing means more than money.',
-    'faq.q3': 'How often do new tracks drop?',
-    'faq.a3': "New pieces arrive regularly, usually late in the evening. Subscribe with the bell on so you don't miss the quieter releases.",
+    'why.eyebrow': 'Why Vivi Soul',
+    'why.title': 'Made for emotion, not for the feed.',
+    'why.p1.num': '01',
+    'why.p1.title': 'Cinematic by design',
+    'why.p1.body': 'Every track is structured like a short film — quiet openings, slow swells, and resolutions that linger. Not background noise.',
+    'why.p2.num': '02',
+    'why.p2.title': 'Emotional soundscapes',
+    'why.p2.body': 'Soft piano, warm ambience, and gentle textures made for late-night calm, focused work, and recovering days.',
+    'why.p3.num': '03',
+    'why.p3.title': 'AI-assisted, human-curated',
+    'why.p3.body': 'AI tools help shape each idea, but the arrangement, selection, editing, and emotional curation are human work. The feeling is chosen, not generated.',
+
+    'story.eyebrow': 'Meet Vivi',
+    'story.title': 'The quiet companion behind every release.',
+    'story.body': 'Vivi is present in the room, never demanding attention, always holding the mood. Not a mascot and not a brand face — a feeling that stays with you across different hours: the warm lamp left on after midnight, the calm on the far side of a heavy day.',
+    'story.body2': 'The channel exists for the moments music is really for — focusing, resting, recovering, remembering. Sound and image are made as one world so that pressing play feels less like opening an app and more like stepping into a room that was left warm for you.',
+    'story.emblemAlt': 'Vivi Soul emblem held in a soft rose glow',
+
+    'listen.eyebrow': 'How to listen',
+    'listen.title': 'Three steps. No app to install.',
+    'listen.s1.title': 'Choose your hour',
+    'listen.s1.body': 'Focus, late-night, healing, a rainy window — pick the mood that fits the moment.',
+    'listen.s2.title': 'Press play',
+    'listen.s2.body': 'One track opens on YouTube. No app to install, no account required.',
+    'listen.s3.title': 'Let the room soften',
+    'listen.s3.body': 'Dim the lights, breathe out, and stay as long as you need. Subscribing is optional.',
+
+    'faq.eyebrow': 'Questions & trust',
+    'faq.title': 'The things people ask.',
+    'faq.q1': 'Is the music created with AI?',
+    'faq.a1': 'Yes. Every track is composed with AI tools, then arranged, mixed, and curated by a human ear so the emotion lands. Think of it as a co-creation — the machine helps, the taste is human.',
+    'faq.q2': 'Is listening free?',
+    'faq.a2': 'Always. The music lives on YouTube and will never sit behind a paywall. YouTube itself may show platform ads depending on your account and region. "Free to listen", though, is not the same as "free to reuse".',
+    'faq.q3': 'How often are new tracks released?',
+    'faq.a3': 'New pieces arrive regularly, usually late in the evening. Subscribe with the bell on so the quieter releases still find you.',
     'faq.q4': 'Can I use the music in my own videos?',
-    'faq.a4': 'Reach out before commercial use. For personal projects, study sessions, and journaling streams — go ahead, just credit Vivi Soul in the description.',
+    'faq.a4': 'Please contact Vivi Soul before reusing music in videos, streams, client work, or commercial projects. Permission and credit requirements may vary by track — and AI assistance does not automatically determine licensing rights.',
+    'faq.q5': 'How do I request commercial use or a collaboration?',
+    'faq.a5': "Reach out through the channel's About page with a short note about your project. Vivi Soul reads every message and replies to genuine collaboration and licensing requests.",
 
+    'updates.eyebrow': 'Quiet mail',
     'updates.title': 'Quiet mail, not noise.',
     'updates.lede': 'One gentle email when a new track drops. No spam, no daily digests — unsubscribe anytime.',
     'updates.aria': 'Email address',
     'updates.button': 'Notify me',
-    'updates.success': "Thank you — you're on the list. New releases will find you. 🤍",
+    'updates.success': "Thank you — you're on the list. New releases will find you.",
 
-    'closing.title': 'Stay close to the soul.',
-    'closing.sub': 'Subscribe on YouTube — never miss a new release.',
-    'closing.cta': 'Subscribe on YouTube',
+    'cta.title': 'Stay close to the soul.',
+    'cta.sub': 'Subscribe on YouTube and the next quiet hour will find you.',
+    'cta.primary': 'Subscribe on YouTube',
+    'cta.secondary': 'Explore the latest release',
+    'cta.collab': 'Collaboration & music use',
 
-    'footer.faq': 'FAQ',
-    'footer.contact': 'Contact via YouTube'
+    'footer.tagline': 'AI music for the gentle hours.',
+    'footer.free': 'Free on YouTube',
+    'footer.nav': 'Explore',
+    'footer.connect': 'Connect',
+    'footer.contact': 'Contact via YouTube',
+    'footer.usage': 'Free to listen on YouTube. Free to listen is not free to reuse — please ask before using any track in your own videos, streams, or projects.',
+    'footer.rights': 'All rights reserved.',
+
+    'tracks.watch': 'Watch on YouTube',
+    'tracks.preview': 'Preview',
+    'tracks.watchAria': 'Watch {title} on YouTube',
+    'tracks.previewAria': 'Play a short preview of {title}'
   },
   vi: {
-    'doc.title': 'Vivi Soul — Nhạc AI giàu cảm xúc cho những giờ dịu êm',
+    'doc.title': 'Vivi Soul — Nhạc AI cho những giờ dịu êm',
+    'skip': 'Tới nội dung chính',
 
-    'nav.features': 'Nổi bật',
-    'nav.how': 'Cách nghe',
-    'nav.tracks': 'Bản nhạc',
+    'nav.moods': 'Tâm trạng',
+    'nav.releases': 'Bản nhạc',
+    'nav.story': 'Câu chuyện',
+    'nav.listen': 'Cách nghe',
     'nav.faq': 'Hỏi đáp',
     'nav.subscribe': 'Đăng ký',
+    'nav.close': 'Đóng',
 
-    'hero.eyebrow': '— Kênh nhạc AI —',
+    'hero.eyebrow': 'Một kênh nhạc được AI hỗ trợ',
     'hero.title': 'Nhạc AI cho những giờ dịu êm.',
-    'hero.sub': 'Những bản nhạc giàu cảm xúc, đậm chất điện ảnh — cho lúc tập trung sâu, suy tư đêm khuya, chữa lành và vẻ đẹp man mác của ký ức. Nhấn phát, để thế giới dịu lại.',
-    'hero.cta.subscribe': 'Đăng ký trên YouTube',
-    'hero.cta.explore': 'Nghe bản mới nhất →',
-    'mood.label': 'Tâm trạng tối nay:',
-    'mood.button': 'Đổi tâm trạng ↻',
-    'mood.listen': 'Nghe →',
+    'hero.sub': 'Những bản nhạc giàu cảm xúc, đậm chất điện ảnh — cho lúc tập trung sâu, suy tư đêm khuya, hồi phục sau một ngày dài và vẻ đẹp man mác của ký ức. Nhấn phát, để thế giới dịu lại.',
+    'hero.cta.primary': 'Nghe bản phát hành mới nhất',
+    'hero.cta.secondary': 'Đăng ký trên YouTube',
+    'hero.latest': 'Bản mới nhất',
+    'hero.caption': 'Vivi giữ lấy giờ phút cùng bạn.',
+    'hero.emblemAlt': 'Biểu tượng Vivi Soul — chữ V tím và vàng cổ với ngôi sao',
 
-    'proof.title': 'Dành cho người yêu thích',
-
-    'features.title': 'Vì sao chọn Vivi Soul',
-    'features.lede': 'Âm nhạc tạo ra vì cảm xúc, không vì thuật toán. Ba điều chúng tôi luôn chú tâm.',
-    'features.f1.num': '01 — Sáng tác',
-    'features.f1.title': 'Đậm chất điện ảnh',
-    'features.f1.body': 'Mỗi bản nhạc được dựng như một phim ngắn — mở đầu tĩnh lặng, cao trào chậm rãi, và đoạn kết còn vương vấn. Không phải tiếng ồn nền.',
-    'features.f2.num': '02 — Tâm trạng',
-    'features.f2.title': 'Âm cảnh chữa lành',
-    'features.f2.body': 'Tiếng dương cầm êm dịu, không gian ấm áp và những lớp âm nhẹ nhàng — dành cho đêm bình yên, lúc làm việc tập trung và những ngày hồi phục.',
-    'features.f3.num': '03 — Tiếp cận',
-    'features.f3.title': 'Nghe miễn phí trên YouTube',
-    'features.f3.body': 'Không hề có tường phí — toàn bộ nhạc nằm trên YouTube, nghe miễn phí mọi lúc mọi nơi. (YouTube có thể hiển thị quảng cáo tùy theo tài khoản và khu vực của bạn.)',
-
-    'mq1': 'tập trung sâu — <em>tâm hồn đêm khuya</em> — mưa chữa lành — <em>ký ức điện ảnh</em> — tình yêu hoài niệm —&nbsp;',
-    'mq2': 'nhấn phát — <em>để thế giới dịu lại</em> — thả trôi — <em>hít thở</em> — ở gần với tâm hồn —&nbsp;',
-
-    'how.title': 'Cách thả trôi',
-    'how.lede': 'Ba bước. Không cần cài ứng dụng.',
-    'how.s1.title': 'Đăng ký',
-    'how.s1.body': 'Theo dõi Vivi Soul trên YouTube để nhận mọi bản nhạc mới ngay khi ra mắt.',
-    'how.s2.title': 'Chọn tâm trạng',
-    'how.s2.body': 'Tập trung, chữa lành, đêm khuya, hoài niệm — chọn âm cảnh hợp với giờ phút của bạn.',
-    'how.s3.title': 'Thả trôi',
-    'how.s3.body': 'Nhấn phát, giảm đèn, và để âm nhạc đưa bạn đi xa bao lâu tùy thích.',
+    'moods.eyebrow': 'Đây là giờ phút như thế nào?',
+    'moods.title': 'Bắt đầu bằng một tâm trạng.',
+    'moods.sub': 'Không phải thể loại, không phải thuật toán — mà là một cảm xúc. Chọn giờ phút bạn đang ở, Vivi tìm âm thanh cho nó.',
+    'moods.recommended': 'Gợi ý cho giờ phút này',
+    'moods.listen': 'Nghe trên YouTube',
 
     'latest.kicker': 'Mới ra mắt',
-    'latest.title': 'Bản phát hành mới nhất',
+    'latest.title': 'Giờ tĩnh lặng mới nhất.',
     'latest.sub': 'Nhấn phát và để buổi tối nhẹ trôi vào.',
-    'latest.watch': 'Xem bản mới trên YouTube',
 
-    'tracks.title': 'Cũng từ kênh',
-    'tracks.lede': 'Lo-fi soul êm dịu, ambient chữa lành và những bản cinematic từ kênh — chọn giờ phút hợp với bạn. Chạm để xem trên YouTube.',
-    'tracks.note': 'Bản mới sẽ xuất hiện ở đây ngay khi ra mắt — đăng ký để không bỏ lỡ những bản lặng lẽ nhất.',
-    'tracks.watch': 'Xem trên YouTube',
-    'tracks.preview': 'Nghe thử',
-    'tracks.watchAria': 'Xem {title} trên YouTube',
-    'tracks.previewAria': 'Nghe thử một đoạn ngắn của {title}',
+    'releases.eyebrow': 'Kho nhạc',
+    'releases.title': 'Một tuyển tập nhỏ cho những giờ chậm.',
+    'releases.sub': 'Lo-fi soul êm dịu, ambient chữa lành và những bản cinematic. Chọn giờ phút hợp với bạn — mỗi bản đều mở trên YouTube.',
 
-    'faq.title': 'Câu hỏi',
-    'faq.lede': 'Những điều mọi người hay hỏi.',
-    'faq.q1': 'Nhạc có thật sự do AI tạo ra không?',
-    'faq.a1': 'Đúng vậy. Mỗi bản nhạc trên Vivi Soul được sáng tác bằng công cụ AI, rồi được tai người phối khí, mix và chọn lọc để cảm xúc chạm tới bạn. Hãy xem đó là sự đồng sáng tạo — máy móc + tâm hồn.',
+    'why.eyebrow': 'Vì sao chọn Vivi Soul',
+    'why.title': 'Tạo ra vì cảm xúc, không vì lượt xem.',
+    'why.p1.num': '01',
+    'why.p1.title': 'Đậm chất điện ảnh',
+    'why.p1.body': 'Mỗi bản nhạc được dựng như một phim ngắn — mở đầu tĩnh lặng, cao trào chậm rãi, và đoạn kết còn vương vấn. Không phải tiếng ồn nền.',
+    'why.p2.num': '02',
+    'why.p2.title': 'Âm cảnh giàu cảm xúc',
+    'why.p2.body': 'Tiếng dương cầm êm, không gian ấm áp và những lớp âm nhẹ nhàng — dành cho đêm bình yên, lúc làm việc tập trung và những ngày hồi phục.',
+    'why.p3.num': '03',
+    'why.p3.title': 'AI hỗ trợ, con người chọn lọc',
+    'why.p3.body': 'Công cụ AI giúp định hình mỗi ý tưởng, nhưng việc phối khí, chọn lọc, biên tập và chăm chút cảm xúc là do con người. Cảm xúc được chọn lựa, không phải sinh ra tự động.',
+
+    'story.eyebrow': 'Gặp Vivi',
+    'story.title': 'Người bạn lặng lẽ sau mỗi bản nhạc.',
+    'story.body': 'Vivi hiện diện trong căn phòng, không bao giờ đòi hỏi sự chú ý, luôn giữ lấy tâm trạng. Không phải một linh vật, cũng không phải gương mặt thương hiệu — mà là một cảm xúc ở lại với bạn qua những giờ khác nhau: ngọn đèn ấm còn sáng sau nửa đêm, sự bình yên ở phía bên kia một ngày nặng nề.',
+    'story.body2': 'Kênh tồn tại cho những khoảnh khắc mà âm nhạc thật sự dành cho — tập trung, nghỉ ngơi, hồi phục, hoài niệm. Âm thanh và hình ảnh được tạo nên như một thế giới, để việc nhấn phát bớt giống mở một ứng dụng, mà giống bước vào một căn phòng đã được giữ ấm sẵn cho bạn.',
+    'story.emblemAlt': 'Biểu tượng Vivi Soul trong quầng sáng hồng dịu',
+
+    'listen.eyebrow': 'Cách nghe',
+    'listen.title': 'Ba bước. Không cần cài ứng dụng.',
+    'listen.s1.title': 'Chọn giờ của bạn',
+    'listen.s1.body': 'Tập trung, đêm khuya, chữa lành, một ô cửa mưa — chọn tâm trạng hợp với khoảnh khắc này.',
+    'listen.s2.title': 'Nhấn phát',
+    'listen.s2.body': 'Một bản nhạc mở ra trên YouTube. Không cần cài ứng dụng, không cần tài khoản.',
+    'listen.s3.title': 'Để căn phòng dịu lại',
+    'listen.s3.body': 'Giảm đèn, thở ra, và ở lại bao lâu tùy bạn. Việc đăng ký là tùy chọn.',
+
+    'faq.eyebrow': 'Câu hỏi & tin cậy',
+    'faq.title': 'Những điều mọi người hay hỏi.',
+    'faq.q1': 'Nhạc có được tạo ra bằng AI không?',
+    'faq.a1': 'Đúng vậy. Mỗi bản nhạc được sáng tác bằng công cụ AI, rồi được tai người phối khí, mix và chọn lọc để cảm xúc chạm tới bạn. Hãy xem đó là sự đồng sáng tạo — máy móc hỗ trợ, gu thẩm mỹ là của con người.',
     'faq.q2': 'Nghe có miễn phí không?',
-    'faq.a2': 'Luôn luôn. Kênh nằm trên YouTube và âm nhạc sẽ không bao giờ bị chặn sau tường phí. Nếu muốn ủng hộ, việc đăng ký và chia sẻ còn ý nghĩa hơn cả tiền bạc.',
+    'faq.a2': 'Luôn luôn. Nhạc nằm trên YouTube và sẽ không bao giờ bị chặn sau tường phí. Bản thân YouTube có thể hiển thị quảng cáo tùy theo tài khoản và khu vực của bạn. Tuy nhiên, "miễn phí để nghe" không đồng nghĩa với "miễn phí để dùng lại".',
     'faq.q3': 'Bao lâu thì có bản nhạc mới?',
-    'faq.a3': 'Bản nhạc mới ra đều đặn, thường vào buổi tối muộn. Hãy đăng ký và bật chuông để không bỏ lỡ những bản lặng lẽ.',
+    'faq.a3': 'Bản nhạc mới ra đều đặn, thường vào buổi tối muộn. Hãy đăng ký và bật chuông để cả những bản lặng lẽ nhất cũng tìm được đến bạn.',
     'faq.q4': 'Tôi có thể dùng nhạc trong video của mình không?',
-    'faq.a4': 'Hãy liên hệ trước nếu dùng cho mục đích thương mại. Với dự án cá nhân, buổi học hay stream viết lách — cứ tự nhiên, chỉ cần ghi nguồn Vivi Soul trong phần mô tả.',
+    'faq.a4': 'Vui lòng liên hệ Vivi Soul trước khi dùng lại nhạc trong video, livestream, dự án khách hàng hay mục đích thương mại. Yêu cầu về quyền và ghi nguồn có thể khác nhau tùy từng bản — và việc có AI hỗ trợ không tự động quyết định quyền cấp phép.',
+    'faq.q5': 'Làm sao để xin dùng thương mại hoặc hợp tác?',
+    'faq.a5': 'Hãy liên hệ qua trang Giới thiệu của kênh kèm một ghi chú ngắn về dự án của bạn. Vivi Soul đọc mọi tin nhắn và phản hồi những đề nghị hợp tác, cấp phép thật lòng.',
 
+    'updates.eyebrow': 'Thư yên tĩnh',
     'updates.title': 'Thư yên tĩnh, không phải tiếng ồn.',
     'updates.lede': 'Một email nhẹ nhàng mỗi khi có bản nhạc mới. Không spam, không bản tin hằng ngày — hủy đăng ký bất cứ lúc nào.',
     'updates.aria': 'Địa chỉ email',
     'updates.button': 'Báo cho tôi',
-    'updates.success': 'Cảm ơn bạn — bạn đã có trong danh sách. Bản nhạc mới sẽ tìm đến bạn. 🤍',
+    'updates.success': 'Cảm ơn bạn — bạn đã có trong danh sách. Bản nhạc mới sẽ tìm đến bạn.',
 
-    'closing.title': 'Ở gần với tâm hồn.',
-    'closing.sub': 'Đăng ký trên YouTube — không bỏ lỡ bản nhạc nào.',
-    'closing.cta': 'Đăng ký trên YouTube',
+    'cta.title': 'Ở gần với tâm hồn.',
+    'cta.sub': 'Đăng ký trên YouTube, và giờ tĩnh lặng tiếp theo sẽ tìm đến bạn.',
+    'cta.primary': 'Đăng ký trên YouTube',
+    'cta.secondary': 'Khám phá bản mới nhất',
+    'cta.collab': 'Hợp tác & sử dụng nhạc',
 
-    'footer.faq': 'Hỏi đáp',
-    'footer.contact': 'Liên hệ qua YouTube'
+    'footer.tagline': 'Nhạc AI cho những giờ dịu êm.',
+    'footer.free': 'Miễn phí trên YouTube',
+    'footer.nav': 'Khám phá',
+    'footer.connect': 'Kết nối',
+    'footer.contact': 'Liên hệ qua YouTube',
+    'footer.usage': 'Nghe miễn phí trên YouTube. Miễn phí để nghe không có nghĩa là miễn phí để dùng lại — vui lòng hỏi trước khi dùng bất kỳ bản nhạc nào trong video, livestream hay dự án của bạn.',
+    'footer.rights': 'Bảo lưu mọi quyền.',
+
+    'tracks.watch': 'Xem trên YouTube',
+    'tracks.preview': 'Nghe thử',
+    'tracks.watchAria': 'Xem {title} trên YouTube',
+    'tracks.previewAria': 'Nghe thử một đoạn ngắn của {title}'
   }
 };
 
@@ -201,7 +242,7 @@ function t(key) {
 // ===========================================
 // 1) FEATURED TRACKS — single source of truth
 // -------------------------------------------
-// Toàn bộ nội dung track nằm ở đây. Section Featured Tracks
+// Toàn bộ nội dung track nằm ở đây. Latest Release + Archive
 // trong index.html được render từ mảng này.
 //
 // Thêm / sửa track:
@@ -221,13 +262,13 @@ function t(key) {
 //     3) (tùy chọn) sửa title / mood / description (+ moodVi / descVi) cho khớp.
 //   Lưu file → refresh trình duyệt. Ảnh thumbnail tự lấy từ YouTube.
 //
-//   Mẹo: muốn giữ video cũ lại trong "Also from the channel",
+//   Mẹo: muốn giữ video cũ lại trong Archive,
 //   hãy chèn THÊM một object mới lên ĐẦU mảng thay vì ghi đè.
 // ===========================================
 //
 // `videoId` là phần sau "v=" trong link YouTube.
 // ORDER MATTERS: featuredTracks[0] hiển thị làm Latest Release;
-// các track còn lại nằm ở mục "Also from the channel".
+// các track còn lại nằm ở mục Archive ("A small collection…").
 // `previewSrc` (tùy chọn): đường dẫn file MP3 snippet 15–30s tự host
 // (vd 'audio/quiet-fire-preview.mp3') → card sẽ hiện nút nghe thử.
 const featuredTracks = [
@@ -296,102 +337,225 @@ const featuredTracks = [
   }
 ];
 
+// ===========================================
+// 2) MOODS — 7 "giờ phút", mỗi mood gắn 1 video THẬT trên kênh
+// (mood selector "What kind of hour is this?")
+// ===========================================
+const MOODS = [
+  {
+    key: 'focus', name: 'Deep Focus', nameVi: 'Tập trung sâu', videoId: 'QWEDrddBqEg',
+    desc: 'For the long stretch of work that needs a clear, quiet mind. Nothing pulling at you — only room to think.',
+    descVi: 'Cho quãng làm việc dài cần một tâm trí trong và tĩnh. Không gì kéo sự chú ý của bạn — chỉ còn khoảng lặng để suy nghĩ.'
+  },
+  {
+    key: 'late', name: 'Late-night Soul', nameVi: 'Tâm hồn đêm khuya', videoId: 'gJwebqoc5fg',
+    desc: 'For the hour the city finally goes quiet. Warm keys, slow breath, and space to feel.',
+    descVi: 'Cho giờ khắc thành phố cuối cùng cũng lặng yên. Phím đàn ấm, hơi thở chậm, và khoảng trống để cảm nhận.'
+  },
+  {
+    key: 'healing', name: 'Healing', nameVi: 'Chữa lành', videoId: 'ACCAJRzoAHU',
+    desc: 'For the evening after a heavy day. Let your shoulders drop — nothing here asks anything of you.',
+    descVi: 'Cho buổi tối sau một ngày nặng nề. Buông lỏng đôi vai — ở đây không điều gì đòi hỏi ở bạn.'
+  },
+  {
+    key: 'morning', name: 'Quiet Morning', nameVi: 'Buổi sáng tĩnh lặng', videoId: '7wLPLBYkHs4',
+    desc: 'For beginning the day without rushing. Soft light, a slow start, one breath at a time.',
+    descVi: 'Cho lúc bắt đầu ngày mới không vội vã. Ánh sáng dịu, khởi đầu chậm rãi, từng hơi thở một.'
+  },
+  {
+    key: 'rain', name: 'Rainy Window', nameVi: 'Ô cửa mưa', videoId: 'k8bmgboWxus',
+    desc: 'For grey afternoons and rain drying on the glass. Slow thoughts, no hurry.',
+    descVi: 'Cho những buổi chiều xám và giọt mưa khô dần trên kính. Suy nghĩ chậm lại, không vội vàng.'
+  },
+  {
+    key: 'nostalgic', name: 'Nostalgic', nameVi: 'Hoài niệm', videoId: 'gYsWF2XzSiU',
+    desc: 'For the ache of good memories. Empty streets, warm neon, and everyone you used to know.',
+    descVi: 'Cho nỗi nhớ dịu dàng về những điều đẹp đẽ. Phố vắng, ánh neon ấm, và những người ta từng quen.'
+  },
+  {
+    key: 'strength', name: 'Inner Strength', nameVi: 'Sức mạnh nội tâm', videoId: 'pV3QkZVC2aI',
+    desc: 'For the quiet resolve you build alone. Slow swells that hold you steady.',
+    descVi: 'Cho sự vững vàng lặng lẽ bạn tự dựng nên. Những cao trào chậm giữ bạn đứng yên.'
+  }
+];
+
+let currentMoodKey = 'late';
+
+const trackById = Object.fromEntries(featuredTracks.map(tr => [tr.videoId, tr]));
+const watchUrl = id => `https://www.youtube.com/watch?v=${id}`;
+
 // Mood + description hiển thị theo ngôn ngữ hiện tại.
 function trackMood(track) { return currentLang === 'vi' && track.moodVi ? track.moodVi : track.mood; }
 function trackDesc(track) { return currentLang === 'vi' && track.descVi ? track.descVi : track.description; }
+function moodName(m) { return currentLang === 'vi' && m.nameVi ? m.nameVi : m.name; }
+function moodDesc(m) { return currentLang === 'vi' && m.descVi ? m.descVi : m.desc; }
 
-// Render the cards into <div id="tracks-grid"> by looping through the array.
+// Escape chuỗi trước khi chèn vào attribute HTML (title có thể chứa dấu ")
+function escAttr(s) { return String(s).replace(/"/g, '&quot;'); }
+
+// ===========================================
+// 3) IMAGE SLOT — thumbnail không bao giờ để lỗ trống
+// Chuỗi fallback: sddefault → hqdefault → poster thương hiệu
+// (CSS hiện .slot-poster khi data-state="broken")
+// ===========================================
+function slotHTML(videoId, alt, big) {
+  const src = `https://img.youtube.com/vi/${videoId}/${big ? 'maxresdefault' : 'sddefault'}.jpg`;
+  const fallback = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+  const safeAlt = escAttr(alt);
+  return `
+    <span class="slot">
+      <img src="${src}" alt="${safeAlt}" loading="lazy"
+           onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='${fallback}';}else{this.closest('.slot').dataset.state='broken';}">
+      <span class="slot-poster" aria-hidden="true">${POSTER_SVG}<span class="slot-poster-label">${safeAlt}</span></span>
+    </span>`;
+}
+
+// ===========================================
+// 4) RENDER — Archive ("A small collection for slow hours")
+// ===========================================
 function renderFeaturedTracks() {
   const grid = document.getElementById('tracks-grid');
   if (!grid) return;
 
-  // Clear whatever might be in the grid first.
   grid.innerHTML = '';
 
-  // Skip the first track — it's already shown as Latest Release above.
+  // Bỏ track đầu — đã hiển thị làm Latest Release phía trên.
   featuredTracks.slice(1).forEach(track => {
-    // YouTube hosts several thumbnail sizes at predictable URLs.
-    // sddefault (640×480) is noticeably sharper than hqdefault for these cards;
-    // if a video has no sddefault, onerror falls back to hqdefault.
-    const thumbnailSrc = `https://img.youtube.com/vi/${track.videoId}/sddefault.jpg`;
-    const thumbnailFallback = `https://img.youtube.com/vi/${track.videoId}/hqdefault.jpg`;
-
-    // Create a new <div> in memory and fill it with the card markup.
-    const card = document.createElement('div');
-    card.className = 'tier';
+    const card = document.createElement('article');
+    card.className = 'rel';
     card.innerHTML = `
-      <a class="track-thumbnail"
-         href="${track.url}" target="_blank" rel="noopener noreferrer"
-         aria-label="${t('tracks.watchAria').replace('{title}', track.title)}">
-        <img src="${thumbnailSrc}" alt="${track.title}" loading="lazy"
-             onerror="this.onerror=null;this.src='${thumbnailFallback}';">
+      <a class="rel-media" href="${track.url}" target="_blank" rel="noopener noreferrer"
+         aria-label="${escAttr(t('tracks.watchAria').replace('{title}', track.title))}">
+        ${slotHTML(track.videoId, track.title, false)}
         <span class="play-badge" aria-hidden="true"></span>
       </a>
-      <span class="mood">${trackMood(track)}</span>
-      <h3>${track.title}</h3>
-      <p class="desc">${trackDesc(track)}</p>
-      ${track.previewSrc ? `
-      <button class="preview-btn" data-preview="${track.previewSrc}" aria-label="${t('tracks.previewAria').replace('{title}', track.title)}">
-        <span class="preview-icon" aria-hidden="true">▶</span> ${t('tracks.preview')}
-      </button>` : ''}
-      <a class="btn btn-secondary" style="width: 100%;"
-         href="${track.url}" target="_blank" rel="noopener noreferrer">
-        ${YT_ICON_SVG}${t('tracks.watch')}
-      </a>
+      <div class="rel-body">
+        <span class="tag">${trackMood(track)}</span>
+        <h3 class="rel-title">${track.title}</h3>
+        <p class="rel-desc">${trackDesc(track)}</p>
+        ${track.previewSrc ? `
+        <button class="btn btn-secondary btn-sm preview-btn" data-preview="${track.previewSrc}" aria-label="${escAttr(t('tracks.previewAria').replace('{title}', track.title))}" style="width: 100%;">
+          <span class="preview-icon" aria-hidden="true">▶</span> ${t('tracks.preview')}
+        </button>` : ''}
+        <div class="rel-actions">
+          <a class="btn btn-secondary" href="${track.url}" target="_blank" rel="noopener noreferrer">
+            ${YT_ICON_SVG}${t('tracks.watch')}
+          </a>
+        </div>
+      </div>
     `;
-
-    // Attach the finished card to the grid in the page.
     grid.appendChild(card);
   });
 
-  // Re-bind audio preview buttons (cards were just regenerated).
   bindPreviewButtons();
 }
 
 // ===========================================
-// Render the Latest Release card (uses featuredTracks[0])
+// 5) RENDER — Latest Release (featured card 2 cột, featuredTracks[0])
 // ===========================================
 function renderLatestRelease() {
   const container = document.getElementById('latest-release-card');
   if (!container) return;
 
-  const latestTrack = featuredTracks[0];
-
-  // Latest Release is the hero card, so use the largest thumbnail (1280×720).
-  // maxresdefault doesn't exist for every video — onerror falls back to hqdefault.
-  const thumbnailSrc = `https://img.youtube.com/vi/${latestTrack.videoId}/maxresdefault.jpg`;
-  const thumbnailFallback = `https://img.youtube.com/vi/${latestTrack.videoId}/hqdefault.jpg`;
+  const latest = featuredTracks[0];
 
   container.innerHTML = `
-    <a class="latest-release-thumbnail"
-       href="${latestTrack.url}" target="_blank" rel="noopener noreferrer"
-       aria-label="${t('tracks.watchAria').replace('{title}', latestTrack.title)}">
-      <img src="${thumbnailSrc}" alt="${latestTrack.title}" loading="lazy"
-           onerror="this.onerror=null;this.src='${thumbnailFallback}';">
-      <span class="play-badge" aria-hidden="true"></span>
-    </a>
-    <div class="latest-release-content">
-      <span class="mood">${trackMood(latestTrack)}</span>
-      <h3>${latestTrack.title}</h3>
-      <p>${trackDesc(latestTrack)}</p>
-      <div class="latest-release-actions">
-        <a class="btn btn-primary"
-           href="${latestTrack.url}" target="_blank" rel="noopener noreferrer">
-          ${YT_ICON_SVG}${t('latest.watch')}
-        </a>
+    <article class="rel rel--featured">
+      <a class="rel-media" href="${latest.url}" target="_blank" rel="noopener noreferrer"
+         aria-label="${escAttr(t('tracks.watchAria').replace('{title}', latest.title))}">
+        ${slotHTML(latest.videoId, latest.title, true)}
+        <span class="rel-badge"><span class="badge"><span class="badge-dot" aria-hidden="true"></span>${t('latest.kicker')}</span></span>
+        <span class="play-badge play-badge--lg" aria-hidden="true"></span>
+      </a>
+      <div class="rel-body">
+        <span class="tag">${trackMood(latest)}</span>
+        <h3 class="rel-title">${latest.title}</h3>
+        <p class="rel-desc">${trackDesc(latest)}</p>
+        <div class="rel-actions">
+          <a class="btn btn-primary" href="${latest.url}" target="_blank" rel="noopener noreferrer">
+            ${YT_ICON_SVG}${t('tracks.watch')}
+          </a>
+        </div>
       </div>
+    </article>
+  `;
+
+  // Hero: nút "Listen to the latest release" + chip now-playing + CTA cuối trang
+  const heroBtn = document.getElementById('heroListenBtn');
+  if (heroBtn) heroBtn.href = latest.url;
+  const ctaBtn = document.getElementById('ctaLatestBtn');
+  if (ctaBtn) ctaBtn.href = latest.url;
+  const now = document.getElementById('heroNow');
+  const nowTitle = document.getElementById('heroNowTitle');
+  if (now && nowTitle) {
+    nowTitle.textContent = latest.title;
+    now.href = latest.url;
+    now.hidden = false;
+  }
+}
+
+// ===========================================
+// 6) RENDER — Mood selector (chips + feature panel)
+// ===========================================
+function renderMoodChips() {
+  const list = document.getElementById('moodList');
+  if (!list) return;
+  list.innerHTML = '';
+  MOODS.forEach(m => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'mood-chip';
+    chip.setAttribute('role', 'tab');
+    chip.setAttribute('aria-selected', String(m.key === currentMoodKey));
+    chip.setAttribute('aria-controls', 'moodFeature');
+    chip.innerHTML = `${WAVE_SVG}<span><span class="mood-chip-name">${moodName(m)}</span></span>`;
+    chip.addEventListener('click', () => {
+      if (currentMoodKey === m.key) return;
+      currentMoodKey = m.key;
+      renderMoodChips();
+      renderMoodFeature();
+    });
+    list.appendChild(chip);
+  });
+}
+
+function renderMoodFeature() {
+  const panel = document.getElementById('moodFeature');
+  if (!panel) return;
+  const mood = MOODS.find(m => m.key === currentMoodKey) || MOODS[0];
+  const track = trackById[mood.videoId];
+  if (!track) return;
+  const url = watchUrl(mood.videoId);
+
+  panel.innerHTML = `
+    <span class="tag">${trackMood(track)}</span>
+    <p class="mood-feature-desc">${moodDesc(mood)}</p>
+    <a class="mood-feature-thumb" href="${url}" target="_blank" rel="noopener noreferrer"
+       aria-label="${escAttr(t('moods.listen') + ': ' + track.title)}">
+      ${slotHTML(mood.videoId, track.title, false)}
+      <span class="play-badge play-badge--lg" aria-hidden="true"></span>
+    </a>
+    <div class="mood-feature-foot">
+      <div>
+        <p class="mood-feature-reco">${t('moods.recommended')}</p>
+        <p class="mood-feature-track">${track.title}</p>
+      </div>
+      <a class="btn btn-secondary" href="${url}" target="_blank" rel="noopener noreferrer">
+        ${YT_ICON_SVG}${t('moods.listen')}
+      </a>
     </div>
   `;
 }
 
 // ===========================================
-// 2) Auto-update footer year
+// 7) Auto-update footer year
 // ===========================================
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 // ===========================================
-// 3) FAQ accordion — close other items when one opens
+// 8) FAQ accordion — mở mục này thì đóng mục khác
+// (<details> thuần nên không có JS vẫn mở/đóng được)
 // ===========================================
 const allDetails = document.querySelectorAll('.faq-list details');
 allDetails.forEach(d => {
@@ -403,43 +567,54 @@ allDetails.forEach(d => {
 });
 
 // ===========================================
-// 4) MOOD SWITCHER — cycle through 5 moods on click
-// -------------------------------------------
-// Mỗi mood gắn 1 video THẬT trên kênh nên "Listen →" luôn
-// dẫn tới chỗ hợp vibe. `labelVi` cho nhãn tiếng Việt.
+// 9) HEADER — thu gọn khi cuộn + mobile menu sheet
 // ===========================================
-const moods = [
-  { label: 'Late-night soul',    labelVi: 'Tâm hồn đêm khuya', url: 'https://www.youtube.com/watch?v=gJwebqoc5fg' }, // When the City Finally Sleeps
-  { label: 'Healing rain',       labelVi: 'Mưa chữa lành',     url: 'https://www.youtube.com/watch?v=k8bmgboWxus' }, // Blue Hour Drizzle
-  { label: 'Cinematic memories', labelVi: 'Ký ức điện ảnh',    url: 'https://www.youtube.com/watch?v=pV3QkZVC2aI' }, // Quiet Fire
-  { label: 'Deep focus',         labelVi: 'Tập trung sâu',     url: 'https://www.youtube.com/watch?v=QWEDrddBqEg' }, // A Quiet Room for Slowing Down
-  { label: 'Nostalgic love',     labelVi: 'Tình yêu hoài niệm', url: 'https://www.youtube.com/watch?v=ACCAJRzoAHU' }  // Coming Home Slowly
-];
+(function setupHeader() {
+  const header = document.querySelector('header.topnav');
+  if (header) {
+    const onScroll = () => header.setAttribute('data-scrolled', String(scrollY > 24));
+    onScroll();
+    addEventListener('scroll', onScroll, { passive: true });
+  }
 
-let currentMood = 0;
-const moodText = document.getElementById('moodText');
-const moodBtn = document.getElementById('moodBtn');
-const moodLink = document.getElementById('moodLink');
+  const sheet = document.getElementById('mobileNav');
+  const openBtn = document.getElementById('menuBtn');
+  const closeBtn = document.getElementById('menuCloseBtn');
+  if (!sheet || !openBtn) return;
 
-function applyMood(index) {
-  const mood = moods[index];
-  if (moodText) moodText.textContent = currentLang === 'vi' && mood.labelVi ? mood.labelVi : mood.label;
-  if (moodLink) moodLink.href = mood.url;
-}
-
-if (moodBtn && moodText) {
-  moodBtn.addEventListener('click', () => {
-    currentMood = (currentMood + 1) % moods.length;
-    moodText.classList.add('fade');
-    setTimeout(() => {
-      applyMood(currentMood);
-      moodText.classList.remove('fade');
-    }, 250);
+  function setMenu(open) {
+    const wasOpen = sheet.getAttribute('data-open') === 'true';
+    sheet.setAttribute('data-open', String(open));
+    openBtn.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+    // Focus: mở → vào nút đóng; đóng → trả về nút mở (a11y dialog)
+    if (open && closeBtn) closeBtn.focus();
+    else if (wasOpen && !open) openBtn.focus();
+  }
+  openBtn.addEventListener('click', () => setMenu(true));
+  if (closeBtn) closeBtn.addEventListener('click', () => setMenu(false));
+  sheet.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => {
+    if (sheet.getAttribute('data-open') !== 'true') return;
+    if (e.key === 'Escape') { setMenu(false); return; }
+    // Focus trap: Tab quay vòng trong sheet khi đang mở
+    if (e.key === 'Tab') {
+      const focusables = sheet.querySelectorAll('a[href], button:not([disabled])');
+      if (!focusables.length) return;
+      const first = focusables[0], last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
-}
+  // Màn hình phóng rộng qua breakpoint desktop → sheet tự đóng
+  const desktopMQ = matchMedia('(min-width: 861px)');
+  const closeOnDesktop = () => { if (desktopMQ.matches) setMenu(false); };
+  if (desktopMQ.addEventListener) desktopMQ.addEventListener('change', closeOnDesktop);
+  else if (desktopMQ.addListener) desktopMQ.addListener(closeOnDesktop);
+})();
 
 // ===========================================
-// 5) APPLY LANGUAGE — đổi toàn bộ chữ + render lại phần động
+// 10) APPLY LANGUAGE — đổi toàn bộ chữ + render lại phần động
 // ===========================================
 function applyLanguage(lang) {
   if (lang !== 'vi' && lang !== 'en') lang = 'en';
@@ -454,7 +629,7 @@ function applyLanguage(lang) {
     const k = el.getAttribute('data-i18n');
     if (dict[k] != null) el.textContent = dict[k];
   });
-  // Chữ có thẻ HTML (innerHTML) — vd marquee với <em>
+  // Chữ có thẻ HTML (innerHTML)
   document.querySelectorAll('[data-i18n-html]').forEach(el => {
     const k = el.getAttribute('data-i18n-html');
     if (dict[k] != null) el.innerHTML = dict[k];
@@ -464,48 +639,61 @@ function applyLanguage(lang) {
     const k = el.getAttribute('data-i18n-aria');
     if (dict[k] != null) el.setAttribute('aria-label', dict[k]);
   });
+  // alt của ảnh
+  document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+    const k = el.getAttribute('data-i18n-alt');
+    if (dict[k] != null) el.setAttribute('alt', dict[k]);
+  });
 
   if (dict['doc.title']) document.title = dict['doc.title'];
 
   // Phần động: render lại theo ngôn ngữ mới
   renderFeaturedTracks();
   renderLatestRelease();
-  applyMood(currentMood);
+  renderMoodChips();
+  renderMoodFeature();
 
-  // Cập nhật nút chuyển ngữ
-  document.querySelectorAll('#langSwitch button[data-lang]').forEach(b => {
+  // Cập nhật MỌI cụm nút chuyển ngữ (header, mobile sheet, footer)
+  document.querySelectorAll('.lang-switch button[data-lang]').forEach(b => {
     b.setAttribute('aria-pressed', String(b.dataset.lang === currentLang));
   });
 
-  // GSAP word-reveal (fx.js) đọc lại textContent — nếu đã tách từ trước đó,
-  // báo nó refresh để các <h2> vừa đổi chữ hiển thị đúng.
-  if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === 'function') {
-    window.ScrollTrigger.refresh();
-  }
+  // Báo fx.js đo lại layout (chiều cao section đổi theo độ dài chữ)
+  dispatchEvent(new Event('vivi:layout'));
 }
 
-// Wiring nút chuyển ngữ trong nav
-document.querySelectorAll('#langSwitch button[data-lang]').forEach(b => {
+// Wiring mọi nút chuyển ngữ (header + mobile + footer)
+document.querySelectorAll('.lang-switch button[data-lang]').forEach(b => {
   b.addEventListener('click', () => applyLanguage(b.dataset.lang));
 });
 
 // ===========================================
-// 6) SCROLL REVEAL — fallback khi GSAP (fx.js) bị chặn
+// 11) SCROLL REVEAL — nhẹ nhàng, an toàn tuyệt đối
+// -------------------------------------------
+// Design system yêu cầu: nội dung HIỂN THỊ MẶC ĐỊNH, chuyển động
+// chỉ là lớp phủ. Class .reveal do JS thêm (không JS = không ẩn gì),
+// IntersectionObserver bật .is-visible, kèm safety timeout 1800ms
+// phòng khi observer không chạy.
+// GỌI SAU applyLanguage() đầu tiên — card động phải render xong
+// thì querySelectorAll mới bắt được (.rel, .mood-layout…).
 // ===========================================
-(function setupScrollReveal() {
+function setupScrollReveal() {
   const prefersReduced = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // fx.js (GSAP ScrollTrigger) đảm nhận reveal khi CDN tải được —
-  // khối này chỉ còn là fallback khi GSAP bị chặn / offline.
-  if (window.gsap && window.ScrollTrigger && !prefersReduced) return;
+  if (prefersReduced || !('IntersectionObserver' in window)) return;
 
   const targets = document.querySelectorAll(
-    '.features, .how, .latest-release-section, .tracks, .faq, .updates, .closing'
+    '#moods .section-head, #moods .mood-layout, ' +
+    '#latest-release .section-head, #latest-release-card, ' +
+    '#releases .section-head, #releases .rel, ' +
+    '#why .section-head, .why-card, ' +
+    '#story .story-grid, ' +
+    '#listen .section-head, .step, ' +
+    '#faq .section-head, .faq-list, ' +
+    '#updates .section-head, .email-form, ' +
+    '.closing-inner'
   );
   if (!targets.length) return;
-
-  if (prefersReduced || !('IntersectionObserver' in window)) return;
 
   targets.forEach(el => el.classList.add('reveal'));
 
@@ -516,13 +704,18 @@ document.querySelectorAll('#langSwitch button[data-lang]').forEach(b => {
         obs.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
 
   targets.forEach(el => observer.observe(el));
-})();
+
+  // Lưới an toàn: sau 1.8s mọi thứ buộc phải hiện (đề phòng observer treo)
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.is-visible)').forEach(el => el.classList.add('is-visible'));
+  }, 1800);
+}
 
 // ===========================================
-// 7) EMAIL CAPTURE — Formspree, with graceful hiding
+// 12) EMAIL CAPTURE — Formspree, with graceful hiding
 // -------------------------------------------
 // ▶ CÁCH BẬT FORM EMAIL:
 //   1) Tạo form miễn phí tại https://formspree.io → copy Form ID (vd 'xkgwabcd')
@@ -562,7 +755,7 @@ document.querySelectorAll('#langSwitch button[data-lang]').forEach(b => {
 })();
 
 // ===========================================
-// 8) AUDIO PREVIEW — play 15–30s snippets on track cards
+// 13) AUDIO PREVIEW — play 15–30s snippets on track cards
 // -------------------------------------------
 // Cards chỉ hiện nút Preview khi track có `previewSrc`.
 // `bindPreviewButtons()` gọi lại sau mỗi lần render (kể cả khi đổi ngôn ngữ)
@@ -607,7 +800,9 @@ function bindPreviewButtons() {
 }
 
 // ===========================================
-// 9) KHỞI TẠO — áp ngôn ngữ ban đầu (render lần đầu nằm trong đây)
-// Chạy TRƯỚC fx.js → các <h2> đã đúng ngữ khi fx.js tách từ word-reveal.
+// 14) KHỞI TẠO — áp ngôn ngữ ban đầu (render lần đầu nằm trong đây),
+// SAU ĐÓ mới gắn scroll reveal (cần card động đã render).
+// Chạy TRƯỚC fx.js → nội dung + chữ đã đúng ngữ khi fx.js đo layout.
 // ===========================================
 applyLanguage(currentLang);
+setupScrollReveal();

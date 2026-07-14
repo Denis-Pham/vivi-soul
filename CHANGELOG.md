@@ -10,21 +10,23 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 🔗 Kênh: [youtube.com/@ViviSoulmusic](https://www.youtube.com/@ViviSoulmusic)
 🔗 Repo: [github.com/Denis-Pham/vivi-soul](https://github.com/Denis-Pham/vivi-soul) — deploy qua GitHub Pages.
 
-## 🗂 Kết cấu project (cập nhật 2026-06-10)
+## 🗂 Kết cấu project (cập nhật 2026-07-14)
 
 | File | Vai trò |
 |---|---|
-| `index.html` | Khung trang + toàn bộ style chính (inline `<style>`, theme tokens ở `:root`). Sections: Hero (mood switcher + dual CTA) → Logo wall → 3 Feature cards → "How to drift" → Latest Release → Featured Tracks → FAQ → Closing CTA → Footer |
-| `script.js` | **Toàn bộ nội dung track nằm ở đây** — mảng `featuredTracks` là single source of truth: phần tử `[0]` = Latest Release, phần còn lại đổ vào grid "Also from the channel". Kèm: **bộ chuyển ngữ song ngữ Anh/Việt (i18n)** — object `TRANSLATIONS` + hàm `applyLanguage()`; FAQ accordion, mood switcher (5 moods, có `labelVi`), scroll reveal fallback (IntersectionObserver — chỉ chạy khi CDN GSAP bị chặn), auto year |
-| `fx.js` | **Lớp 3D + chuyển động** (ES module): thế giới wireframe Three.js bám theo scroll (vinyl, sóng âm, equalizer, nốt nhạc, vòng hào quang), GSAP ScrollTrigger (word-reveal, batch reveal, marquee, progress bar), Lenis smooth scroll. Tự tắt hoàn toàn khi reduced-motion / CDN lỗi / WebGL lỗi |
-| `style.css` | Style phụ: thumbnail cards, Latest Release section, animations |
-| `DESIGN.md` | Design system tham chiếu (Lamborghini, từ getdesign.md) — đọc trước khi sửa UI để giữ ngôn ngữ thiết kế nhất quán |
+| `index.html` | Khung trang + tokens design system ở `:root` + layout (inline `<style>`). Sections: Header sticky glass → Hero "the current hour" (chữ + CTA + chip bản mới nhất \| emblem Vivi trong orbit) → Mood selector (7 mood) → Latest Release → Archive → Why (3 nguyên tắc) → Meet Vivi/Story → How to listen → FAQ (5 câu) → Email capture (ẩn) → Final CTA → Footer 3 cột + usage note |
+| `script.js` | **Toàn bộ nội dung track nằm ở đây** — mảng `featuredTracks` là single source of truth: `[0]` = Latest Release, còn lại đổ vào Archive. Kèm: mảng `MOODS` (7 mood cho mood selector, mỗi mood gắn 1 video thật); **i18n Anh/Việt** — `TRANSLATIONS` + `applyLanguage()` (thêm `data-i18n-alt`); render mood chips + feature panel; image fallback 3 tầng (sd → hq → poster thương hiệu `.slot[data-state="broken"]`); header thu gọn khi cuộn; mobile menu sheet (dialog + focus trap); scroll reveal an toàn (nội dung hiển thị mặc định, gọi SAU render đầu); FAQ single-open; email capture; audio preview |
+| `fx.js` | **Lớp 3D** (ES module): thế giới wireframe Three.js bám theo scroll (vinyl @hero, equalizer @moods, sóng âm @latest-release, nốt nhạc @releases, vòng hào quang @subscribe) + Lenis smooth scroll + progress bar. **GSAP đã gỡ** (2026-07-14) — motion "breathing, not performing". Tự tắt hoàn toàn khi reduced-motion / CDN lỗi / WebGL lỗi. Nghe event `vivi:layout` để đo lại khi đổi ngôn ngữ |
+| `style.css` | Component styles theo design system: atmosphere glows + film grain, buttons, tags, badges, mood chips, release cards, image-slot poster, play button glass, equalizer, accordion (details), lang switch, email form |
+| `assets/` | `vivi-soul-logo.jpg` (emblem thật của kênh — header/hero/story/footer), `og-image.jpg` (OG 1200×630 branded) |
+| `DESIGN.md` | **Vivi Soul Design System** (spec rút gọn từ project claude.ai) — đọc trước khi sửa UI. Hệ Lamborghini cũ đã ngừng áp dụng |
+| `robots.txt` / `sitemap.xml` | SEO (phát huy đầy đủ khi có custom domain) |
 | `README.md` | Hướng dẫn gốc: chạy local, deploy GitHub Pages, bài học khi build |
 | `CHANGELOG.md` | File này — lịch sử update + quy ước làm việc |
 
-**Stack:** HTML + CSS + JavaScript thuần — không framework, không build tool. Thư viện hiệu ứng load qua CDN (GSAP 3.12 + ScrollTrigger, Lenis 1.1, Three.js 0.170 qua importmap) — trang vẫn hoạt động đầy đủ nếu CDN bị chặn. Chạy local: `python3 -m http.server 5173`.
+**Stack:** HTML + CSS + JavaScript thuần — không framework, không build tool. Thư viện hiệu ứng load qua CDN (Lenis 1.1, Three.js 0.170 qua importmap; GSAP đã gỡ 2026-07-14) — trang vẫn hoạt động đầy đủ nếu CDN bị chặn. Chạy local: `python3 -m http.server 5173`.
 
-**Theme:** dark cinematic — tím / đen / vàng gold. Tokens: `--bg`, `--surface`, `--fg`, `--muted`, `--accent` (gold `#d4af37`), `--accent-2`… đều ở `:root` trong `index.html`.
+**Theme (Vivi Soul Design System, 2026-07-14):** warm cinematic dark — ink & plum canvas, chữ warm ivory, hành động antique gold, nhấn cảm xúc dusk rose. Tokens: `--bg` (`#050308`), `--surface` (`#16091F`), `--fg` (ivory `#F3EEE4`), `--muted` (lavender `#B9AFBF`), `--accent` (gold `#D5AE36`), `--rose` (`#C77B86`)… đều ở `:root` trong `index.html`. Font: Cormorant Garamond (display, sentence case — KHÔNG all-caps) + Manrope (UI/body).
 
 ## 📋 Quy ước cho AI agents
 
@@ -57,6 +59,7 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 - [x] ~~Kiểm tra GitHub Pages~~ — ĐÃ LIVE tại `https://denis-pham.github.io/vivi-soul/` (xác nhận 2026-06-10, bản deploy đúng code mới nhất)
 - [x] ~~Đổi `og:url` + `canonical` sang URL Pages thật~~ — xong 2026-06-10
 - [ ] Thêm track mới vào `featuredTracks` khi kênh đăng video mới (4 video thật chưa dùng đến: `3HdXLkwtBgQ`, `5sqcEcJcU9A`, `_udLB3fXaAA`, `yovAJN75jsU`, `whgbcx-VqrY`)
+- [ ] **Art chân dung Vivi**: khi Denis có art thật (Vivi bên ô cửa mưa, đèn ấm, tai nghe — brief trong design system), thay emblem-in-orbit ở section `#story` (`.story-portrait` trong index.html). KHÔNG tự generate art
 - [ ] Khi kênh có comment thật từ khán giả: thêm section testimonial (2–3 comment) thay thế hoặc bổ sung cho khối "For fans of"
 - [x] ~~Sửa git config email~~ — xong 2026-06-10: set `manhduc1703@gmail.com` cho cả repo lẫn global (trước đó cả hai đều là placeholder `you@example.com`)
 - [ ] (Tuỳ chọn) Custom domain trỏ về GitHub Pages
@@ -64,6 +67,21 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 ---
 
 # 📅 Lịch sử update
+
+## [2026-07-14] — Redesign toàn trang theo Vivi Soul Design System (thay hệ Lamborghini)
+**Agent/Người thực hiện:** Claude Code (theo yêu cầu Denis, design system từ project claude.ai của Denis)
+**Files thay đổi:** index.html, style.css, script.js, fx.js, DESIGN.md, CHANGELOG.md + mới: assets/vivi-soul-logo.jpg, assets/og-image.jpg, robots.txt, sitemap.xml
+**Nội dung:**
+- 🎨 **Áp dụng Vivi Soul Design System** (https://claude.ai/design/p/75ce1ee9-9118-43d8-8f40-4dcdee862f87 — 144 tokens, 12 components, UI kit homepage; đọc qua DesignSync). Tinh thần: "cinematic emotional listening journal" — ấm, thân mật, editorial. Thay toàn bộ hệ Lamborghini cũ (đen tuyền + all-caps + góc 0px)
+- 🎨 **Tokens mới:** ink `#050308` / plum `#16091F` / violet `#32104A`, chữ warm ivory `#F3EEE4` (bỏ trắng tinh), lavender `#B9AFBF`, antique gold `#D5AE36` (hover `#E8CE7A`, press `#A97720`), dusk rose `#C77B86`; hairline ivory 10/22%, gold 32%; radius 2/4px; font UI đổi Inter → **Manrope**, giữ Cormorant Garamond cho display; **heading sentence case** (bỏ uppercase)
+- 🏗 **IA mới theo design:** hero 2 cột (chữ + CTA + chip bản mới nhất | **emblem thật của kênh trong vòng orbit**) → **Mood selector 7 mood** (Deep Focus, Late-night Soul, Healing, Quiet Morning, Rainy Window, Nostalgic, Inner Strength — mỗi mood 1 video thật, thay mood switcher 5 mood cũ) → Latest Release (featured card 2 cột) → Archive → Why (nguyên tắc #3 mới: "AI-assisted, human-curated") → **Meet Vivi/Story (mới)** → How to listen → **FAQ 5 câu** (thêm câu licensing; sửa a2/a4: "miễn phí để nghe" ≠ "miễn phí để dùng lại") → Final CTA (+link Hợp tác & sử dụng nhạc → About kênh) → **Footer 3 cột + usage note** (bỏ logo wall "For fans of")
+- 🖼 **Ảnh không bao giờ để lỗ trống:** fallback 3 tầng sd → hq → poster thương hiệu (radial violet + waveform glyph); OG image mới `assets/og-image.jpg` 1200×630 branded (compose bằng System.Drawing — hết phụ thuộc thumbnail YouTube)
+- 🎬 **Motion "breathing, not performing":** GỠ GSAP + ScrollTrigger (bỏ word-reveal tách chữ, batch reveal ẩn nội dung, marquee, con trỏ ♪, skew) — nội dung **hiển thị mặc định**, reveal nhẹ bằng IntersectionObserver (class .reveal do JS thêm + safety timeout 1.8s). Giữ Lenis + lớp 3D wireframe nhưng retint sang palette mới, giảm opacity; fx.js nghe `vivi:layout` để đo lại khi đổi ngôn ngữ
+- 📱 **Mobile menu sheet mới** (hamburger → dialog fullscreen, focus trap, Escape, tự đóng khi phóng qua 860px); header sticky glass thu gọn khi cuộn; lang switch EN/VI giờ có ở header + mobile sheet + footer (đồng bộ cả 3)
+- 🔍 SEO: robots.txt + sitemap.xml (đầy đủ tác dụng khi có custom domain), apple-touch-icon = emblem, favicon recolor
+- ✅ Verify local (port 5174): 0 lỗi console; EN→VI→EN round-trip đủ (title/hero/nav/mood/FAQ/footer, i18n parity 79/79 key máy check); mood switch đổi track+link+tag đúng, giữ selection khi đổi ngữ; 6 card archive + latest render đúng; updates ẩn đúng; mobile 375px: hamburger + sheet mở/đóng + khóa scroll OK, grid về 1 cột; 7/7 thumbnail YouTube HTTP 200; code-reviewer agent: 0 critical/high, 4 finding medium/low đã sửa hết (reveal ordering, escape title trong attribute, dialog semantics + focus trap, auto-close sheet)
+- ⚠️ Quirk pane preview (đã biết từ 2026-06): rAF bị suspend → không chụp screenshot/không render 3D được trong pane; verify bằng eval + computed style. Trên browser thật không bị
+**Lý do / ghi chú:** Denis gửi link design system tự build trên claude.ai và yêu cầu nâng cấp trang theo hệ này. Agent sau: đọc `DESIGN.md` mới (spec đầy đủ) — ĐỪNG khôi phục quy tắc Lamborghini (uppercase, đen tuyền, radius 0). Track/mood data vẫn chỉ nằm ở `script.js`.
 
 ## [2026-07-10] — 2 bug fix từ audit độc lập của Hermes Agent (pilot collab)
 **Agent/Người thực hiện:** Hermes Agent (audit + fix, kanban task t_027ddf70) → Claude Code review + merge → Denis duyệt

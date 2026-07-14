@@ -1,28 +1,33 @@
 // ============================================================
-// VIVI SOUL — FX LAYER
-// Thế giới 3D wireframe (Three.js) + scroll choreography
-// (GSAP ScrollTrigger) + cuộn mượt (Lenis).
+// VIVI SOUL — FX LAYER (Vivi Soul Design System)
+// Thế giới 3D wireframe (Three.js) + cuộn mượt (Lenis).
 //
-// Nguyên tắc an toàn:
+// Nguyên tắc motion của design system: "breathing, not performing"
+//   - KHÔNG ẩn nội dung chờ hiệu ứng (reveal do script.js đảm nhận,
+//     nội dung hiển thị mặc định).
+//   - KHÔNG con trỏ tùy biến, KHÔNG tách chữ, KHÔNG marquee.
+//   - Lớp 3D chỉ là trang trí sau nội dung: vật thể wireframe
+//     mảnh, trôi chậm, mờ dần khi rời "chương" của mình.
+//
+// An toàn:
 //   - prefers-reduced-motion → tắt toàn bộ, trang tĩnh như cũ.
 //   - CDN lỗi / WebGL lỗi → tự gỡ canvas, nội dung không bị ẩn.
-//   - Mọi màu lấy từ palette tím/đen/gold của trang.
+//   - Mọi màu lấy từ palette Vivi Soul (DESIGN.md).
 //
-// Bố cục thế giới 3D (mỗi section một "đạo cụ", bám theo vị trí
-// section trong document — camera đi xuống theo scroll):
-//   hero            → đĩa vinyl wireframe gold quay chậm + nốt nhạc
-//   features        → equalizer 3D (cột sóng tím nhún theo nhạc)
-//   latest-release  → hai dải sóng âm sin chạy ngang
-//   featured-tracks → nốt nhạc wireframe bay lơ lửng hai bên
-//   closing         → 3 vòng hào quang gold/tím xoay chậm
+// Bố cục thế giới 3D (mỗi section một "đạo cụ", camera đi xuống
+// theo scroll):
+//   hero (#main-content) → đĩa vinyl wireframe gold quay chậm + nốt nhạc
+//   #moods              → equalizer 3D (cột violet nhún nhẹ)
+//   #latest-release     → hai dải sóng âm sin (gold / violet)
+//   #releases           → nốt nhạc wireframe bay lơ lửng hai mép
+//   #subscribe          → 3 vòng hào quang gold / rose xoay chậm
 // ============================================================
 import * as THREE from 'three';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canvas = document.getElementById('stage');
-const hasLibs = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
 
-if (reduced || !hasLibs || !canvas) {
+if (reduced || !canvas) {
   // Trang quay về trạng thái tĩnh: gỡ canvas + progress bar.
   if (canvas) canvas.remove();
   const bar = document.getElementById('progress');
@@ -32,19 +37,12 @@ if (reduced || !hasLibs || !canvas) {
 }
 
 function boot() {
-  gsap.registerPlugin(ScrollTrigger);
-
-  /* ---------------- Lenis — cuộn mượt ---------------- */
-  // scroll-behavior:smooth của CSS xung đột với Lenis → trả về auto.
-  document.documentElement.style.scrollBehavior = 'auto';
-  // ScrollTrigger có thể bỏ lỡ scroll không do Lenis điều khiển
-  // (kéo scrollbar, phím Page Down, scroll programmatic) → luôn tự update.
-  addEventListener('scroll', () => ScrollTrigger.update(), { passive: true });
-
+  /* ---------------- Lenis — cuộn mượt (tùy chọn, CDN) ---------------- */
   let lenis = null;
   if (window.Lenis) {
+    // scroll-behavior:smooth của CSS xung đột với Lenis → trả về auto.
+    document.documentElement.style.scrollBehavior = 'auto';
     lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
-    lenis.on('scroll', ScrollTrigger.update);
     // Anchor link đi qua Lenis cho mượt (trừ skip-link — giữ hành vi a11y gốc)
     document.querySelectorAll('a[href^="#"]:not(.skip-link)').forEach(a => {
       a.addEventListener('click', e => {
@@ -56,103 +54,24 @@ function boot() {
     });
   }
 
-  /* ================= DOM CHOREOGRAPHY (GSAP) ================= */
+  /* ---------------- Progress bar — vạch gold mảnh trên cùng ---------------- */
+  const progressBar = document.getElementById('progress');
 
-  // Thanh tiến độ gold trên cùng
-  gsap.to('#progress', {
-    scaleX: 1, ease: 'none',
-    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.3 }
-  });
-
-  // Hero vào trang: các khối trồi lên lần lượt
-  gsap.from('.hero .eyebrow, .hero h1, .hero p.sub, .hero .cta, .hero .mood-switcher', {
-    y: 46, opacity: 0, duration: 1.1, ease: 'power3.out', stagger: 0.09, delay: 0.15
-  });
-
-  // Hero thoát: trôi lên + mờ dần khi cuộn xuống (scrub đảo ngược được)
-  gsap.to('.hero', {
-    yPercent: -12, opacity: 0.2, ease: 'none',
-    scrollTrigger: { trigger: '.hero-shell', start: 'top top', end: 'bottom 30%', scrub: 0.5 }
-  });
-
-  // Word-reveal cho các h2 màu phẳng (KHÔNG áp dụng heading gradient-clip —
-  // tách span sẽ làm mất hiệu ứng gradient text)
-  const splitTargets = document.querySelectorAll('.features h2, .how h2, .tracks h2, .faq h2, .updates h2');
-  splitTargets.forEach(el => {
-    const words = el.textContent.trim().split(/\s+/);
-    el.innerHTML = words.map(w => `<span class="w"><span>${w}</span></span>`).join(' ');
-    gsap.fromTo(el.querySelectorAll('.w > span'),
-      { yPercent: 120, rotate: 5 },
-      { yPercent: 0, rotate: 0, duration: 1, ease: 'power4.out', stagger: 0.07,
-        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none reverse' } });
-  });
-
-  // Reveal hàng loạt: card / step / FAQ / lede… trồi lên có stagger
-  const batchItems = gsap.utils.toArray(
-    '.feature, .step, .tier, .faq-list details, .latest-release-card, ' +
-    '.section-header, section .lede, .logos span, .proof h2, ' +
-    '.closing h2, .closing p, .closing .btn-primary'
-  );
-  gsap.set(batchItems, { y: 42, opacity: 0 });
-  ScrollTrigger.batch(batchItems, {
-    start: 'top 90%', once: true,
-    onEnter: batch => gsap.to(batch, {
-      y: 0, opacity: 1, duration: 0.9, ease: 'power2.out', stagger: 0.08, overwrite: true
-    })
-  });
-
-  // Hai dải marquee trôi ngang theo scroll, ngược hướng nhau
-  gsap.fromTo('#mq1 .track', { xPercent: 0 }, { xPercent: -25, ease: 'none',
-    scrollTrigger: { trigger: '#mq1', start: 'top bottom', end: 'bottom top', scrub: 0.4 } });
-  gsap.fromTo('#mq2 .track', { xPercent: -25 }, { xPercent: 0, ease: 'none',
-    scrollTrigger: { trigger: '#mq2', start: 'top bottom', end: 'bottom top', scrub: 0.4 } });
-
-  /* ---------------- con trỏ nốt nhạc (chỉ desktop, pointer mịn) ---------------- */
-  let cursorEl = null, ringEl = null;
-  const cur = { x: innerWidth / 2, y: innerHeight / 2, rx: innerWidth / 2, ry: innerHeight / 2 };
-  if (matchMedia('(pointer: fine)').matches) {
-    cursorEl = document.createElement('div');
-    cursorEl.id = 'cursor';
-    cursorEl.textContent = '♪';
-    ringEl = document.createElement('div');
-    ringEl.id = 'ring';
-    document.body.append(cursorEl, ringEl);
-    document.body.classList.add('fx-cursor');   // bật cursor:none qua CSS
-    addEventListener('pointermove', e => { cur.x = e.clientX; cur.y = e.clientY; });
-    // vòng tròn phóng to khi rê vào phần tử bấm được
-    document.addEventListener('mouseover', e => {
-      if (e.target.closest('a, button, summary')) ringEl.classList.add('hot');
-      else ringEl.classList.remove('hot');
-    });
-  }
-
-  /* ================= THẾ GIỚI 3D (Three.js) ================= */
+  /* ---------------- Thế giới 3D ---------------- */
   let render3D = null;
   try {
     render3D = init3D();
   } catch (err) {
-    // WebGL không khả dụng → bỏ lớp 3D, các hiệu ứng GSAP vẫn chạy
+    // WebGL không khả dụng → bỏ lớp 3D, trang vẫn nguyên vẹn
     canvas.remove();
   }
 
   /* ---------------- vòng lặp khung hình chung ---------------- */
-  // ScrollTrigger.update() gọi từ rAF khi scrollY đổi — không phụ thuộc
-  // sự kiện scroll (một số môi trường không phát event khi scroll bằng code).
-  let lastSeenScroll = -1;
   function loop(now) {
     if (lenis) lenis.raf(now);
-    if (scrollY !== lastSeenScroll) {
-      lastSeenScroll = scrollY;
-      ScrollTrigger.update();
-    }
-    // con trỏ ♪: nốt bám sát chuột (lắc nhẹ), vòng tròn đuổi theo có độ trễ
-    if (cursorEl) {
-      cur.rx += (cur.x - cur.rx) * 0.18;
-      cur.ry += (cur.y - cur.ry) * 0.18;
-      cursorEl.style.transform =
-        `translate(${cur.x - 7}px, ${cur.y - 14}px) rotate(${Math.sin(now * 0.002) * 12}deg)`;
-      const half = ringEl.classList.contains('hot') ? 32 : 18;
-      ringEl.style.transform = `translate(${cur.rx - half}px, ${cur.ry - half}px)`;
+    if (progressBar) {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      progressBar.style.transform = `scaleX(${max > 0 ? Math.min(scrollY / max, 1) : 0})`;
     }
     if (render3D) render3D();
     requestAnimationFrame(loop);
@@ -164,15 +83,15 @@ function boot() {
      ============================================================ */
   function init3D() {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    // cap 1.6 thay vì 2: màn hình HiDPI đỡ phải vẽ gấp đôi pixel → cuộn mượt hơn
+    // cap 1.6: màn hình HiDPI đỡ phải vẽ gấp đôi pixel → cuộn mượt hơn
     renderer.setPixelRatio(Math.min(devicePixelRatio, 1.6));
     renderer.setSize(innerWidth, innerHeight);
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100);
     camera.position.z = 10;
 
-    // Palette — trùng tokens :root trong index.html
-    const GOLD = 0xd4af37, PURPLE = 0x9333d4, PURPLE_SOFT = 0xb04ae8;
+    // Palette — trùng tokens :root (DESIGN.md): antique gold, violet glow, dusk rose
+    const GOLD = 0xd5ae36, VIOLET = 0x9b6bd0, VIOLET_DEEP = 0x783ab4, ROSE = 0xc77b86;
 
     const v = (x, y, z = 0) => new THREE.Vector3(x, y, z);
     const circlePts = (r, seg = 72) => {
@@ -185,12 +104,14 @@ function boot() {
     };
     const line = (pts, m) => new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), m);
     const ring = (r, m, seg) => new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(circlePts(r, seg)), m);
-    // Mỗi nhóm có bộ material RIÊNG để fade độc lập theo khoảng cách section
+    // Mỗi nhóm có bộ material RIÊNG để fade độc lập theo khoảng cách section.
+    // Opacity hạ nhẹ so với bản cũ — lớp 3D là hơi thở, không phải sân khấu.
     const newMats = () => ({
-      gold:       new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.72 }),
-      goldSoft:   new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.3 }),
-      purple:     new THREE.LineBasicMaterial({ color: PURPLE_SOFT, transparent: true, opacity: 0.5 }),
-      purpleSoft: new THREE.LineBasicMaterial({ color: PURPLE, transparent: true, opacity: 0.26 })
+      gold:       new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.6 }),
+      goldSoft:   new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.26 }),
+      violet:     new THREE.LineBasicMaterial({ color: VIOLET, transparent: true, opacity: 0.42 }),
+      violetSoft: new THREE.LineBasicMaterial({ color: VIOLET_DEEP, transparent: true, opacity: 0.22 }),
+      rose:       new THREE.LineBasicMaterial({ color: ROSE, transparent: true, opacity: 0.4 })
     });
 
     // Nốt nhạc wireframe: đầu nốt elip + thân + cờ (hoặc cặp nốt nối beam)
@@ -234,12 +155,12 @@ function boot() {
       const vinyl = new THREE.Group();
       vinyl.add(ring(2.3, M.gold, 96));
       vinyl.add(ring(2.22, M.goldSoft, 96));
-      for (let r = 1.15; r <= 2.06; r += 0.18) vinyl.add(ring(r, M.purpleSoft, 80)); // rãnh đĩa tím
+      for (let r = 1.15; r <= 2.06; r += 0.18) vinyl.add(ring(r, M.violetSoft, 80)); // rãnh đĩa violet
       vinyl.add(ring(0.78, M.gold, 64));   // nhãn giữa
       vinyl.add(ring(0.07, M.gold, 24));   // lỗ trục
       // 3 vạch trên nhãn — để mắt thấy được chuyển động quay
       [0, 2.1, 4.2].forEach(a => {
-        vinyl.add(line([v(Math.cos(a) * 0.74, Math.sin(a) * 0.74), v(Math.cos(a) * 0.5, Math.sin(a) * 0.5)], M.purple));
+        vinyl.add(line([v(Math.cos(a) * 0.74, Math.sin(a) * 0.74), v(Math.cos(a) * 0.5, Math.sin(a) * 0.5)], M.violet));
       });
       vinyl.rotation.x = -0.52;            // nghiêng để có chiều sâu
       g.add(vinyl);
@@ -255,7 +176,7 @@ function boot() {
       register('main-content', g, M);
     }
 
-    /* --- FEATURES: equalizer 3D — 30 cột tím nhún như visualiser --- */
+    /* --- MOODS: equalizer 3D — 30 cột violet nhún như visualiser --- */
     let eqGeo, eqArr;
     {
       const M = newMats();
@@ -268,7 +189,7 @@ function boot() {
         eqArr[i * 6] = x; eqArr[i * 6 + 3] = x;
       }
       eqGeo.setAttribute('position', new THREE.BufferAttribute(eqArr, 3));
-      g.add(new THREE.LineSegments(eqGeo, M.purple));
+      g.add(new THREE.LineSegments(eqGeo, M.violet));
       g.add(line([v(-W / 2, 0), v(W / 2, 0)], M.goldSoft)); // đường chân
       g.userData.update = t => {
         for (let i = 0; i < N; i++) {
@@ -277,10 +198,10 @@ function boot() {
         }
         eqGeo.attributes.position.needsUpdate = true;
       };
-      register('features', g, M, 0.8);
+      register('moods', g, M, 0.8);
     }
 
-    /* --- LATEST RELEASE: 2 dải sóng âm sin (gold trên, tím dưới) --- */
+    /* --- LATEST RELEASE: 2 dải sóng âm sin (gold trên, violet dưới) --- */
     {
       const M = newMats();
       const g = new THREE.Group();
@@ -294,7 +215,7 @@ function boot() {
         return l;
       };
       const w1 = mkWave(M.gold, 3.3, 0.45, 0);
-      const w2 = mkWave(M.purple, -3.3, 0.55, 1.7);
+      const w2 = mkWave(M.violet, -3.3, 0.55, 1.7);
       g.add(w1, w2);
       g.userData.update = t => {
         [w1, w2].forEach(l => {
@@ -310,7 +231,7 @@ function boot() {
       register('latest-release', g, M, 0.9);
     }
 
-    /* --- TRACKS: 6 nốt nhạc bay lơ lửng dọc hai mép section --- */
+    /* --- RELEASES: 6 nốt nhạc bay lơ lửng dọc hai mép section --- */
     {
       const M = newMats();
       const g = new THREE.Group();
@@ -335,15 +256,15 @@ function boot() {
         n.rotation.z = Math.sin(t * 0.35 + n.userData.seed) * 0.3;
         n.rotation.y = Math.sin(t * 0.25 + n.userData.seed) * 0.5;
       });
-      register('featured-tracks', g, M, 0.85);
+      register('releases', g, M, 0.85);
     }
 
-    /* --- CLOSING: 3 vòng hào quang gold/tím xoay quanh CTA --- */
+    /* --- SUBSCRIBE (final CTA): 3 vòng hào quang gold / rose xoay chậm --- */
     {
       const M = newMats();
       const g = new THREE.Group();
       const r1 = ring(2.3, M.gold, 100);
-      const r2 = ring(2.85, M.purple, 100);
+      const r2 = ring(2.85, M.rose, 100);   // dusk rose — nhấn cảm xúc
       const r3 = ring(3.4, M.goldSoft, 100);
       g.add(r1, r2, r3);
       g.userData.update = t => {
@@ -351,7 +272,7 @@ function boot() {
         r2.rotation.x = -t * 0.17;       r2.rotation.y = t * 0.21 + 1;
         r3.rotation.x = t * 0.1 + 0.6;   r3.rotation.z = t * 0.08;
       };
-      register('closing', g, M, 0.9);
+      register('subscribe', g, M, 0.9);
     }
 
     /* --- Bụi vàng lấp lánh rải suốt chiều dài trang --- */
@@ -360,11 +281,11 @@ function boot() {
     const dustArr = new Float32Array(DUST_N * 3);
     dustGeo.setAttribute('position', new THREE.BufferAttribute(dustArr, 3));
     scene.add(new THREE.Points(dustGeo, new THREE.PointsMaterial({
-      color: GOLD, size: 0.035, transparent: true, opacity: 0.4
+      color: GOLD, size: 0.035, transparent: true, opacity: 0.3
     })));
 
     /* ---------- đồng bộ thế giới 3D với layout document ---------- */
-    const IDS = ['main-content', 'features', 'latest-release', 'featured-tracks', 'closing'];
+    const IDS = ['main-content', 'moods', 'latest-release', 'releases', 'subscribe'];
     let SCALE = 1, VISH = 9.3;
     function sync() {
       const visible = 2 * camera.position.z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
@@ -379,11 +300,11 @@ function boot() {
       stage['main-content'].position.x = mob ? 0 : halfW * 0.5;
       stage['main-content'].position.z = mob ? -3.5 : -0.5;
       stage['main-content'].scale.setScalar(mob ? 0.75 : 1);
-      stage['features'].position.z = -3.2;
+      stage['moods'].position.z = -3.2;
       stage['latest-release'].position.z = -2.6;
-      stage['featured-tracks'].position.z = mob ? -4 : -2.2;
-      stage['featured-tracks'].userData.items.forEach(n => { n.position.x = n.userData.nx * halfW; });
-      stage['closing'].position.z = -3;
+      stage['releases'].position.z = mob ? -4 : -2.2;
+      stage['releases'].userData.items.forEach(n => { n.position.x = n.userData.nx * halfW; });
+      stage['subscribe'].position.z = -3;
       // rải lại bụi theo chiều cao mới của trang
       const worldH = document.documentElement.scrollHeight * SCALE;
       for (let i = 0; i < DUST_N; i++) {
@@ -401,8 +322,6 @@ function boot() {
       mouse.x = (e.clientX / innerWidth - 0.5) * 2;
       mouse.y = (e.clientY / innerHeight - 0.5) * 2;
     });
-    // (Đã BỎ hiệu ứng skew #page theo vận tốc cuộn: transform cả trang
-    //  mỗi frame ép browser vẽ lại liên tục → nguyên nhân chính gây giật.)
     const clock = new THREE.Clock();
 
     addEventListener('resize', () => {
@@ -410,22 +329,25 @@ function boot() {
       camera.updateProjectionMatrix();
       renderer.setSize(innerWidth, innerHeight);
       sync();
-      ScrollTrigger.refresh();
     });
-    document.fonts.ready.then(() => { sync(); ScrollTrigger.refresh(); });
+    document.fonts.ready.then(sync);
+    // script.js phát 'vivi:layout' sau khi đổi ngôn ngữ / render lại nội dung
+    addEventListener('vivi:layout', sync);
+    // Nội dung động (mood panel, cards) render xong mới đo — chờ 1 nhịp
+    setTimeout(sync, 300);
     sync();
 
     /* ---------- render mỗi frame ---------- */
     return function render() {
       const t = clock.getElapsedTime();
-      // camera đi xuống theo scroll (lerp cho mượt) + parallax chuột
+      // camera đi xuống theo scroll (lerp cho mượt) + parallax chuột rất nhẹ
       camY = THREE.MathUtils.lerp(camY, -(scrollY + innerHeight / 2) * SCALE, 0.16);
       camera.position.y = camY;
       camera.position.x = mouse.x * 0.4;
       camera.rotation.y = -mouse.x * 0.018;
       camera.rotation.x = mouse.y * 0.012;
 
-      // vận tốc cuộn → vật thể 3D xoay nhanh hơn
+      // vận tốc cuộn → vật thể 3D xoay nhanh hơn một chút
       const dv = scrollY - lastScroll; lastScroll = scrollY;
       velo = THREE.MathUtils.lerp(velo, THREE.MathUtils.clamp(dv, -60, 60), 0.12);
       spin = THREE.MathUtils.lerp(spin, velo * 0.0035, 0.08);
