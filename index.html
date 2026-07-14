@@ -322,12 +322,13 @@
     section[id], #main-content { scroll-margin-top: 90px; }
 
     /* =========================================================
-       Hero — "giờ hiện tại": chữ + hành động bên trái, Vivi bên phải
+       Hero — "giờ hiện tại": một cột chữ thoáng, vinyl 3D làm visual
+       (không đặt emblem lớn ở đây — logo chỉ nằm ở Meet Vivi)
        ========================================================= */
-    .hero { padding-block: clamp(3rem, 1.5rem + 5vw, 5.5rem) clamp(3.5rem, 2rem + 5vw, 6rem); }
-    .hero-grid {
-      display: grid; grid-template-columns: 1.05fr 0.95fr;
-      gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: center;
+    .hero {
+      padding-block: clamp(3rem, 1.5rem + 5vw, 5.5rem) clamp(3.5rem, 2rem + 5vw, 6rem);
+      min-height: 62vh;
+      display: flex; flex-direction: column; justify-content: center;
     }
     .hero h1 {
       font-size: var(--fs-hero); line-height: var(--lh-display);
@@ -358,15 +359,10 @@
       font-size: 1.2rem; color: var(--gold-soft); line-height: 1.1;
     }
 
-    /* Vivi identity — emblem thật trong vòng orbit, chờ art chân dung sau */
-    .hero-visual { position: relative; }
-    .vivi-portrait {
-      position: relative; border: 1px solid var(--border-gold);
-      border-radius: var(--radius-sm); overflow: hidden;
-      box-shadow: var(--shadow-lg);
-    }
+    /* Vivi identity — emblem gọn trong vòng orbit (chỉ dùng ở Meet Vivi,
+       chờ art chân dung thật thay vào) */
     .vivi-identity {
-      position: relative; aspect-ratio: 4 / 5; display: grid; place-items: center;
+      position: relative; aspect-ratio: 1 / 1; display: grid; place-items: center;
       background: radial-gradient(120% 90% at 50% 35%, var(--violet-700), var(--plum-900) 70%);
       overflow: hidden;
     }
@@ -380,15 +376,15 @@
     }
     .vivi-orbit {
       position: absolute; border-radius: 50%; border: 1px solid var(--border-gold); opacity: 0.5;
-      width: 78%; aspect-ratio: 1;
+      width: 72%; aspect-ratio: 1;
     }
-    .vivi-orbit--inner { width: 58%; border-color: rgba(199, 123, 134, 0.28); opacity: 0.6; }
+    .vivi-orbit--inner { width: 52%; border-color: rgba(199, 123, 134, 0.28); opacity: 0.6; }
     .vivi-emblem {
-      width: 52%; border-radius: 50%; position: relative; z-index: 1;
+      width: 36%; border-radius: 50%; position: relative; z-index: 1;
       box-shadow: var(--shadow-glow-violet);
     }
     .vivi-caption {
-      position: absolute; left: 1rem; bottom: 1rem; z-index: 2;
+      position: absolute; left: 1.1rem; bottom: 1rem; z-index: 2;
       font-family: var(--font-display); font-style: italic; font-size: 1.05rem;
       color: var(--ivory); text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6); max-width: 80%;
     }
@@ -454,7 +450,7 @@
     .why-card p { font-size: var(--fs-sm); line-height: var(--lh-relaxed); color: var(--muted); margin: 0; }
 
     .story-grid {
-      display: grid; grid-template-columns: 0.9fr 1.1fr;
+      display: grid; grid-template-columns: 1.2fr 0.8fr;
       gap: clamp(2rem, 1rem + 4vw, 4rem); align-items: center;
     }
     .story-body {
@@ -464,6 +460,7 @@
     .story-portrait {
       border: 1px solid var(--border-gold); border-radius: var(--radius-sm);
       overflow: hidden; box-shadow: var(--shadow-md); position: relative;
+      max-width: 400px; width: 100%; justify-self: end;
     }
 
     .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.25rem, 1rem + 2vw, 2.5rem); list-style: none; margin: 0; padding: 0; }
@@ -512,10 +509,9 @@
        Responsive
        ========================================================= */
     @media (max-width: 1040px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .hero-visual { order: -1; max-width: 420px; }
+      .hero { min-height: 0; }
       .story-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .story-portrait { max-width: 420px; }
+      .story-portrait { max-width: 360px; justify-self: start; }
       .archive-grid { grid-template-columns: repeat(2, 1fr); }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -626,38 +622,28 @@
   <!-- #page: nội dung nổi trên canvas 3D (z-10). ĐỪNG thêm transform vào #page. -->
   <main id="page">
 
-  <!-- ===== HERO — "the current hour" ===== -->
+  <!-- ===== HERO — "the current hour" =====
+       Một cột chữ; vai trò visual thuộc về đĩa vinyl 3D phía sau (fx.js).
+       Emblem Vivi chỉ đặt ở section Meet Vivi (feedback Denis 2026-07-14:
+       2 logo lớn hero + story nhìn choáng chỗ). -->
   <section class="hero container" id="main-content" data-od-id="hero" aria-labelledby="hero-title">
-    <div class="hero-grid">
-      <div>
-        <p class="eyebrow"><span class="rule" aria-hidden="true"></span><span data-i18n="hero.eyebrow">An AI-assisted music channel</span></p>
-        <h1 id="hero-title" data-i18n="hero.title">AI music for the gentle hours.</h1>
-        <p class="sub" data-i18n="hero.sub">Cinematic, soulful compositions for deep focus, late-night reflection, healing, and the bittersweet beauty of memories. Press play — and let the world soften.</p>
-        <div class="hero-cta">
-          <a class="btn btn-primary btn-lg" id="heroListenBtn" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="hero.cta.primary">Listen to the latest release</span></a>
-          <a class="btn btn-secondary btn-lg" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer" data-i18n="hero.cta.secondary">Subscribe on YouTube</a>
-        </div>
-
-        <!-- Chip "bản mới nhất" — JS đổ title + link từ featuredTracks[0]; ẩn khi không có JS -->
-        <a class="hero-now" id="heroNow" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer" hidden>
-          <span class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          <span>
-            <span class="hero-now-label" data-i18n="hero.latest">Latest release</span><br>
-            <span class="hero-now-title" id="heroNowTitle"></span>
-          </span>
-        </a>
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="rule" aria-hidden="true"></span><span data-i18n="hero.eyebrow">An AI-assisted music channel</span></p>
+      <h1 id="hero-title" data-i18n="hero.title">AI music for the gentle hours.</h1>
+      <p class="sub" data-i18n="hero.sub">Cinematic, soulful compositions for deep focus, late-night reflection, healing, and the bittersweet beauty of memories. Press play — and let the world soften.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" id="heroListenBtn" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer"><svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span data-i18n="hero.cta.primary">Listen to the latest release</span></a>
+        <a class="btn btn-secondary btn-lg" href="https://www.youtube.com/@ViviSoulmusic?sub_confirmation=1" target="_blank" rel="noopener noreferrer" data-i18n="hero.cta.secondary">Subscribe on YouTube</a>
       </div>
 
-      <div class="hero-visual">
-        <div class="vivi-portrait">
-          <div class="vivi-identity">
-            <span class="vivi-orbit" aria-hidden="true"></span>
-            <span class="vivi-orbit vivi-orbit--inner" aria-hidden="true"></span>
-            <img class="vivi-emblem" src="assets/vivi-soul-logo.jpg" data-i18n-alt="hero.emblemAlt" alt="Vivi Soul emblem — a violet and antique-gold V with a star">
-          </div>
-          <span class="vivi-caption" data-i18n="hero.caption">Vivi keeps the hour with you.</span>
-        </div>
-      </div>
+      <!-- Chip "bản mới nhất" — JS đổ title + link từ featuredTracks[0]; ẩn khi không có JS -->
+      <a class="hero-now" id="heroNow" href="https://www.youtube.com/@ViviSoulmusic" target="_blank" rel="noopener noreferrer" hidden>
+        <span class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>
+          <span class="hero-now-label" data-i18n="hero.latest">Latest release</span><br>
+          <span class="hero-now-title" id="heroNowTitle"></span>
+        </span>
+      </a>
     </div>
   </section>
 
@@ -753,11 +739,13 @@
           <p class="story-body" data-i18n="story.body2">The channel exists for the moments music is really for — focusing, resting, recovering, remembering. Sound and image are made as one world so that pressing play feels less like opening an app and more like stepping into a room that was left warm for you.</p>
         </div>
         <div class="story-portrait">
-          <!-- Slot chân dung Vivi — dùng emblem trong orbit sắc hồng cho tới khi có art thật -->
+          <!-- Slot chân dung Vivi — emblem NHỎ gọn trong orbit sắc hồng,
+               chờ art thật thay vào (emblem duy nhất trên trang ngoài header/footer) -->
           <div class="vivi-identity vivi-identity--rose">
             <span class="vivi-orbit" aria-hidden="true"></span>
             <span class="vivi-orbit vivi-orbit--inner" aria-hidden="true"></span>
             <img class="vivi-emblem" src="assets/vivi-soul-logo.jpg" data-i18n-alt="story.emblemAlt" alt="Vivi Soul emblem held in a soft rose glow">
+            <span class="vivi-caption" data-i18n="story.caption">Vivi keeps the hour with you.</span>
           </div>
         </div>
       </div>

@@ -46,8 +46,6 @@ const TRANSLATIONS = {
     'hero.cta.primary': 'Listen to the latest release',
     'hero.cta.secondary': 'Subscribe on YouTube',
     'hero.latest': 'Latest release',
-    'hero.caption': 'Vivi keeps the hour with you.',
-    'hero.emblemAlt': 'Vivi Soul emblem — a violet and antique-gold V with a star',
 
     'moods.eyebrow': 'What kind of hour is this?',
     'moods.title': 'Start with a mood.',
@@ -80,6 +78,7 @@ const TRANSLATIONS = {
     'story.body': 'Vivi is present in the room, never demanding attention, always holding the mood. Not a mascot and not a brand face — a feeling that stays with you across different hours: the warm lamp left on after midnight, the calm on the far side of a heavy day.',
     'story.body2': 'The channel exists for the moments music is really for — focusing, resting, recovering, remembering. Sound and image are made as one world so that pressing play feels less like opening an app and more like stepping into a room that was left warm for you.',
     'story.emblemAlt': 'Vivi Soul emblem held in a soft rose glow',
+    'story.caption': 'Vivi keeps the hour with you.',
 
     'listen.eyebrow': 'How to listen',
     'listen.title': 'Three steps. No app to install.',
@@ -147,8 +146,6 @@ const TRANSLATIONS = {
     'hero.cta.primary': 'Nghe bản phát hành mới nhất',
     'hero.cta.secondary': 'Đăng ký trên YouTube',
     'hero.latest': 'Bản mới nhất',
-    'hero.caption': 'Vivi giữ lấy giờ phút cùng bạn.',
-    'hero.emblemAlt': 'Biểu tượng Vivi Soul — chữ V tím và vàng cổ với ngôi sao',
 
     'moods.eyebrow': 'Đây là giờ phút như thế nào?',
     'moods.title': 'Bắt đầu bằng một tâm trạng.',
@@ -181,6 +178,7 @@ const TRANSLATIONS = {
     'story.body': 'Vivi hiện diện trong căn phòng, không bao giờ đòi hỏi sự chú ý, luôn giữ lấy tâm trạng. Không phải một linh vật, cũng không phải gương mặt thương hiệu — mà là một cảm xúc ở lại với bạn qua những giờ khác nhau: ngọn đèn ấm còn sáng sau nửa đêm, sự bình yên ở phía bên kia một ngày nặng nề.',
     'story.body2': 'Kênh tồn tại cho những khoảnh khắc mà âm nhạc thật sự dành cho — tập trung, nghỉ ngơi, hồi phục, hoài niệm. Âm thanh và hình ảnh được tạo nên như một thế giới, để việc nhấn phát bớt giống mở một ứng dụng, mà giống bước vào một căn phòng đã được giữ ấm sẵn cho bạn.',
     'story.emblemAlt': 'Biểu tượng Vivi Soul trong quầng sáng hồng dịu',
+    'story.caption': 'Vivi giữ lấy giờ phút cùng bạn.',
 
     'listen.eyebrow': 'Cách nghe',
     'listen.title': 'Ba bước. Không cần cài ứng dụng.',

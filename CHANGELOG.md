@@ -68,6 +68,16 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-07-14] — Bỏ logo lớn ở hero, chỉ giữ 1 emblem nhỏ ở Meet Vivi (feedback Denis)
+**Agent/Người thực hiện:** Claude Code (feedback trực tiếp từ Denis: "2 tấm logo vivi soul bự ở trang đầu và trang meet vivi nhìn choáng chỗ")
+**Files thay đổi:** index.html, script.js, CHANGELOG.md
+**Nội dung:**
+- 🔧 **Hero bỏ hẳn cột emblem** — quay về một cột chữ thoáng (min-height 62vh, căn giữa dọc), vai trò visual trả cho đĩa vinyl 3D phía sau (layout Denis đã duyệt hồi tháng 6). Bỏ `.hero-grid`/`.hero-visual`/`.vivi-portrait`
+- 🔧 **Meet Vivi giữ đúng 1 emblem nhưng nhỏ lại rõ rệt**: khung vuông 1:1 tối đa 400px (mobile 360px), emblem 36% (~143px, trước ~230px), story-grid đổi tỷ lệ 1.2/0.8 (chữ rộng hơn), caption nghiêng "Vivi giữ lấy giờ phút cùng bạn." chuyển vào khung này
+- 🔧 i18n: bỏ key `hero.caption`/`hero.emblemAlt`, thêm `story.caption` (EN+VI) — parity máy check 78/78
+- ✅ Verify local: 0 lỗi console; cả trang còn đúng 1 emblem (ngoài logo 34px ở header/footer); VI/EN đổi caption + alt đúng; chip "bản mới nhất" giữ nguyên
+**Lý do / ghi chú:** Emblem đặt 2 chỗ là giải pháp tạm khi chưa có art chân dung Vivi (design system cấm tự chế art). Denis thấy lặp + choáng chỗ → logo lớn giờ CHỈ ở section nói về Vivi. Khi có art thật: thay vào `.story-portrait` (TODO).
+
 ## [2026-07-14] — Redesign toàn trang theo Vivi Soul Design System (thay hệ Lamborghini)
 **Agent/Người thực hiện:** Claude Code (theo yêu cầu Denis, design system từ project claude.ai của Denis)
 **Files thay đổi:** index.html, style.css, script.js, fx.js, DESIGN.md, CHANGELOG.md + mới: assets/vivi-soul-logo.jpg, assets/og-image.jpg, robots.txt, sitemap.xml
