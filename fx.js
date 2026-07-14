@@ -57,6 +57,25 @@ function boot() {
   /* ---------------- Progress bar — vạch gold mảnh trên cùng ---------------- */
   const progressBar = document.getElementById('progress');
 
+  /* ---------------- Marquee — 2 dải chữ trôi ngang theo scroll ----------------
+     mq chẵn trôi sang trái (0 → -25%), mq lẻ trôi sang phải (-25% → 0)
+     theo tiến độ dải băng đi qua viewport. Không fx → đứng yên, chữ vẫn hiện. */
+  const marquees = [...document.querySelectorAll('.marquee')].map((el, i) => ({
+    el, track: el.querySelector('.track'), dir: i % 2 === 0 ? 1 : -1
+  })).filter(m => m.track);
+  function updateMarquees() {
+    for (const m of marquees) {
+      const rect = m.el.getBoundingClientRect();
+      const total = innerHeight + rect.height;
+      const p = Math.min(Math.max((innerHeight - rect.top) / total, 0), 1);
+      const x = m.dir === 1 ? -25 * p : -25 * (1 - p);
+      m.track.style.transform = `translateX(${x}%)`;
+    }
+  }
+  addEventListener('resize', updateMarquees);
+  addEventListener('vivi:layout', updateMarquees);
+  updateMarquees();
+
   /* ---------------- Thế giới 3D ---------------- */
   let render3D = null;
   try {
@@ -67,11 +86,16 @@ function boot() {
   }
 
   /* ---------------- vòng lặp khung hình chung ---------------- */
+  let lastMqScroll = -1;
   function loop(now) {
     if (lenis) lenis.raf(now);
     if (progressBar) {
       const max = document.documentElement.scrollHeight - innerHeight;
       progressBar.style.transform = `scaleX(${max > 0 ? Math.min(scrollY / max, 1) : 0})`;
+    }
+    if (scrollY !== lastMqScroll) {
+      lastMqScroll = scrollY;
+      updateMarquees();
     }
     if (render3D) render3D();
     requestAnimationFrame(loop);

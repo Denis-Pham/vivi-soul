@@ -670,6 +670,16 @@
     </div>
   </section>
 
+  <!-- Marquee 1: dải mood chữ lớn trôi ngang theo scroll (fx.js đẩy transform).
+       Trang trí thuần — aria-hidden; không có fx thì đứng yên, chữ vẫn hiện.
+       data-i18n-html vì chuỗi có thẻ <em> + &nbsp; -->
+  <div class="marquee" id="mq1" aria-hidden="true">
+    <div class="track">
+      <div class="chunk" data-i18n-html="mq1">deep focus — <em>late-night soul</em> — healing — <em>quiet morning</em> — rainy window — <em>nostalgic</em> — inner strength —&nbsp;</div>
+      <div class="chunk" data-i18n-html="mq1">deep focus — <em>late-night soul</em> — healing — <em>quiet morning</em> — rainy window — <em>nostalgic</em> — inner strength —&nbsp;</div>
+    </div>
+  </div>
+
   <!-- ===== LATEST RELEASE (render từ featuredTracks[0]) ===== -->
   <section id="latest-release" data-od-id="latest-release" aria-labelledby="latest-title">
     <div class="container">
@@ -781,6 +791,14 @@
       </ol>
     </div>
   </section>
+
+  <!-- Marquee 2: lời mời nhẹ nhàng, trôi ngược hướng marquee 1 -->
+  <div class="marquee" id="mq2" aria-hidden="true">
+    <div class="track">
+      <div class="chunk" data-i18n-html="mq2">press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;</div>
+      <div class="chunk" data-i18n-html="mq2">press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;</div>
+    </div>
+  </div>
 
   <!-- ===== FAQ / TRUST ===== -->
   <section class="section--hairline" id="faq" data-od-id="faq" aria-labelledby="faq-title">

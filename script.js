@@ -53,6 +53,9 @@ const TRANSLATIONS = {
     'moods.recommended': 'Recommended for this hour',
     'moods.listen': 'Listen on YouTube',
 
+    'mq1': 'deep focus — <em>late-night soul</em> — healing — <em>quiet morning</em> — rainy window — <em>nostalgic</em> — inner strength —&nbsp;',
+    'mq2': 'press play — <em>let the world soften</em> — drift — <em>breathe</em> — stay close to the soul —&nbsp;',
+
     'latest.kicker': 'Latest release',
     'latest.title': 'The newest quiet hour.',
     'latest.sub': 'Press play and let the evening drift in.',
@@ -152,6 +155,9 @@ const TRANSLATIONS = {
     'moods.sub': 'Không phải thể loại, không phải thuật toán — mà là một cảm xúc. Chọn giờ phút bạn đang ở, Vivi tìm âm thanh cho nó.',
     'moods.recommended': 'Gợi ý cho giờ phút này',
     'moods.listen': 'Nghe trên YouTube',
+
+    'mq1': 'tập trung sâu — <em>tâm hồn đêm khuya</em> — chữa lành — <em>buổi sáng tĩnh lặng</em> — ô cửa mưa — <em>hoài niệm</em> — sức mạnh nội tâm —&nbsp;',
+    'mq2': 'nhấn phát — <em>để thế giới dịu lại</em> — thả trôi — <em>hít thở</em> — ở gần với tâm hồn —&nbsp;',
 
     'latest.kicker': 'Mới ra mắt',
     'latest.title': 'Giờ tĩnh lặng mới nhất.',

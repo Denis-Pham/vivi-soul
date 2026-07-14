@@ -380,6 +380,32 @@ details[open] .acc-icon::after { transform: translate(-50%, -50%) rotate(90deg);
 }
 
 /* =========================================================
+   MARQUEE — dải chữ serif lớn trôi ngang theo scroll (fx.js).
+   Giữ lại theo yêu cầu Denis (2026-07-14) — brand element được
+   yêu thích. Trang trí thuần: aria-hidden, không fx thì đứng yên.
+   Em words: outline antique gold, chữ thường warm ivory.
+   ========================================================= */
+.marquee {
+  position: relative; overflow: hidden; padding: 4vh 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.marquee .track { display: inline-flex; white-space: nowrap; will-change: transform; }
+.marquee .chunk {
+  font-family: var(--font-display); font-style: italic; font-weight: 600;
+  font-size: clamp(36px, 6.5vw, 84px); line-height: 1.15; padding-right: 4vw;
+  color: var(--fg); opacity: 0.92;
+}
+.marquee .chunk em {
+  font-style: italic; color: transparent;
+  -webkit-text-stroke: 1px var(--gold);
+}
+/* Browser không hỗ trợ text-stroke → chữ em tô gold đặc (không tàng hình) */
+@supports not (-webkit-text-stroke: 1px black) {
+  .marquee .chunk em { color: var(--gold); }
+}
+
+/* =========================================================
    Ghi chú nhỏ (noscript / notes)
    ========================================================= */
 .tracks-note {
@@ -403,4 +429,5 @@ details[open] .acc-icon::after { transform: translate(-50%, -50%) rotate(90deg);
   .equalizer i { animation: none; transform: scaleY(0.55); }
   .film-grain { animation: none; }
   .reveal { opacity: 1 !important; transform: none !important; }
+  .marquee .track { transform: none !important; }
 }

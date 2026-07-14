@@ -90,8 +90,11 @@ con trỏ tùy biến, chữ tách từng ký tự, autoplay âm thanh, scroll h
 
 - Được phép: glow trôi chậm (16s), reveal nhẹ **gated IntersectionObserver với
   nội dung HIỂN THỊ MẶC ĐỊNH** (class .reveal do JS thêm + safety timeout 1.8s),
-  hover đổi màu + nhích 1px, sóng âm mảnh, parallax rất nhẹ trên lớp trang trí.
-- Cấm: scroll hijacking, nội dung vô hình chờ trigger, tách chữ, marquee,
+  hover đổi màu + nhích 1px, sóng âm mảnh, parallax rất nhẹ trên lớp trang trí,
+  **marquee chữ serif trôi theo scroll** (2 dải `.marquee`, fx.js đẩy transform —
+  brand element Denis yêu cầu giữ 2026-07-14; trang trí thuần, aria-hidden,
+  không fx thì đứng yên và chữ vẫn hiện đủ).
+- Cấm: scroll hijacking, nội dung vô hình chờ trigger, tách chữ,
   con trỏ tùy biến, autoplay âm thanh, hiệu ứng hạt dày đặc.
 - `prefers-reduced-motion: reduce` → tắt hết (canvas + progress tự gỡ).
 - Duration: fast 220ms · base 400ms · reveal 900ms; ease `cubic-bezier(.22,.61,.36,1)`.

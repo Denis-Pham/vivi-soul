@@ -68,6 +68,17 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-07-14] — Khôi phục 2 dải marquee chữ trôi ngang (feedback Denis)
+**Agent/Người thực hiện:** Claude Code (feedback Denis: "dải chữ chạy ngang cũng đẹp sao bỏ mất rồi")
+**Files thay đổi:** index.html, style.css, script.js, fx.js, DESIGN.md, CHANGELOG.md
+**Nội dung:**
+- 🟢 **2 dải marquee quay lại**, đúng cơ chế cũ (trôi theo scroll, ngược chiều nhau) nhưng driver mới KHÔNG cần GSAP: fx.js tính tiến độ dải băng qua viewport trong vòng lặp rAF sẵn có (`updateMarquees()` — mq1 trôi 0→-25%, mq2 -25%→0), cập nhật khi scrollY đổi + resize + `vivi:layout`
+- 🟢 **Nội dung nâng theo hệ mới**: mq1 = đủ 7 mood của mood selector (deep focus → inner strength, EN+VI); mq2 giữ lời mời cũ (press play — let the world soften…). Vị trí: mq1 giữa #moods và #latest-release, mq2 giữa #listen và #faq
+- 🟢 Style theo palette mới: Cormorant italic, chữ warm ivory, em words outline antique gold `#D5AE36`; thêm fallback `@supports not (-webkit-text-stroke)` → em tô gold đặc (không tàng hình); reduced-motion → dải đứng yên
+- 📝 DESIGN.md: chuyển marquee từ mục "Cấm" sang "Được phép" (brand element Denis yêu cầu giữ — trang trí thuần aria-hidden, không fx thì đứng yên, chữ vẫn hiện đủ)
+- ✅ Verify local: 0 lỗi console; transform đổi đúng 2 chiều khi cuộn; EN↔VI đổi chữ marquee đúng; parity 80/80. ⚠️ Lưu ý khi test local: fx.js hay bị **HTTP cache** giữ bản cũ — hard reload (`fetch(..., {cache:'reload'})` hoặc Ctrl+F5) trước khi kết luận
+**Lý do / ghi chú:** Marquee là chi tiết Denis thích từ bản 2026-06-12. Bỏ đi trong redesign là quá tay — giữ lại dưới dạng "parallax nhẹ trên lớp trang trí" (được phép trong motion rules), không ẩn nội dung, không hijack scroll.
+
 ## [2026-07-14] — Bỏ logo lớn ở hero, chỉ giữ 1 emblem nhỏ ở Meet Vivi (feedback Denis)
 **Agent/Người thực hiện:** Claude Code (feedback trực tiếp từ Denis: "2 tấm logo vivi soul bự ở trang đầu và trang meet vivi nhìn choáng chỗ")
 **Files thay đổi:** index.html, script.js, CHANGELOG.md
