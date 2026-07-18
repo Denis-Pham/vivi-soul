@@ -65,6 +65,16 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-07-18] — Đề xuất mô tả YouTube cho kênh và 12 video
+**Agent/Người thực hiện:** Hermes Agent (kanban task t_ca94e1e1)
+**Files thay đổi:** docs/youtube/descriptions-proposal.md (mới), CHANGELOG.md
+**Nội dung:**
+- Soạn Channel About mới bằng tiếng Anh (kèm bản dịch VI tham khảo), sửa đúng định vị cinematic mood music / calm lo-fi soul / healing / quiet focus và đề xuất gắn website chính thức
+- Chuẩn hoá template mô tả video với hook, `Use it for`, website, subscribe CTA, usage note, brand boilerplate và hashtag
+- Soạn đủ 12 mô tả tiếng Anh sẵn dán; giữ lại hook/quote/bullets tốt từ audit và `script.js`, loại bỏ metadata quy trình nội bộ, thêm nguồn hook bằng HTML comment cho từng video
+- Ghi riêng các điểm Denis cần xác nhận: chính sách disclosure AI, link mạng xã hội, wording quyền sử dụng và nhận xét title ngoài phạm vi thay đổi
+**Lý do / ghi chú:** Bộ đề xuất nội dung dựa duy nhất trên audit YouTube 2026-07-18 và copy đã duyệt trong repo; không sửa code website hoặc title video.
+
 ## [2026-07-10] — 2 bug fix từ audit độc lập của Hermes Agent (pilot collab)
 **Agent/Người thực hiện:** Hermes Agent (audit + fix, kanban task t_027ddf70) → Claude Code review + merge → Denis duyệt
 **Files thay đổi:** script.js, CHANGELOG.md
