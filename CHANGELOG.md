@@ -68,6 +68,15 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-07-18] — Audit mô tả kênh YouTube (docs-only, không sửa site)
+**Agent/Người thực hiện:** Claude Code (phối hợp Hermes theo cơ chế collab)
+**Files thay đổi:** docs/youtube/audit-2026-07-18.md (mới), CHANGELOG.md
+**Nội dung:**
+- Denis nêu: mô tả video còn thiếu và chưa liên kết với website. Claude đọc trực tiếp 12/12 video của kênh @ViviSoulmusic (InnerTube API) + tab About, lưu hiện trạng nguyên văn vào `docs/youtube/audit-2026-07-18.md`
+- 🔴 Phát hiện chính: 0/12 video có bất kỳ URL nào trong mô tả; 4 video lộ chữ "Private review upload"/mã nội bộ VS-00x; mô tả kênh (About) sai định vị hoàn toàn (nói dance/electronic/house — kênh thật là calm lo-fi soul/healing); About không gắn link website
+- Bước tiếp: giao Hermes task soạn `docs/youtube/descriptions-proposal.md` (mô tả mới 12 video + channel description + links About) trên branch `hermes/youtube-desc` — Denis là người dán vào YouTube Studio, agent không tự sửa YouTube
+**Lý do / ghi chú:** Audit này chỉ thêm docs — KHÔNG đổi code/nội dung site. Không push origin (GitHub) trong bước này.
+
 ## [2026-07-14] — Khôi phục 2 dải marquee chữ trôi ngang (feedback Denis)
 **Agent/Người thực hiện:** Claude Code (feedback Denis: "dải chữ chạy ngang cũng đẹp sao bỏ mất rồi")
 **Files thay đổi:** index.html, style.css, script.js, fx.js, DESIGN.md, CHANGELOG.md
