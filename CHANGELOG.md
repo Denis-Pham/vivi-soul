@@ -68,6 +68,14 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-07-22] — Đề xuất title + lead dedication cho 12 video (docs-only)
+**Agent/Người thực hiện:** Claude Code (theo framework Dedications)
+**Files thay đổi:** docs/youtube/dedications-rewrite-2026-07-22.md (mới), CHANGELOG.md
+**Nội dung:**
+- Xây TIẾP trên descriptions-proposal.md (18/7, đã lo thân mô tả) — chỉ thêm lớp dedication: 12 video map vào family F1–F7 + đề xuất title kiểu "For…" (giữ mô tả chức năng sau `|`) + 1 câu dedication lead (EN) prepend đầu mô tả + copy_vi tham khảo
+- Nêu điểm Denis cần quyết: có áp title mới không (18/7 cố ý chưa đổi title), gợi ý áp dần từ video mạnh; các mục treo 18/7 (disclosure AI, MXH, usage note) giữ nguyên
+**Lý do / ghi chú:** Docs-only, KHÔNG sửa site/YouTube. Denis dán tay vào Studio. Không push origin trong bước ghi log này (chờ Denis xem cùng đợt reskin).
+
 ## [2026-07-22] — Framework "Dedications" + reskin mood selector trên site
 **Agent/Người thực hiện:** Claude Code (brainstorm + duyệt cùng Denis)
 **Files thay đổi:** docs/creative/2026-07-22-dedications-framework.md (mới), script.js, CHANGELOG.md
