@@ -47,7 +47,7 @@ const TRANSLATIONS = {
     'hero.cta.secondary': 'Subscribe on YouTube',
     'hero.latest': 'Latest release',
 
-    'moods.eyebrow': 'What kind of hour is this?',
+    'moods.eyebrow': 'Who is this hour for?',
     'moods.title': 'Start with a mood.',
     'moods.sub': "Not a genre, not an algorithm — a feeling. Choose the hour you're in and Vivi finds the sound for it.",
     'moods.recommended': 'Recommended for this hour',
@@ -150,7 +150,7 @@ const TRANSLATIONS = {
     'hero.cta.secondary': 'Đăng ký trên YouTube',
     'hero.latest': 'Bản mới nhất',
 
-    'moods.eyebrow': 'Đây là giờ phút như thế nào?',
+    'moods.eyebrow': 'Gửi ai giờ phút này?',
     'moods.title': 'Bắt đầu bằng một tâm trạng.',
     'moods.sub': 'Không phải thể loại, không phải thuật toán — mà là một cảm xúc. Chọn giờ phút bạn đang ở, Vivi tìm âm thanh cho nó.',
     'moods.recommended': 'Gợi ý cho giờ phút này',
@@ -342,42 +342,42 @@ const featuredTracks = [
 ];
 
 // ===========================================
-// 2) MOODS — 7 "giờ phút", mỗi mood gắn 1 video THẬT trên kênh
-// (mood selector "What kind of hour is this?")
+// 2) MOODS — 7 lời đề tặng (dedications), mỗi mood gắn 1 video THẬT trên kênh
+// (mood selector "Who is this hour for?")
 // ===========================================
 const MOODS = [
   {
-    key: 'focus', name: 'Deep Focus', nameVi: 'Tập trung sâu', videoId: 'QWEDrddBqEg',
+    key: 'focus', name: 'For a quiet mind', nameVi: 'Gửi cái đầu cần lặng', videoId: 'QWEDrddBqEg',
     desc: 'For the long stretch of work that needs a clear, quiet mind. Nothing pulling at you — only room to think.',
     descVi: 'Cho quãng làm việc dài cần một tâm trí trong và tĩnh. Không gì kéo sự chú ý của bạn — chỉ còn khoảng lặng để suy nghĩ.'
   },
   {
-    key: 'late', name: 'Late-night Soul', nameVi: 'Tâm hồn đêm khuya', videoId: 'gJwebqoc5fg',
+    key: 'late', name: 'For sleepless nights', nameVi: 'Gửi những đêm khó ngủ', videoId: 'gJwebqoc5fg',
     desc: 'For the hour the city finally goes quiet. Warm keys, slow breath, and space to feel.',
     descVi: 'Cho giờ khắc thành phố cuối cùng cũng lặng yên. Phím đàn ấm, hơi thở chậm, và khoảng trống để cảm nhận.'
   },
   {
-    key: 'healing', name: 'Healing', nameVi: 'Chữa lành', videoId: 'ACCAJRzoAHU',
+    key: 'healing', name: 'For heavy days', nameVi: 'Gửi những ngày nặng nề', videoId: 'ACCAJRzoAHU',
     desc: 'For the evening after a heavy day. Let your shoulders drop — nothing here asks anything of you.',
     descVi: 'Cho buổi tối sau một ngày nặng nề. Buông lỏng đôi vai — ở đây không điều gì đòi hỏi ở bạn.'
   },
   {
-    key: 'morning', name: 'Quiet Morning', nameVi: 'Buổi sáng tĩnh lặng', videoId: '7wLPLBYkHs4',
+    key: 'morning', name: 'For slow mornings', nameVi: 'Gửi buổi sáng chậm rãi', videoId: '7wLPLBYkHs4',
     desc: 'For beginning the day without rushing. Soft light, a slow start, one breath at a time.',
     descVi: 'Cho lúc bắt đầu ngày mới không vội vã. Ánh sáng dịu, khởi đầu chậm rãi, từng hơi thở một.'
   },
   {
-    key: 'rain', name: 'Rainy Window', nameVi: 'Ô cửa mưa', videoId: 'k8bmgboWxus',
+    key: 'rain', name: 'For rainy days', nameVi: 'Gửi những ngày mưa', videoId: 'k8bmgboWxus',
     desc: 'For grey afternoons and rain drying on the glass. Slow thoughts, no hurry.',
     descVi: 'Cho những buổi chiều xám và giọt mưa khô dần trên kính. Suy nghĩ chậm lại, không vội vàng.'
   },
   {
-    key: 'nostalgic', name: 'Nostalgic', nameVi: 'Hoài niệm', videoId: 'gYsWF2XzSiU',
+    key: 'nostalgic', name: 'For the ones who drifted', nameVi: 'Gửi những người đã xa', videoId: 'gYsWF2XzSiU',
     desc: 'For the ache of good memories. Empty streets, warm neon, and everyone you used to know.',
     descVi: 'Cho nỗi nhớ dịu dàng về những điều đẹp đẽ. Phố vắng, ánh neon ấm, và những người ta từng quen.'
   },
   {
-    key: 'strength', name: 'Inner Strength', nameVi: 'Sức mạnh nội tâm', videoId: 'pV3QkZVC2aI',
+    key: 'strength', name: 'For holding on', nameVi: 'Gửi những người vẫn đang cố', videoId: 'pV3QkZVC2aI',
     desc: 'For the quiet resolve you build alone. Slow swells that hold you steady.',
     descVi: 'Cho sự vững vàng lặng lẽ bạn tự dựng nên. Những cao trào chậm giữ bạn đứng yên.'
   }

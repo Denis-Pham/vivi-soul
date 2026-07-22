@@ -68,6 +68,16 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-07-22] — Framework "Dedications" + reskin mood selector trên site
+**Agent/Người thực hiện:** Claude Code (brainstorm + duyệt cùng Denis)
+**Files thay đổi:** docs/creative/2026-07-22-dedications-framework.md (mới), script.js, CHANGELOG.md
+**Nội dung:**
+- Hoạch định lại "mood" của kênh để dòng nhạc đặc sắc hơn. Brainstorm chốt (Denis duyệt): trục = nhật ký cảm xúc; hình dạng = bộ sưu tập entry non-linear; lăng kính = **lời đề tặng ngôi thứ 2** ("For… / Gửi…"); signature sonic = định hướng nhẹ
+- Lập framework doc: 7 **family dedication** (reskin 7 mood cũ, 12 video KHÔNG mồ côi), cấu trúc 2 tầng (tên thơ nhận diện + function tag ẩn SEO), + brief hermes (công thức entry 7 field weekly, cấm sáo/không lặp/không claim y khoa)
+- 🟢 **Reskin `MOODS` trong script.js:** đổi `name`/`nameVi` 7 mood sang chip label dedication (For a quiet mind/For sleepless nights/For heavy days/For slow mornings/For rainy days/For the ones who drifted/For holding on + bản VI "Gửi…"). GIỮ nguyên `key`/`videoId`/`desc`/`descVi` → render + i18n parity không đổi, video map giữ nguyên. Đổi eyebrow `moods.eyebrow` (EN "Who is this hour for?" / VI "Gửi ai giờ phút này?")
+- ✅ Verify local (port 5174): 0 lỗi console; 7 chip đúng EN+VI; eyebrow đúng; feature desc khớp mood; round-trip EN↔VI ok; KHÔNG tràn layout ở desktop + mobile 375px (kể cả chuỗi VI dài nhất). Screenshot timeout do quirk rAF pane (đã biết) → verify bằng eval DOM
+**Lý do / ghi chú:** Bản family dài (mục 4 framework) giữ làm seed cho title YouTube + dedication của hermes; site dùng chip label ngắn (framework §7) để không vỡ layout. Chưa push origin trong bước ghi log này (chờ Denis xem). Handoff hermes + viết lại title/desc video: task riêng, hermes chỉ ĐỀ XUẤT, không tự sửa cron/Bitable.
+
 ## [2026-07-18] — Đề xuất mô tả YouTube cho kênh và 12 video
 **Agent/Người thực hiện:** Hermes Agent (kanban task t_ca94e1e1) → Claude Code review PASS (0 chuỗi cấm, 12/12 đạt acceptance criteria) + merge → Denis duyệt
 **Files thay đổi:** docs/youtube/descriptions-proposal.md (mới), CHANGELOG.md
