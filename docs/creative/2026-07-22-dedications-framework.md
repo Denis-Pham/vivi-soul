@@ -125,7 +125,7 @@ ViviSoul, hermes nên giữ **family resemblance** mềm (gợi ý, không luậ
 1. **Phím ấm, thân mật:** felt piano / Rhodes thu gần (close-mic), như đang chơi trong phòng bên cạnh.
 2. **Không gian có không khí:** một lớp texture khẽ (vinyl / mưa / tape hiss / phố xa) — không bao giờ "khô" hoàn toàn.
 3. **Không vội, không kịch tính:** ~60–85 BPM, không drop lớn, không build EDM, không synth chói.
-4. **Instrumental mặc định** (không lời) — trừ khi Denis chỉ định thử hát nhẹ.
+4. **Mặc định CÓ LỜI (English)** — soft soul, healing/deep, đúng tâm trạng dedication; cho phép MỘT SỐ bài instrumental thuần khi cảnh hợp. *(Cập nhật 2026-07-23 theo feedback Denis.)*
 
 Không cần cả 4 mọi bài; nhưng bài nào cũng nên có ít nhất phím ấm + không gian có không khí.
 
@@ -157,8 +157,11 @@ Cron đề xuất hiện tại (`386c58ccc575`) sinh 5 ý tưởng/tuần vào k
 | `suno_prompt` | style tags + mood + tempo + "instrumental, no vocals" | xem quy tắc dưới |
 
 **Quy tắc bắt buộc cho hermes:**
-- **Cụ thể, không sáo:** dedication phải là một cảnh thấy được ("For 3am, when the
-  ceiling knows everything"), KHÔNG phải nhãn ("For focus", "For sad times").
+- **Không khí & tâm trạng, KHÔNG việc vặt:** dedication dựng một KHÔNG KHÍ cảm xúc SÂU (mưa đêm,
+  hơi lạnh, một mình, nhớ ai đó) — healing/deep. KHÔNG phải nhãn ("For focus") và KHÔNG lấy hành
+  động vặt (buộc giày, gấp áo, gạch sách) làm trung tâm — hành động chỉ là nền mờ cho tâm trạng.
+- **Có lời (English) mặc định:** viết lyric thật vào `lyrics` (soft soul, verse+chorus gọn, phân
+  dòng " / "); một số ít bài instrumental thuần khi cảnh hợp.
 - **Không lặp:** không đề xuất một dedication đã dùng (dedup theo `title_en` +
   ý nghĩa). Nhật ký không viết lại cùng một trang.
 - **Cấm sáo ngữ** (theo DESIGN.md §7): "embark on a journey", "unlock the power
@@ -170,49 +173,37 @@ Cron đề xuất hiện tại (`386c58ccc575`) sinh 5 ý tưởng/tuần vào k
 **Ví dụ 1 entry hoàn chỉnh hermes nên trả:**
 ```
 family: F1 — For the ones who can't sleep
-dedication: For 3am, when the ceiling knows everything you won't say out loud.
-title_en: The Ceiling at 3AM
-copy_vi: Gửi 3 giờ sáng — khi trần nhà biết hết những điều bạn không nói ra.
-function_tags: sleep, late-night, insomnia, 3am lofi
-palette: felt piano thưa + sub-bass ấm + phố xa mờ, ~64 BPM, tape hiss, gần ambient
-suno_prompt: slow ambient lo-fi, sparse felt piano, warm sub bass, distant city
-  hum, tape hiss, ~64 bpm, intimate, instrumental, no vocals, no drums
+dedication: For the rain that won't stop the night you miss them most.
+title_en: For the Rain That Won't Stop
+copy_vi: Gửi cơn mưa không dứt vào đêm bạn nhớ họ nhất.
+function_tags: sleep, late-night, rainy, missing someone
+lyrics (EN): The rain won't stop, and neither will my mind / I keep your voice in the songs I left behind / ... / Let me hold this ache a little more tonight
+palette: felt piano ấm + Rhodes + tiếng mưa gần + tape hiss, ~64 BPM, trầm, chậm
+suno_prompt: Main prompt: vocal soul rainy-night lofi 64bpm, warm felt piano + Rhodes, close rain | Style: vocal soul, melancholic, low-stimulation | Lyrics: soft intimate female vocal, English | Negative: no EDM build, no drop, no bright synths, no belting
 ```
 
 ---
 
-## 6b. Ví dụ THẬT — batch production đầu tiên (2026-07-22)
+## 6b. Ví dụ THẬT — chuẩn tham chiếu chất lượng (cập nhật 2026-07-23)
 
-> 3 record do `vivi_propose_batch.py` (bản `build_prompt` Dedications) sinh THẬT vào kho
-> "Ý tưởng" (`tblZiydYJCf8iub3`), đã qua trọn validator governance (dry-run + `--apply --n 3`).
-> Dùng làm **chuẩn tham chiếu chất lượng** cho batch sau. Đây là 16-field production (3 pillar),
-> KHÔNG phải schema 7-field khái niệm ở §6. Cả 3 title mở "For You…", cảnh cụ thể, khác pillar.
+> Sau feedback Denis (**bỏ hành động vặt → atmospheric + healing/deep + CÓ LỜI**), đây là 2 mẫu
+> `vivi_propose_batch.py` (build_prompt cập nhật) sinh THẬT qua validator (dry-run, KHÔNG tạo
+> record). Là mức chuẩn để so batch sau. *(Batch mundane trước — buộc giày / gấp áo / gạch sách —
+> đã bị thay, KHÔNG dùng làm chuẩn nữa.)*
 
-### 1. For You Underlining One Last Paragraph — *Focus / Journaling* · pipeline-backed
-- **Dedication (concept):** bạn đang ngồi bên cuốn sách mở, chậm rãi gạch dưới đoạn cuối trước khi khép lại buổi đọc; nhịp lặp kín đáo giữ phòng yên để chú ý ở lại từng dòng.
-- **Emotional job:** khoảng tập trung thân mật, không thúc ép, cho người muốn hoàn thành phần đọc dang dở.
-- **Use case:** đọc / ghi chú / học phiên ngắn, sáng sớm hoặc chiều muộn.
-- **Quote:** "Stay with this final line. | You can finish without rushing." · **Thumbnail:** ONE LAST PARAGRAPH · **neg_space:** right
-- **Suno:** *Main:* intimate study loop 76 BPM — felt piano + soft Rhodes + muted upright bass + sparse brushed perc, page-turn texture, distant street ambience · *Style:* soft soul, lofi focus, warm acoustic, low-stimulation, seamless loop · *Lyrics:* instrumental · *Negative:* no vocals / bright synths / EDM build / drop / dramatic climax.
-- **Source pointer:** VS-014 Desk Lamp Focus + VS-015 One Quiet Step → gap mood đọc sâu có điểm kết cụ thể.
+### 1. For You in the Rain After Goodbye — *Focus / Journaling* · pipeline-backed
+- **Concept (mood):** mưa lạnh vẽ hình người trên kính; Vivi ngồi với nỗi nhớ một người tên vẫn còn gần — khoảng riêng giữa "nhớ" và để đêm mang đi điều không nói được.
+- **Lyrics (EN):** Rain keeps drawing your shape on the glass / I hear your name where the late cars pass / … / You don't have to vanish for me to move on / **I can miss you softly when the storm is gone** / …
+- **Suno:** vocal soul, rainy-night lofi, warm Rhodes, melancholic, 64 BPM, soft female vocal EN · **Thumbnail:** AFTER GOODBYE · **neg_space:** left
+- **Source pointer:** VS-014 Desk Lamp Focus → mở Focus / Journaling sang nỗi nhớ đêm mưa.
 
-### 2. For You Folding Laundry After Midnight — *Late Night Healing* · pipeline-backed
-- **Dedication (concept):** bạn đang gấp những chiếc áo cuối cùng sau nửa đêm, căn nhà đã im, ngày dài còn vương trên vai; nhạc đi cùng từng động tác nhỏ.
-- **Emotional job:** một nơi dịu để hạ nhịp sau ngày quá đầy, trong lúc hoàn tất việc nhà cuối.
-- **Use case:** gấp quần áo / dọn nhẹ / ngồi nghỉ một mình sau nửa đêm.
-- **Quote:** "This is the last thing tonight. | Fold the day down gently." · **Thumbnail:** AFTER MIDNIGHT · **neg_space:** left
-- **Suno:** *Main:* tender late-night vignette 63 BPM — close felt piano + breathy Rhodes + soft upright bass + barely-audible brushed snare, subtle tape hiss, tiếng vải khẽ, kết nhẹ không cao trào · *Style:* soft soul, lofi night, domestic calm, warm, slow · *Lyrics:* instrumental · *Negative:* no vocals / rain / bright synths / EDM / cinematic swell / heavy bass.
-- **Source pointer:** VS-017 Let the Day Grow Quiet + VS-019 The Kitchen Light Is Still On → gap cảnh xả vai sau nửa đêm bằng một việc nhà cụ thể.
+### 2. For You Beneath the Blue Before Dawn — *Quiet Strength* · pipeline-backed
+- **Concept (mood):** hơi lạnh và sương trước bình minh, tưởng đêm không dứt; một vệt sáng ấm mỏng — không xóa buồn, chỉ nhắc rằng vẫn đi tiếp được thêm một ngày.
+- **Lyrics (EN):** The blue hour settles cold on your skin / … / You are not weaker for bringing your tears / The dawn does not ask you to shine or pretend / **It only says softly, you made it again**
+- **Suno:** vocal soul, pre-dawn lofi, felt piano, misty, 76 BPM, soft female vocal EN · **Thumbnail:** BEFORE DAWN · **neg_space:** right
+- **Source pointer:** VS-016 Still Here, Still Soft + VS-018 I Keep My Center → Quiet Strength trong cảnh lạnh trước bình minh.
 
-### 3. For You Tying Your Shoes Again — *Quiet Strength* · strategic-judgment (xếp cuối, đúng luật ≤1)
-- **Dedication (concept):** bạn đang cúi xuống buộc lại dây giày trước khi bước ra ngoài thêm một lần nữa; nhịp có độ tiến vừa đủ nâng hành động tiếp tục nhưng vẫn mềm, không cổ vũ ồn ào.
-- **Emotional job:** nhắc rằng một hành động nhỏ, cụ thể cũng là cách âm thầm chọn tiếp tục.
-- **Use case:** trước khi đi bộ / bắt đầu lại một việc khó / rời nhà một ngày cần thêm vững vàng.
-- **Quote:** "Tie them once more. | The doorway can wait for you." · **Thumbnail:** TIE THEM ONCE MORE · **neg_space:** right
-- **Suno:** *Main:* quietly determined soft soul 82 BPM — warm Rhodes + vài nốt felt piano + muted bass + soft rim clicks + restrained walking pulse, light tape hiss, morning street xa · *Style:* soft soul, lofi resilience, gentle groove, earthy, steady · *Lyrics:* instrumental · *Negative:* no vocals / motivational chant / bright synths / EDM / triumphant climax / hard kick.
-- **Source pointer:** VS-016 Still Here, Still Soft + VS-018 I Keep My Center → mở rộng Quiet Strength từ trạng thái nội tâm sang một hành động tiếp tục nhìn thấy được.
-
-**Đọc ra được gì:** dedication = cảnh đời thường **nhìn thấy được** (gạch sách, gấp áo, buộc giày), không nhãn mood; mỗi bài neo pointer vào episode THẬT; suno luôn có phím ấm + lớp không khí khẽ (Vivi threads) + instrumental. Đây là mức chất lượng để so chuẩn các batch sau.
+**Chuẩn đọc ra được:** tên/concept = **không khí & tâm trạng sâu** (mưa sau chia tay, giờ xanh trước bình minh), KHÔNG việc vặt; **có lời tiếng Anh** thật (verse+chorus, phân dòng " / "); healing/deep; suno = vocal soul + phím ấm + lớp không khí (mưa/tape); pillar canonical + pointer episode thật.
 
 ---
 

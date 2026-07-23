@@ -68,6 +68,15 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-07-23] — Tinh chỉnh giọng Dedications: atmospheric + có lời + healing/deep
+**Agent/Người thực hiện:** Claude Code (feedback Denis) + Denis duyệt "chuẩn, giữ live"
+**Files thay đổi:** docs/creative/2026-07-22-dedications-framework.md; (ngoài repo) /opt/data/scripts/vivi_propose_batch.py trong container hermes
+**Nội dung:**
+- Denis chê batch đầu: tên/concept toàn HÀNH ĐỘNG VẶT (buộc giày, gấp áo, gạch sách), thiếu chiều sâu, và muốn CÓ LỜI. Sửa `build_prompt()`: (1) dedication phải dựng KHÔNG KHÍ/TÂM TRẠNG sâu (mưa đêm, lạnh, một mình, nhớ ai đó), cấm lấy việc vặt làm trung tâm; (2) MẶC ĐỊNH CÓ LỜI tiếng Anh (verse+chorus, phân dòng " / " giữ JSON hợp lệ), cho phép ít bài instrumental; (3) nghiêng healing/trầm sâu, 60–80 BPM, kể cả pillar Focus/Journaling cũng chất đêm/mưa; suno thêm `vocal soul` + giọng hát khi có lời
+- Backup `.bak-dedications-v1`; verify LF/no-BOM/AST OK/3 pillar intact; dry-run --n 2 PASS: "For You in the Rain After Goodbye" (Focus/Journaling) + "For You Beneath the Blue Before Dawn" (Quiet Strength) — atmospheric, có lời EN thật, healing/deep, qua validator, KHÔNG tạo record. Denis chốt giữ live
+- Cập nhật framework: §5 (instrumental→có lời), §6 luật (atmospheric + cấm việc vặt + lời mặc định), §6 ví dụ, §6b thay 2 mẫu mới làm chuẩn (bỏ 3 mẫu mundane cũ)
+**Lý do / ghi chú:** Rollback mịn = `.bak-dedications-v1` (bản Dedications instrumental trước feedback); rollback về generic gốc = `.bak-20260722`. 3 record mundane cũ trong Lark để Denis tự kéo "Đã hủy".
+
 ## [2026-07-22] — Áp giọng Dedications vào cron đề xuất bài + đối chiếu framework
 **Agent/Người thực hiện:** Claude Code (review đề xuất hermes) + Denis duyệt "giữ live"
 **Files thay đổi:** docs/creative/2026-07-22-dedications-framework.md; (ngoài repo) /opt/data/scripts/vivi_propose_batch.py trong container hermes
