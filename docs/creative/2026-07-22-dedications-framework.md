@@ -181,6 +181,41 @@ suno_prompt: slow ambient lo-fi, sparse felt piano, warm sub bass, distant city
 
 ---
 
+## 6b. Ví dụ THẬT — batch production đầu tiên (2026-07-22)
+
+> 3 record do `vivi_propose_batch.py` (bản `build_prompt` Dedications) sinh THẬT vào kho
+> "Ý tưởng" (`tblZiydYJCf8iub3`), đã qua trọn validator governance (dry-run + `--apply --n 3`).
+> Dùng làm **chuẩn tham chiếu chất lượng** cho batch sau. Đây là 16-field production (3 pillar),
+> KHÔNG phải schema 7-field khái niệm ở §6. Cả 3 title mở "For You…", cảnh cụ thể, khác pillar.
+
+### 1. For You Underlining One Last Paragraph — *Focus / Journaling* · pipeline-backed
+- **Dedication (concept):** bạn đang ngồi bên cuốn sách mở, chậm rãi gạch dưới đoạn cuối trước khi khép lại buổi đọc; nhịp lặp kín đáo giữ phòng yên để chú ý ở lại từng dòng.
+- **Emotional job:** khoảng tập trung thân mật, không thúc ép, cho người muốn hoàn thành phần đọc dang dở.
+- **Use case:** đọc / ghi chú / học phiên ngắn, sáng sớm hoặc chiều muộn.
+- **Quote:** "Stay with this final line. | You can finish without rushing." · **Thumbnail:** ONE LAST PARAGRAPH · **neg_space:** right
+- **Suno:** *Main:* intimate study loop 76 BPM — felt piano + soft Rhodes + muted upright bass + sparse brushed perc, page-turn texture, distant street ambience · *Style:* soft soul, lofi focus, warm acoustic, low-stimulation, seamless loop · *Lyrics:* instrumental · *Negative:* no vocals / bright synths / EDM build / drop / dramatic climax.
+- **Source pointer:** VS-014 Desk Lamp Focus + VS-015 One Quiet Step → gap mood đọc sâu có điểm kết cụ thể.
+
+### 2. For You Folding Laundry After Midnight — *Late Night Healing* · pipeline-backed
+- **Dedication (concept):** bạn đang gấp những chiếc áo cuối cùng sau nửa đêm, căn nhà đã im, ngày dài còn vương trên vai; nhạc đi cùng từng động tác nhỏ.
+- **Emotional job:** một nơi dịu để hạ nhịp sau ngày quá đầy, trong lúc hoàn tất việc nhà cuối.
+- **Use case:** gấp quần áo / dọn nhẹ / ngồi nghỉ một mình sau nửa đêm.
+- **Quote:** "This is the last thing tonight. | Fold the day down gently." · **Thumbnail:** AFTER MIDNIGHT · **neg_space:** left
+- **Suno:** *Main:* tender late-night vignette 63 BPM — close felt piano + breathy Rhodes + soft upright bass + barely-audible brushed snare, subtle tape hiss, tiếng vải khẽ, kết nhẹ không cao trào · *Style:* soft soul, lofi night, domestic calm, warm, slow · *Lyrics:* instrumental · *Negative:* no vocals / rain / bright synths / EDM / cinematic swell / heavy bass.
+- **Source pointer:** VS-017 Let the Day Grow Quiet + VS-019 The Kitchen Light Is Still On → gap cảnh xả vai sau nửa đêm bằng một việc nhà cụ thể.
+
+### 3. For You Tying Your Shoes Again — *Quiet Strength* · strategic-judgment (xếp cuối, đúng luật ≤1)
+- **Dedication (concept):** bạn đang cúi xuống buộc lại dây giày trước khi bước ra ngoài thêm một lần nữa; nhịp có độ tiến vừa đủ nâng hành động tiếp tục nhưng vẫn mềm, không cổ vũ ồn ào.
+- **Emotional job:** nhắc rằng một hành động nhỏ, cụ thể cũng là cách âm thầm chọn tiếp tục.
+- **Use case:** trước khi đi bộ / bắt đầu lại một việc khó / rời nhà một ngày cần thêm vững vàng.
+- **Quote:** "Tie them once more. | The doorway can wait for you." · **Thumbnail:** TIE THEM ONCE MORE · **neg_space:** right
+- **Suno:** *Main:* quietly determined soft soul 82 BPM — warm Rhodes + vài nốt felt piano + muted bass + soft rim clicks + restrained walking pulse, light tape hiss, morning street xa · *Style:* soft soul, lofi resilience, gentle groove, earthy, steady · *Lyrics:* instrumental · *Negative:* no vocals / motivational chant / bright synths / EDM / triumphant climax / hard kick.
+- **Source pointer:** VS-016 Still Here, Still Soft + VS-018 I Keep My Center → mở rộng Quiet Strength từ trạng thái nội tâm sang một hành động tiếp tục nhìn thấy được.
+
+**Đọc ra được gì:** dedication = cảnh đời thường **nhìn thấy được** (gạch sách, gấp áo, buộc giày), không nhãn mood; mỗi bài neo pointer vào episode THẬT; suno luôn có phím ấm + lớp không khí khẽ (Vivi threads) + instrumental. Đây là mức chất lượng để so chuẩn các batch sau.
+
+---
+
 ## 7. Áp dụng lên website (ĐÃ áp 2026-07-22)
 
 Đã reskin `script.js` mảng `MOODS`: đổi `name`/`nameVi` sang **chip label** dưới
