@@ -68,6 +68,15 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-07-23] — Lời bài hát ĐỦ CẤU TRÚC cho Suno + sync framework doc
+**Agent/Người thực hiện:** Claude Code (feedback Denis) + Denis duyệt (thử Suno OK)
+**Files thay đổi:** docs/creative/2026-07-22-dedications-framework.md; (ngoài repo) /opt/data/scripts/vivi_propose_batch.py trong container hermes
+**Nội dung:**
+- Denis: lời khối phẳng `/` không hay khi lên Suno, phải đủ các phần. Sửa `build_prompt()`: field `lyrics` giờ bắt buộc SECTION TAG Suno [Verse 1]/[Chorus]/[Verse 2]/[Chorus]/[Bridge]/[Outro] (Chorus lặp giống nhau), mỗi tag+câu một dòng, xuống dòng escape chuẩn JSON (bỏ ` / `). Backup `.bak-dedications-v2`
+- Verify LF/no-BOM/AST OK; dry-run --n 1 + batch thật --n 2 PASS: lời ra đủ cấu trúc, xuống dòng thật trong Lark, dán thẳng Suno được (mẫu "For You When Fog Holds Every Unsent Word", "For You in the Cold Hallway After Goodbye")
+- Sync framework doc: §5 (+cấu trúc), §6 luật lời (section tag, JSON newline), §6 ví dụ (trỏ §6b), §6b thay bằng 1 mẫu lời ĐẦY ĐỦ + 1 mẫu tham chiếu
+**Lý do / ghi chú:** Rollback ladder (mới→cũ): `.bak-dedications-v2` = atmospheric + lời phẳng; `.bak-dedications-v1` = Dedications instrumental; `.bak-20260722` = generic gốc (pre-Dedications). Kho Ý tưởng đang đầy do batch demo — Denis kéo bớt "Đã hủy" khi tiện.
+
 ## [2026-07-23] — Tinh chỉnh giọng Dedications: atmospheric + có lời + healing/deep
 **Agent/Người thực hiện:** Claude Code (feedback Denis) + Denis duyệt "chuẩn, giữ live"
 **Files thay đổi:** docs/creative/2026-07-22-dedications-framework.md; (ngoài repo) /opt/data/scripts/vivi_propose_batch.py trong container hermes

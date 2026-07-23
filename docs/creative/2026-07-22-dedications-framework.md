@@ -125,7 +125,7 @@ ViviSoul, hermes nên giữ **family resemblance** mềm (gợi ý, không luậ
 1. **Phím ấm, thân mật:** felt piano / Rhodes thu gần (close-mic), như đang chơi trong phòng bên cạnh.
 2. **Không gian có không khí:** một lớp texture khẽ (vinyl / mưa / tape hiss / phố xa) — không bao giờ "khô" hoàn toàn.
 3. **Không vội, không kịch tính:** ~60–85 BPM, không drop lớn, không build EDM, không synth chói.
-4. **Mặc định CÓ LỜI (English)** — soft soul, healing/deep, đúng tâm trạng dedication; cho phép MỘT SỐ bài instrumental thuần khi cảnh hợp. *(Cập nhật 2026-07-23 theo feedback Denis.)*
+4. **Mặc định CÓ LỜI (English), ĐỦ CẤU TRÚC** — soft soul, healing/deep; lyric có section tag Suno [Verse 1]/[Chorus]/[Verse 2]/[Chorus]/[Bridge]/[Outro] (Chorus lặp giống nhau), xuống dòng thật; cho phép MỘT SỐ bài instrumental thuần khi cảnh hợp. *(Cập nhật 2026-07-23 theo feedback Denis.)*
 
 Không cần cả 4 mọi bài; nhưng bài nào cũng nên có ít nhất phím ấm + không gian có không khí.
 
@@ -160,8 +160,11 @@ Cron đề xuất hiện tại (`386c58ccc575`) sinh 5 ý tưởng/tuần vào k
 - **Không khí & tâm trạng, KHÔNG việc vặt:** dedication dựng một KHÔNG KHÍ cảm xúc SÂU (mưa đêm,
   hơi lạnh, một mình, nhớ ai đó) — healing/deep. KHÔNG phải nhãn ("For focus") và KHÔNG lấy hành
   động vặt (buộc giày, gấp áo, gạch sách) làm trung tâm — hành động chỉ là nền mờ cho tâm trạng.
-- **Có lời (English) mặc định:** viết lyric thật vào `lyrics` (soft soul, verse+chorus gọn, phân
-  dòng " / "); một số ít bài instrumental thuần khi cảnh hợp.
+- **Có lời (English), ĐỦ CẤU TRÚC cho Suno:** viết lyric thật vào `lyrics` với section tag
+  [Verse 1] → [Chorus] → [Verse 2] → [Chorus] → [Bridge] → [Outro] (Chorus lặp GIỐNG NHAU; mỗi
+  tag + mỗi câu một dòng, xuống dòng escape chuẩn JSON, KHÔNG dùng " / "); soft soul, hát được,
+  mạch mở → triển khai → cao trào nhẹ → lắng. Đây là lời dán thẳng vào Suno. Một số ít bài
+  instrumental thuần khi cảnh hợp (`lyrics` = 'instrumental, no lyrics').
 - **Không lặp:** không đề xuất một dedication đã dùng (dedup theo `title_en` +
   ý nghĩa). Nhật ký không viết lại cùng một trang.
 - **Cấm sáo ngữ** (theo DESIGN.md §7): "embark on a journey", "unlock the power
@@ -177,33 +180,68 @@ dedication: For the rain that won't stop the night you miss them most.
 title_en: For the Rain That Won't Stop
 copy_vi: Gửi cơn mưa không dứt vào đêm bạn nhớ họ nhất.
 function_tags: sleep, late-night, rainy, missing someone
-lyrics (EN): The rain won't stop, and neither will my mind / I keep your voice in the songs I left behind / ... / Let me hold this ache a little more tonight
+lyrics (EN): [Verse 1] / [Chorus] / [Verse 2] / [Chorus] / [Bridge] / [Outro] — mỗi tag+câu một dòng riêng (xuống dòng thật). Xem §6b cho lyric đầy đủ.
 palette: felt piano ấm + Rhodes + tiếng mưa gần + tape hiss, ~64 BPM, trầm, chậm
 suno_prompt: Main prompt: vocal soul rainy-night lofi 64bpm, warm felt piano + Rhodes, close rain | Style: vocal soul, melancholic, low-stimulation | Lyrics: soft intimate female vocal, English | Negative: no EDM build, no drop, no bright synths, no belting
 ```
 
 ---
 
-## 6b. Ví dụ THẬT — chuẩn tham chiếu chất lượng (cập nhật 2026-07-23)
+## 6b. Ví dụ THẬT — chuẩn tham chiếu chất lượng (cập nhật 2026-07-23, lời có cấu trúc)
 
-> Sau feedback Denis (**bỏ hành động vặt → atmospheric + healing/deep + CÓ LỜI**), đây là 2 mẫu
-> `vivi_propose_batch.py` (build_prompt cập nhật) sinh THẬT qua validator (dry-run, KHÔNG tạo
-> record). Là mức chuẩn để so batch sau. *(Batch mundane trước — buộc giày / gấp áo / gạch sách —
-> đã bị thay, KHÔNG dùng làm chuẩn nữa.)*
+> Mẫu THẬT do `vivi_propose_batch.py` (build_prompt cập nhật) sinh + ghi vào kho "Ý tưởng"
+> (`tblZiydYJCf8iub3`), qua validator governance. Mức chuẩn cho batch sau: **atmospheric +
+> healing/deep + lời ĐỦ CẤU TRÚC (dán thẳng Suno)**. *(Batch mundane trước — buộc giày / gấp áo /
+> gạch sách — đã bỏ, KHÔNG dùng làm chuẩn.)*
 
-### 1. For You in the Rain After Goodbye — *Focus / Journaling* · pipeline-backed
-- **Concept (mood):** mưa lạnh vẽ hình người trên kính; Vivi ngồi với nỗi nhớ một người tên vẫn còn gần — khoảng riêng giữa "nhớ" và để đêm mang đi điều không nói được.
-- **Lyrics (EN):** Rain keeps drawing your shape on the glass / I hear your name where the late cars pass / … / You don't have to vanish for me to move on / **I can miss you softly when the storm is gone** / …
-- **Suno:** vocal soul, rainy-night lofi, warm Rhodes, melancholic, 64 BPM, soft female vocal EN · **Thumbnail:** AFTER GOODBYE · **neg_space:** left
-- **Source pointer:** VS-014 Desk Lamp Focus → mở Focus / Journaling sang nỗi nhớ đêm mưa.
+### Mẫu đầy đủ — "For You When Fog Holds Every Unsent Word" · *Focus / Journaling* · pipeline-backed
+- **Concept (mood):** buổi gần sáng lạnh phủ sương, những lời chưa từng gửi nằm yên trong ký ức; cuốn sổ chỉ là nơi trú để ngồi cùng im lặng.
+- **Thumbnail:** YOUR WORDS CAN REST HERE · **neg_space:** left
+- **Lyrics (dán thẳng vào Suno):**
+```
+[Verse 1]
+Fog leans against the glass
+The street has lost its name
+I hear the words I buried
+Come softly with the rain
 
-### 2. For You Beneath the Blue Before Dawn — *Quiet Strength* · pipeline-backed
-- **Concept (mood):** hơi lạnh và sương trước bình minh, tưởng đêm không dứt; một vệt sáng ấm mỏng — không xóa buồn, chỉ nhắc rằng vẫn đi tiếp được thêm một ngày.
-- **Lyrics (EN):** The blue hour settles cold on your skin / … / You are not weaker for bringing your tears / The dawn does not ask you to shine or pretend / **It only says softly, you made it again**
-- **Suno:** vocal soul, pre-dawn lofi, felt piano, misty, 76 BPM, soft female vocal EN · **Thumbnail:** BEFORE DAWN · **neg_space:** right
-- **Source pointer:** VS-016 Still Here, Still Soft + VS-018 I Keep My Center → Quiet Strength trong cảnh lạnh trước bình minh.
+[Chorus]
+You do not have to send them
+You do not have to know
+Let every unsaid feeling
+Rest where the warm lights glow
 
-**Chuẩn đọc ra được:** tên/concept = **không khí & tâm trạng sâu** (mưa sau chia tay, giờ xanh trước bình minh), KHÔNG việc vặt; **có lời tiếng Anh** thật (verse+chorus, phân dòng " / "); healing/deep; suno = vocal soul + phím ấm + lớp không khí (mưa/tape); pillar canonical + pointer episode thật.
+[Verse 2]
+Your shadow meets the table
+The hour is thin and blue
+A page receives the silence
+That no one asked of you
+
+[Chorus]
+You do not have to send them
+You do not have to know
+Let every unsaid feeling
+Rest where the warm lights glow
+
+[Bridge]
+If morning finds you quiet
+With nothing left to prove
+I will stay beside the window
+Until the pale clouds move
+
+[Outro]
+The fog will lift in pieces
+The words can still be yours
+Tonight they need no ending
+Just warmth behind closed doors
+```
+- **Suno style:** soft soul, lofi healing, vocal soul, rainy pre-dawn, felt piano + muted Rhodes + rain, 68 BPM, soft female vocal EN.
+- **Source pointer:** VS-014 Desk Lamp Focus + VS-015 One Quiet Step → Focus / Journaling trầm sâu, sương lạnh, lời chưa gửi.
+
+### Mẫu 2 (tham chiếu) — "For You in the Cold Hallway After Goodbye" · *Quiet Strength*
+Cùng chuẩn: hành lang lạnh sau lời tạm biệt, "one small ember"; lời đủ [Verse]/[Chorus]/[Verse 2]/[Chorus]/[Bridge]/[Outro], 62 BPM, quiet strength. Bridge chốt: *"Strength is not a sunrise / Or leaving without tears / Sometimes it is the hallway / And choosing to stay near."*
+
+**Chuẩn đọc ra được:** tên/concept = **không khí & tâm trạng sâu** (sương, hành lang lạnh, mưa), KHÔNG việc vặt; **lời tiếng Anh ĐỦ CẤU TRÚC** ([Verse]/[Chorus]/[Bridge]/[Outro], Chorus lặp) dán thẳng Suno; healing/deep; suno = vocal soul + phím ấm + lớp không khí; pillar canonical + pointer episode thật.
 
 ---
 
