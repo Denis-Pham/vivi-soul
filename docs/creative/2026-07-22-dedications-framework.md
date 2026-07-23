@@ -133,6 +133,15 @@ Không cần cả 4 mọi bài; nhưng bài nào cũng nên có ít nhất phím
 
 ## 6. Brief cho hermes — công thức đề xuất bài weekly
 
+> **ĐỐI CHIẾU PRODUCTION (đã áp 2026-07-22):** Hệ đề xuất THẬT (`vivi_propose_batch.py`,
+> cron `386c58ccc575`) không dùng schema 7-field dưới đây. Nó dùng **3 pillar canonical**
+> (Late Night Healing · Focus / Journaling · Quiet Strength) + **16 field** + governance
+> (evidence_label, source_pointer trỏ snapshot thật, dedupe). Giọng Dedications đã được
+> **PHỦ vào `build_prompt()`** của script đó, GIỮ NGUYÊN 3 pillar/16 field; 7 family F1–F7
+> chỉ là **sắc thái phụ chọn thầm dưới pillar** (không phải key output). Dry-run 2026-07-22 PASS.
+> → Coi schema 7-field + 7 family trong mục này là **mô hình khái niệm + lớp discovery cho site**,
+> KHÔNG phải schema Bitable production. Nguồn thật: `build_prompt()` trong `vivi_propose_batch.py`.
+
 Cron đề xuất hiện tại (`386c58ccc575`) sinh 5 ý tưởng/tuần vào kho "Ý tưởng"
 (Bitable `tblZiydYJCf8iub3`). Đổi ĐỊNH DẠNG mỗi ý tưởng sang khung dưới. Mỗi ý tưởng
 = một **entry** đầy đủ:

@@ -68,6 +68,15 @@ Xây dựng landing page hoàn chỉnh để giới thiệu và kéo traffic cho
 
 # 📅 Lịch sử update
 
+## [2026-07-22] — Áp giọng Dedications vào cron đề xuất bài + đối chiếu framework
+**Agent/Người thực hiện:** Claude Code (review đề xuất hermes) + Denis duyệt "giữ live"
+**Files thay đổi:** docs/creative/2026-07-22-dedications-framework.md; (ngoài repo) /opt/data/scripts/vivi_propose_batch.py trong container hermes
+**Nội dung:**
+- Phát hiện framework §6 (schema 7-field/7-family) KHÔNG khớp hệ đề xuất production thật: `vivi_propose_batch.py` (cron 386c58ccc575) dùng 3 pillar (Late Night Healing/Focus·Journaling/Quiet Strength) + 16 field + governance (evidence_label, source_pointer, dedupe). Giao hermes soạn lại → hermes trả bản `build_prompt()` PHỦ giọng Dedications mà giữ nguyên 3 pillar/16 field (comment #73, task t_22b3441c)
+- Áp bản mới vào `build_prompt()`: backup `.bak-20260722`, verify LF/no-BOM/AST OK/3 pillar intact, **dry-run --n 2 PASS** (2 bài title mở "For…", pillar canonical, qua validator, KHÔNG tạo record). Denis chốt giữ live → cron tick tới tự dùng
+- Sửa framework §6: thêm ghi chú đối chiếu — schema 7-field/7-family = mô hình khái niệm + lớp discovery site; production là 3-pillar/16-field, family = sắc thái phụ dưới pillar. Nguồn thật = build_prompt() trong vivi_propose_batch.py
+**Lý do / ghi chú:** vivi_propose_batch.py nằm trong container hermes (/opt/data), KHÔNG version bởi repo này — rollback bằng .bak-20260722. Site + doc video (các entry 2026-07-22 dưới) không đổi.
+
 ## [2026-07-22] — Đề xuất title + lead dedication cho 12 video (docs-only)
 **Agent/Người thực hiện:** Claude Code (theo framework Dedications)
 **Files thay đổi:** docs/youtube/dedications-rewrite-2026-07-22.md (mới), CHANGELOG.md
